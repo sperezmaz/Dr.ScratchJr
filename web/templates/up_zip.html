@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+	{% if message %}
+		<div class='alert alert-info'>
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+			{{ message }}
+		</div>
+	{% endif %}
+	<div class="row">
+	  <div class="col-12">
+		<div class="white-box">
+            <h1>{% trans "Upload multiple projects" %}</h1>
+			<br>
+		{% if elementos|length != 0 %}
+			<form method="POST">
+				{% csrf_token %}
+				{{ formset.management_form }}
+				{% for form in formset %}
+					{{form}}
+					{% for elemento in elementos %}
+						{% if forloop.counter0 == forloop.parentloop.counter0 %}
+							&nbsp;&nbsp;&nbsp;<i>{{elemento}}</i>
+						{% endif %}
+					{% endfor %}
+					<br>
+				{% endfor %}
+				<br>
+				<input type="submit" name="formset" value="{% trans 'Finalize' %}" />
+			</form>
+        {% else %}
+            <form enctype="multipart/form-data" action="" method="POST"> 
+                {% csrf_token %}
+				{% blocktrans trimmed %}
+                	<p>Upload multiple zipped projects with files name <i>"ProjectName-StudentName.sjr"</i> in a single .zip file: </p>
+				{% endblocktrans %}
+				<p><input type="file" name="file"></p>
+                <input type="submit" name="form" class="btn btn-primary" value="{% trans 'Analyze' %}">
+            </form>
+        {% endif %}
+		</div>
+	  </div>
+    </div>
+        
+{% endblock %}

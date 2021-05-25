@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+	{% if export %}
+		{{ export }}
+	{% else %}
+		<div class="row">
+			<div class="col-md-12">
+				<div class="white-box">
+					<div id="content">
+						<h1>{{zip_name}}</h1>
+						{% if message %}
+							<div class='alert alert-danger'>
+								<button type="button" class="close" data-dismiss="alert">&times;</button>
+								{{ message }}
+							</div>
+						{% endif %}
+						<div class="table-responsive">
+							<table class="table">
+								<thead>
+									<tr>
+										<th class="border-top-0">#</th>
+										<th class="border-top-0">{% trans "Student" %}</th>
+										<th class="border-top-0">{% trans "Project" %}</th>
+										<th class="border-top-0">{% trans "File name" %}</th>
+										<th class="border-top-0">{% trans "Delete" %}</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for stud_proj_dict in inicial_form %}
+										<tr>
+											<td>{{forloop.counter}}</td>
+										{% for student, project in stud_proj_dict.items %}
+											<td>{{student}}&nbsp;&nbsp;&nbsp;&nbsp;</td>
+											<td><a href="/analysis2/{{student}}/{{project.0}}/{{project.1}}">{{project.0}}</a>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+											<td>{{project.1}}</td>
+												<td><i class="fa fa-trash-alt"></i></td>
+											</tr>
+										{% endfor %}
+									{% endfor %}
+								</tbody>
+							</table>
+							{% if not user.is_authenticated %}
+								<a href="/" class="btn btn-secondary">{% trans "Finalize" %}</a>
+								&nbsp;
+							{% endif %}
+							<a href="/create_csv_zip/{{zip_name}}" download class="btn btn-warning">{% trans "Export" %}</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endif %}
+{% endblock %}

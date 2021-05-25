@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+	{% if message %}
+		<div class='alert alert-info'>
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+			{{ message }}
+		</div>
+	{% endif %}
+	<div class="row">
+		<!-- Column -->
+		<div class="col-lg-4 col-xlg-3 col-md-12">
+			<div class="white-box">
+				<div class="user-bg">
+					<div class="overlay-box">
+						<div class="user-content">
+							<a href="javascript:void(0)"><img src="/web/static/plugins/images/icons-teacher.png"
+									class="thumb-lg img-circle" alt="img"></a>
+							<h4 class="text-white mt-2">{{ request.user.username }}</h4>
+							<h5 class="text-white mt-2">{{ request.user.email }}</h5>
+						</div>
+					</div>
+				</div>
+				<div class="user-btm-box mt-5 d-md-flex">
+					{% blocktrans trimmed %}
+						<h2>Students: {{ students }}</h2>
+					{% endblocktrans %}
+				</div>
+			</div>
+		</div>
+		<!-- Column -->
+		<!-- Column -->
+		<div class="col-lg-8 col-xlg-9 col-md-12">
+			<div class="card">
+				<div class="card-body">
+					<form class="form-horizontal form-material" method="POST">
+                        {% csrf_token %}
+						<div class="form-group mb-4">
+							<label class="col-md-12 p-0">{% trans "First Name" %}</label>
+							<div class="col-md-12 border-bottom p-0">
+								<input type="text" value="{{ user.first_name }}"
+									class="form-control p-0 border-0" name="first_name"> </div>
+						</div>
+						<div class="form-group mb-4">
+							<label class="col-md-12 p-0">{% trans "Surname" %}</label>
+							<div class="col-md-12 border-bottom p-0">
+								<input type="text" value="{{ user.last_name }}"
+									class="form-control p-0 border-0" name="surname"> </div>
+						</div>
+						<div class="form-group mb-4">
+							<label class="col-md-12 p-0">{% trans "Username" %}</label>
+							<div class="col-md-12 border-bottom p-0">
+								<p>{{ user.username }}</p>
+							</div>
+						</div>
+						<div class="form-group mb-4">
+							<label class="col-md-12 p-0">{% trans "Email" %}</label>
+							<div class="col-md-12 border-bottom p-0">
+								<p>{{ user.email }}</p>
+							</div>
+						</div>
+						<div class="form-group mb-4">
+							<div class="col-sm-12">
+								<button class="btn btn-success">{% trans "Update Profile" %}</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>	
+{% endblock %}

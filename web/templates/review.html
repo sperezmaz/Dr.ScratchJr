@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-md-12">
+			<div class="white-box">
+				<div id="content">
+					<h1>{% trans "Students" %}</h1>
+					{% if message %}
+						<div class='alert alert-danger'>
+							<button type="button" class="close" data-dismiss="alert">&times;</button>
+							{{ message }}
+						</div>
+					{% endif %}
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+								<tr>
+									<th class="border-top-0">#</th>
+									<th class="border-top-0">{% trans "Name" %}</th>
+									<th class="border-top-0">{% trans "Nº projects" %}</th>
+									<th class="border-top-0">{% trans "Delete" %}</th>
+								</tr>
+							</thead>
+							{% if students %}
+								<tbody>
+									{% for student, proyects in students.items %}
+										<tr>
+											<td>{{forloop.counter}}</td>
+											<td><a href="/students/{{student}}/">{{student}}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+												<a href="javascript:edit_name('/edit_student/{{student}}')" class="fa fa-edit"></a></td>
+											<td>{{proyects|length}}</td>
+											<td><a href="javascript:confirmation('/delete_student/{{student}}')" class="fa fa-trash-alt"></a></td>
+										</tr>
+									{% endfor %}
+								</tbody>
+							{% endif %}
+						</table>
+					</div>
+					{% if students %}
+						<a href="/create_csv_user" download class="btn btn-warning">{% trans "Export" %}</a>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

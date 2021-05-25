@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block goback %}
+  <h4 style="cursor:pointer" class="page-title text-uppercase font-medium font-14" onClick="history.go(-1);">
+    <img src="/web/static/plugins/images/back.png" alt="back-icon" width="45px" height="35px"/>
+    <b style="color: white; padding-left:10px;">{% trans " Go Back" %}</b>
+  </h4>
+{% endblock %}
+
+{% block content %}
+  {% blocktrans trimmed %}
+    <h1>Analysis:  "{{file_up}}"</h1>
+  {% endblocktrans %}
+	<div class="row">
+	  <div class="col-lg-4 col-xlg-3 col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <section>
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th class="border-top-0">{% trans "# Variability (Use of blocks)" %}</th>
+                    <th class="border-top-0">{% trans "Level" %}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for types, blocks in variability_dict.items %}
+                    {% for types_, blocks_ in blocksDict.items %}
+                      {% if types == types_ %}
+                        {% if types == 'Total' %}
+                          <tr>
+                            <td><b>{{types}}</b></td>
+                            <td>
+                              <div class="progress">
+                                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: {% widthratio blocks blocks_ 100 %}%"></div>
+                              </div>
+                              <b>{{blocks}}/{{blocks_}}</b>
+                            </td>
+                          </tr>
+                        {% else %}
+                          <tr>
+                            <td>{{types}}</td>
+                            <td>
+                              <div class="progress">
+                                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: {% widthratio blocks|length blocks_|length 100 %}%"></div>
+                              </div>
+                              <a href="/results/variability/{{types}}/">{{blocks|length}}/{{blocks_|length}}</a>
+                            </td>
+                          </tr>
+                        {% endif %}
+                      {% endif %}
+                    {% endfor %}
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4 col-xlg-3 col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <section>
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th class="border-top-0">{% trans "# Bad habits" %}</th>
+                    <th class="border-top-0">{% trans "Level" %}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for types, blocks in badhabits_dict.items %}
+                  <tr>
+                    <td>{{types}}</td>
+                    {% ifequal blocks|length 0 %}
+                      <td>{{blocks|length}}</td>
+                    {% else %}
+                      <td><a href="/results/badhabits/{{types}}/">{{blocks|length}}</a></td>
+                    {% endifequal %}
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <section>
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th class="border-top-0">{% trans "# Creativity" %}</th>
+                    <th class="border-top-0">{% trans "Level" %}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for types, blocks in creativ_dict.items %}
+                    <tr>
+                      <td>{{types}}</td>
+                      {% ifequal blocks|length 0 %}
+                        <td>{{blocks|length}}</td>
+                      {% else %}
+                        <td><a href="/results/creativity/{{types}}/">{{blocks|length}}</a></td>
+                      {% endifequal %}
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4 col-xlg-3 col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <section>
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th class="border-top-0">{% trans "# Other data" %}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for types, blocks in otherdat_dict.items %}
+                    <tr>
+                      <td>{{types}}</td>
+                      {% if blocks.items %}
+                        {% ifequal blocks|length 0 %}
+                          <td>{{blocks|length}}</td>
+                        {% else %}
+                          <td>{{blocks}}</td>
+                        {% endifequal %}
+                      {% else %}  
+                        {% ifequal blocks|length 0 %}
+                          <td>{{blocks|length}}</td>
+                        {% else %}
+                          <td><a href="/results/otherdata/{{types}}/">{{blocks|length}}</a></td>
+                        {% endifequal %}
+                      {% endif %}
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+	</div>
+{% endblock %}

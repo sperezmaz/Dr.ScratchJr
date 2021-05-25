@@ -1,0 +1,242 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-02-12 13:39+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: .\drscratchjr\settings.py:108
+msgid "Español"
+msgstr ""
+
+#: .\drscratchjr\settings.py:109
+msgid "English"
+msgstr ""
+
+#: .\web\templates\base.html:84
+msgid "User Profile"
+msgstr ""
+
+#: .\web\templates\base.html:86
+msgid "Change password"
+msgstr ""
+
+#: .\web\templates\base.html:89
+msgid "Log out"
+msgstr ""
+
+#: .\web\templates\base.html:95 .\web\templates\registration_web\login.html:12
+#: .\web\templates\registration_web\password_reset_complete.html:8
+msgid "Log in"
+msgstr ""
+
+#: .\web\templates\base.html:119 .\web\templates\base.html:197
+#: .\web\templates\base.html:214
+msgid "Home"
+msgstr ""
+
+#: .\web\templates\base.html:127 .\web\templates\review.html:5
+msgid "Students"
+msgstr ""
+
+#: .\web\templates\base.html:134
+msgid "Profile"
+msgstr ""
+
+#: .\web\templates\base.html:141
+msgid "Settings"
+msgstr ""
+
+#: .\web\templates\base.html:149
+msgid "Functioning"
+msgstr ""
+
+#: .\web\templates\base.html:156
+msgid "Contact us"
+msgstr ""
+
+#: .\web\templates\base.html:163
+msgid "About"
+msgstr ""
+
+#: .\web\templates\base.html:168 .\web\templates\base.html:200
+#: .\web\templates\base.html:212
+msgid "Upload"
+msgstr ""
+
+#: .\web\templates\base.html:245
+msgid "UPLOAD PROJECT"
+msgstr ""
+
+#: .\web\templates\django_registration\activate.html:6
+msgid "Account activation failed"
+msgstr ""
+
+#: .\web\templates\django_registration\activation_complete.html:5
+msgid "Your account is now activated."
+msgstr ""
+
+#: .\web\templates\django_registration\activation_email.txt:2
+msgid "Activate account at"
+msgstr ""
+
+#: .\web\templates\django_registration\activation_email.txt:6
+#: .\web\templates\django_registration\activation_email_body.txt:6
+#, python-format
+msgid "Link is valid for %(expiration_days)s days."
+msgstr ""
+
+#: .\web\templates\django_registration\activation_email_body.txt:2
+msgid "Activate account at:"
+msgstr ""
+
+#: .\web\templates\django_registration\activation_email_subject.txt:2
+msgid "Account activation on"
+msgstr ""
+
+#: .\web\templates\django_registration\registration_closed.html:5
+msgid "Registration is currently closed."
+msgstr ""
+
+#: .\web\templates\django_registration\registration_complete.html:5
+msgid "You are now registered. Activation email sent."
+msgstr ""
+
+#: .\web\templates\django_registration\registration_form.html:9
+#: .\web\templates\registration_web\password_change_form.html:12
+#: .\web\templates\registration_web\password_reset_confirm.html:13
+#: .\web\templates\registration_web\password_reset_form.html:13
+msgid "Submit"
+msgstr ""
+
+#: .\web\templates\evaluation.html:7 .\web\templates\results.html:7
+#: .\web\templates\student.html:7
+msgid " Go Back"
+msgstr ""
+
+#: .\web\templates\registration_web\login.html:6
+msgid "Login"
+msgstr ""
+
+#: .\web\templates\registration_web\login.html:20
+msgid "Forgot password"
+msgstr ""
+
+#: .\web\templates\registration_web\login.html:20
+msgid "Reset it"
+msgstr ""
+
+#: .\web\templates\registration_web\login.html:21
+msgid "Not member"
+msgstr ""
+
+#: .\web\templates\registration_web\login.html:21
+msgid "Register"
+msgstr ""
+
+#: .\web\templates\registration_web\logout.html:5
+msgid "Logged out"
+msgstr ""
+
+#: .\web\templates\registration_web\logout.html:7
+msgid "Back to Home Pag"
+msgstr ""
+
+#: .\web\templates\registration_web\password_change_done.html:5
+msgid "Password changed"
+msgstr ""
+
+#: .\web\templates\registration_web\password_change_form.html:5
+msgid "Password change"
+msgstr ""
+
+#: .\web\templates\registration_web\password_change_form.html:7
+msgid ""
+"Please enter your old password, for security’s sake, and then enter your new "
+"password twice so we can verify you typed it in correctly."
+msgstr ""
+
+#: .\web\templates\registration_web\password_reset_complete.html:6
+msgid "Password reset successfully"
+msgstr ""
+
+#: .\web\templates\registration_web\password_reset_confirm.html:7
+#: .\web\templates\registration_web\password_reset_form.html:5
+msgid "Password reset"
+msgstr ""
+
+#: .\web\templates\registration_web\password_reset_confirm.html:18
+msgid "Password reset failed"
+msgstr ""
+
+#: .\web\templates\registration_web\password_reset_done.html:5
+msgid "Email with password reset instructions has been sent."
+msgstr ""
+
+#: .\web\templates\registration_web\password_reset_email.html:2
+#, python-format
+msgid "Reset password at %(site_name)s"
+msgstr ""
+
+#: .\web\templates\registration_web\password_reset_form.html:7
+msgid ""
+"Forgotten your password? Enter your email address below, and we’ll email "
+"instructions for setting a new one."
+msgstr ""
+
+#: .\web\templates\registration_web\password_reset_subject.txt:3
+#, python-format
+msgid "Password reset on %(site_name)s"
+msgstr ""
+
+#: .\web\templates\results.html:12
+msgid "Details"
+msgstr ""
+
+#: .\web\templates\results.html:14
+#, python-format
+msgid ""
+"\n"
+"            The student hasn't used these %(types)s blocks:\n"
+"        "
+msgstr ""
+
+#: .\web\templates\results.html:30
+msgid "Page"
+msgstr ""
+
+#: .\web\templates\results.html:31
+msgid "Character"
+msgstr ""
+
+#: .\web\templates\results.html:32
+msgid "Seq. Name"
+msgstr ""
+
+#: .\web\templates\results.html:33
+msgid "Sequence"
+msgstr ""
+
+#: .\web\templates\results.html:49
+#, python-format
+msgid ""
+"\n"
+"            Perfect! student has used all %(types)s blocks\n"
+"        "
+msgstr ""
+
+#: .\web\templates\upload.html:56
+msgid "Evaluate"
+msgstr ""

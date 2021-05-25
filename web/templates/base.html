@@ -1,0 +1,381 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<!-- Tell the browser to be responsive to screen width -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="keywords"
+		content="Dr.ScratchJr, ScratchJr">
+	<meta name="description"
+		content="Analyze and evaluate your students' ScratchJr projects">
+	<meta name="robots" content="noindex,nofollow">
+	<title>Dr.ScratchJr</title>
+	<!-- Favicon icon -->
+	<link rel="icon" type="image/png" sizes="16x16" href="/web/static/plugins/images/favicon.png">
+	<!-- Custom CSS -->
+	<link href="/web/static/css/style.min.css" rel="stylesheet">
+	<link href="/web/static/css/templatemo-style.css" rel="stylesheet">
+</head>
+
+<body>
+	
+	<!-- ============================================================== -->
+	<!-- Main wrapper -->
+	<!-- ============================================================== -->
+	<div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
+		data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+		<!-- ============================================================== -->
+		<!-- Topbar header -->
+		<!-- ============================================================== -->
+		<header class="topbar" data-navbarbg="skin5">
+			<nav class="navbar top-navbar navbar-expand-md navbar-dark">
+				<div class="navbar-header" data-logobg="skin6">
+					<!-- ============================================================== -->
+					<!-- Logo -->
+					<!-- ============================================================== -->
+					<a class="navbar-brand" href="/">
+						<!-- Logo Dr -->
+						<b class="logo-icon">
+							<img src="/web/static/plugins/images/logo-dr.png" alt="homepage" />
+						</b>
+						<!--End Logo Dr -->
+						<!-- Logo Scratchjr -->
+						<span class="logo-text">
+							<img src="/web/static/plugins/images/logo-scratchjr.svg" alt="homepage" />
+						</span>
+						<!--End Logo Scratchjr -->
+					</a>
+					<!-- ============================================================== -->
+					<!-- End Logo -->
+					<!-- ============================================================== -->
+					<!-- ============================================================== -->
+					<!-- toggle and nav items -->
+					<!-- ============================================================== -->
+					<a class="nav-toggler waves-effect waves-light text-dark d-block d-md-none"
+						href="javascript:void(0)"><i class="ti-menu ti-close"></i></a>
+				</div>
+				<!-- ============================================================== -->
+				<!-- End Logo -->
+				<!-- ============================================================== -->
+				<div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin5">
+					<ul class="navbar-nav d-none d-md-block d-lg-none">
+						<li class="nav-item">
+							<a class="nav-toggler nav-link waves-effect waves-light text-white"
+								href="javascript:void(0)"><i class="ti-menu ti-close"></i></a>
+						</li>
+					</ul>
+					<!-- ============================================================== -->
+					<!-- Right side toggle and nav items -->
+					<!-- ============================================================== -->
+					<ul class="navbar-nav ml-auto ">
+						<li class="nav-item mr-5 p-3">
+							{% get_available_languages as LANGUAGES %} 
+							<form action="/i18n/setlang/" method="post">
+								{% csrf_token %} 
+								<!-- <input name="next" type="hidden" value="/" />  -->
+								{% csrf_token %} 
+								<select name="language">
+									<option value="">{% trans "Language" %}</option>
+								{% for lang in LANGUAGES %}
+									<option value="{{ lang.0 }}">{{ lang.1 }}</option> 
+								{% endfor %} 
+								</select> 
+								<input type="submit" value="{% trans 'Translate' %}"/> 
+							</form>
+						</li>
+						<!-- <li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+								<i class="fas fa-globe fa-fw"></i> {% trans "Spanish" %}
+							</a>
+							<ul class="dropdown-menu dropdown-user">
+								<li><a class="dropdown-item" href=""> {% trans "English" %}</a>
+								</li>
+								<li><a class="dropdown-item" href=""></i> {% trans "Spanish" %}</a>
+								</li>
+							</ul>
+						</li> -->
+						
+						{% if user.is_authenticated %}
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+									<i class="fa fa-user fa-fw"></i> {{ user.username }} <b class="caret"></b>
+								</a>
+								<ul class="dropdown-menu dropdown-user">
+									<li><a class="dropdown-item" href="{% url 'profile' %}"><i class="fa fa-user fa-fw"></i> {% trans "User Profile" %}</a>
+									</li>
+									<li><a class="dropdown-item" href="{% url 'password_change' %}"><i class="fa fa-lock fa-fw"></i> {% trans "Change password" %}</a>
+									</li>
+									<li class="dropdown-divider"></li>
+									<li><a class="dropdown-item" href="{% url 'logout' %}"><i class=" fa fa-sign-out-alt fa-fw"></i> {% trans "Log out" %}</a>
+									</li>
+								</ul>
+							</li>
+						{% else %}
+							<li class="nav-item">
+								<a class="nav-link" href="{% url 'login' %}">{% trans "Log in" %}</a>
+							</li>
+						{% endif %}
+					</ul>
+					<!-- ============================================================== -->
+					<!-- End Right side toggle and nav items -->
+					<!-- ============================================================== -->
+				</div>
+			</nav>
+		</header>
+		<!-- ============================================================== -->
+		<!-- End Topbar header -->
+		<!-- ============================================================== -->
+		<!-- ============================================================== -->
+		<!-- Left Sidebar -->
+		<!-- ============================================================== -->
+		<aside class="left-sidebar" data-sidebarbg="skin6">
+			<!-- Sidebar scroll-->
+			<div class="scroll-sidebar">
+				<!-- Sidebar navigation-->
+				<nav class="sidebar-nav mt-4">
+					<ul id="sidebarnav">
+						<li class="sidebar-item pt-2">
+							<a class="sidebar-link waves-effect waves-dark sidebar-link" href="/"
+								aria-expanded="false">
+								<i class="fa fa-home" aria-hidden="true"></i>
+								<span class="hide-menu">{% trans "Home" %}</span>
+							</a>
+						</li>
+						{% if user.is_authenticated %}
+							<li class="sidebar-item">
+								<a class="sidebar-link waves-effect waves-dark sidebar-link" href="/review/"
+									aria-expanded="false">
+									<i class="fa fa-table" aria-hidden="true"></i>
+									<span class="hide-menu">{% trans "Students" %}</span>
+								</a>
+							</li>
+							<li class="sidebar-item">
+								<a class="sidebar-link waves-effect waves-dark sidebar-link" href="/profile/"
+									aria-expanded="false">
+									<i class="fa fa-user" aria-hidden="true"></i>
+									<span class="hide-menu">{% trans "Profile" %}</span>
+								</a>
+							</li>
+							<li class="sidebar-item">
+								<a class="sidebar-link waves-effect waves-dark sidebar-link" href="/settings/"
+									aria-expanded="false">
+									<i class="fa fa-cog" aria-hidden="true"></i>
+									<span class="hide-menu">{% trans "Settings" %}</span>
+								</a>
+							</li>
+						{% endif %}
+						<li class="sidebar-item">
+							<a class="sidebar-link waves-effect waves-dark sidebar-link" href="/functioning/"
+								aria-expanded="false">
+								<i class="fa fa-smile" aria-hidden="true"></i>
+								<span class="hide-menu">{% trans "Functioning" %}</span>
+							</a>
+						</li>
+						<li class="sidebar-item">
+							<a class="sidebar-link waves-effect waves-dark sidebar-link" href="/contactus/"
+								aria-expanded="false">
+								<i class=" fab fa-weixin" aria-hidden="true"></i>
+								<span class="hide-menu">{% trans "Contact us" %}</span>
+							</a>
+						</li>
+						<li class="sidebar-item">
+							<a class="sidebar-link waves-effect waves-dark sidebar-link" href="/about/"
+								aria-expanded="false">
+								<i class="fas fa-info" aria-hidden="true"></i>
+								<span class="hide-menu">{% trans "About" %}</span>
+							</a>
+						</li>
+						{% if user.is_authenticated %}
+							<li class="text-center p-20 upload-btn">
+								<a href="/albums/upload/" class="btn btn-block btn-danger text-white">{% trans "Upload" %}</a>
+							</li>
+						{% endif %}
+					</ul>
+
+				</nav>
+				<!-- End Sidebar navigation -->
+			</div>
+			<!-- End Sidebar scroll-->
+		</aside>
+		<!-- ============================================================== -->
+		<!-- End Left Sidebar -->
+		<!-- ============================================================== -->
+		<!-- ============================================================== -->
+		<!-- Page wrapper  -->
+		<!-- ============================================================== -->
+		<div class="page-wrapper">
+			<!-- ============================================================== -->
+			<!-- Right sidebar toggle -->
+			<!-- ============================================================== -->
+			<div class="page-breadcrumb bg-white">
+				<div class="row align-items-center">
+					<div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+						{% block goback %}
+						{% endblock %}
+					</div>
+					<div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+						<div class="d-md-flex">
+							<ol class="breadcrumb ml-auto">
+								<li><a href="/">{% trans "Home" %}</a></li>
+							</ol>
+							<a href="/albums/upload/"
+								class="btn btn-danger  d-none d-md-block pull-right m-l-20 hidden-xs 
+								hidden-sm waves-effect waves-light">{% trans "Analyze" %}</a>
+							<a href="/albums/upload_zip/"
+								class="btn btn-danger  d-none d-md-block pull-right m-l-20 hidden-xs 
+								hidden-sm waves-effect waves-light">{% trans "Analyze zip" %}</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- ============================================================== -->
+			<!-- End Right sidebar toggle -->
+			<!-- ============================================================== -->
+			<!-- ============================================================== -->
+			<!-- Container fluid  -->
+			<!-- ============================================================== -->
+			<div class="container-fluid">
+				{% block content %}
+					<div class="row px-5 mx-5">
+						<div class="mx-5 text-center">
+							<div class="intro-box">
+								<h1 class="text-center intro-title">{% trans "Welcome to Dr.ScratchJr" %}</h1>
+									<br>
+									<!-- </h3 class="text-center"><strong>
+										<a href=""></a></strong></h3><br> -->
+								{% if not user.is_authenticated %}
+									<h4 class="text-justify"><strong>
+										{% blocktrans trimmed %}
+										On this website you can analyze your student's or your children's 
+										ScratchJr projects based on various aspects. You can do this by saving all 
+										the results of your students by registering in the application.
+										{% endblocktrans %}
+									</strong></h4>
+									<br>
+									<a href="{% url 'login' %}" class="btn btn-primary secondary-button">{% trans "Log in" %}</a>
+									<br>
+									<br>
+									<h4 class="text-justify"><strong> 
+										{% trans "Or analyze a project without the need to register directly here" %}
+									</strong></h4>
+									<br>
+								{% else %}
+									<h4 class="text-justify"><strong>
+										{% blocktrans trimmed %}
+										On this website you can analyze your student's or your children's 
+										ScratchJr projects based on various aspects. 
+										The results of previous analysis are available in the
+										<a href="/review/"><i>Students</i></a> section.
+										{% endblocktrans %}
+									</strong></h4>
+									<br>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+					{% if message %}
+					<div class='alert alert-info'>
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+						{{ message }}
+					</div>
+					{% endif %}
+					<div class="row justify-content-center">
+						<div class="col-6">
+							<div class="white-box text-center">
+								<h1>{% trans "Analyze proyect" %}</h1>
+								{% blocktrans trimmed %}
+									<p>Select an existing student or write a new student:</p>
+								{% endblocktrans %}
+								<form enctype="multipart/form-data" action="albums/upload/" method="POST" id="upload-files-form"> 
+									{% csrf_token %}
+									{% if user.is_authenticated %}
+										<p> {% trans "Student: " %}<input type="text" list="items" name="name_student" autocomplete="off">
+										<datalist id="items" name="name_student">
+										{% for student in students %}
+											<option>{{student}}</option>
+										{% endfor %}
+										</datalist>
+										</p>
+									{% endif %}
+									<p><i>{% trans "Upload proyect" %} SJR: </i><input type="file" name="file"></p>
+									<input type="submit" class="btn btn-primary" value="{% trans 'Analyze' %}">
+								</form>
+							</div>
+						</div>
+						<div class="col-6">
+							<div class="white-box text-center">
+								<h1>{% trans "Analyze multiple projects" %}</h1></i>
+								{% blocktrans trimmed %}
+									<p>Upload multiple zipped projects with files name <i>"ProjectName-StudentName.sjr"</i> in a single .zip file: </p>
+								{% endblocktrans %}
+								<form enctype="multipart/form-data" action="albums/upload_zip/" method="POST"> 
+									{% csrf_token %}
+									<p><i>{% trans "Upload proyect" %} ZIP: </i><input type="file" name="file"></p>
+									<input type="submit" name="form" class="btn btn-primary" value="{% trans 'Analyze' %}">
+								</form>
+							</div>
+						</div>
+					</div>
+				{% endblock %}
+			</div>
+			<!-- ============================================================== -->
+			<!-- End Container fluid  -->
+			<!-- ============================================================== -->
+			<!-- ============================================================== -->
+			<!-- Footer -->
+			<!-- ============================================================== -->
+			<footer class="footer text-center"> 
+				<img src="/web/static/plugins/images/jr.svg" alt="" width="60px" height="60px">
+				2021 © Dr.ScratchJr!
+			</footer>
+			<!-- ============================================================== -->
+			<!-- End Footer -->
+			<!-- ============================================================== -->
+		</div>
+		<!-- ============================================================== -->
+		<!-- End Page wrapper  -->
+		<!-- ============================================================== -->
+	</div>
+	<!-- ============================================================== -->
+	<!-- End Wrapper -->
+	<!-- ============================================================== -->
+	<!-- ============================================================== -->
+	<!-- All Jquery -->
+	<!-- ============================================================== -->
+	<script src="/web/static/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+	<!-- Bootstrap tether Core JavaScript -->
+	<script src="/web/static/js/app-style-switcher.js"></script>
+	<script src="/web/static/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
+	<!--Wave Effects -->
+	<script src="/web/static/js/waves.js"></script>
+	<!--Menu sidebar -->
+	<script src="/web/static/js/sidebarmenu.js"></script>
+	<!--Custom JavaScript -->
+	<script src="/web/static/js/custom.js"></script>
+	<!--This page JavaScript -->
+	<script type="text/javascript">
+	
+		function confirmation(path){
+			if(confirm("Are you sure you want to delete?")){
+				window.location.assign(path)
+			}
+		}
+		function edit_name(path){
+			var message;
+  			var name = path.split("/")[2];
+			var edited_name = prompt("Edit name:", name);
+			
+			if (edited_name == null || edited_name == "") {
+				message = "You have canceled or entered the empty name";
+			} else {
+				console.log(path + "/" + edited_name);
+				window.location.assign(path + "/" + edited_name)
+			}
+		}
+	</script>
+</body>
+
+</html>

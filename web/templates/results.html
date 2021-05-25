@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block goback %}
+  <h4 style="cursor:pointer" class="page-title text-uppercase font-medium font-14" onClick="history.go(-1);">
+    <img src="/web/static/plugins/images/back.png" alt="back-icon" width="45px" height="35px"/>
+    <b style="color: white; padding-left:10px;">{% trans "Go Back" %}</b>
+  </h4>
+{% endblock %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-md-12">
+			<h1 style="color: white;" class="text-center" ><i>{% trans "Details" %} - {{types}}</i></h1>
+			<div class="white-box">
+				<div id="content">
+					{% if unused_blocks %}
+						{% blocktrans trimmed %}
+							<h2>The student hasn't used these {{types}} blocks:</h2>
+						{% endblocktrans %}
+						<br>
+						<br>
+						<div class="row justify-content-md-center">
+						{% for unused_block in unused_blocks %}
+							<div class="col-6">
+								<div class="white-box">
+									<div class="row justify-content-md-center">
+										<div class="col-5">
+											<img src="/web/static/plugins/images/blocks/{{unused_block}}.png" alt="{{unused_block}}" width="100" height="100" />
+											<p><b><i>{{unused_block}}</i></b></p>
+										</div>
+										<div class="col-5" style="padding-top:15px;">
+											<i>
+											{% if unused_block == 'onflag'  %}
+												{% trans "Starts the script when the Green Flag is tapped." %}
+											{% elif unused_block == 'onclick'  %}
+												{% trans "Starts the script when you tap on the character." %}
+											{% elif unused_block == 'ontouch'  %}
+												{% trans "Starts the script when the character is touched by another character." %}
+											{% elif unused_block == 'message'  %}
+												{% trans "Starts the script whenever a message of the specified color is sent." %}
+											{% elif unused_block == 'onmessage'  %}
+												{% trans "Sends a message of the specified color." %}
+											{% elif unused_block == 'forward-back'  %}
+												{% trans "Rotates the character a specified amount. Turn 12 for a full rotation." %}
+											{% elif unused_block == 'up-down'  %}
+												{% trans "Moves the character a specified number of grid squares up/down." %}
+											{% elif unused_block == 'left-right'  %}
+												{% trans "Moves the character a specified number of grid squares sideways." %}
+											{% elif unused_block == 'hop'  %}
+												{% trans "Moves the character up a specified number of grid squares and then down again." %}
+											{% elif unused_block == 'home'  %}
+												{% trans "Resets the character's location to its starting position. (To set a new starting position, drag the character to the location)." %}
+											{% elif unused_block == 'say'  %}
+												{% trans "Shows a specified message in a speech bubble above the character." %}
+											{% elif unused_block == 'grow-shrink'  %}
+												{% trans "Increases/Decreases the character's size." %}
+											{% elif unused_block == 'same'  %}
+												{% trans "Returns the character to its default size." %}
+											{% elif unused_block == 'hide-show'  %}
+												{% trans "Hide/show the character." %}
+											{% elif unused_block == 'playsnd'  %}
+												{% trans "Plays a 'Pop' Sound" %}
+											{% elif unused_block == 'playusersnd'  %}
+												{% trans "Plays a sound recorded by the user." %}
+											{% elif unused_block == 'wait'  %}
+												{% trans "Pauses the script for a specified amount of time (in tenths of seconds)." %}
+											{% elif unused_block == 'stopmine'  %}
+												{% trans "Stops all the characters' scripts." %}
+											{% elif unused_block == 'repeat'  %}
+												{% trans "Runs the blocks inside a specified number of times." %}
+											{% elif unused_block == 'setspeed'  %}
+												{% trans "Changes the rate at which certain blocks are run." %}
+											{% elif unused_block == 'endstack'  %}
+												{% trans "Indicates the end of the script (but does not affect the script in any way)." %}
+											{% elif unused_block == 'forever'  %}
+												{% trans "Runs the script over and over." %}
+											{% elif unused_block == 'gotopage'  %}
+												{% trans "Changes to the specified page of the project." %}
+											{% endif %}
+											</i>
+										</div>
+									</div>
+								</div>
+							</div>
+						{% endfor %}
+							
+						</div>
+						<a href="/blocks/"><h3 class="text-center">{% trans "See all blocks" %}</h3></a>
+					{% elif bad_habits %}
+						<div class="table-responsive">
+						<table class="table">
+							<thead>
+								<tr>
+									<th class="border-top-0">{% trans "Page" %}</th>
+									<th class="border-top-0">{% trans "Character" %}</th>
+									<th class="border-top-0">{% trans "Seq. Name" %}</th>
+									<th class="border-top-0">{% trans "Sequence" %}</th>
+								</tr>
+							</thead>
+						{% for block in bad_habits %}
+							<tbody>
+								<tr>
+									<td>{{block.0}}</td>
+									<td>{{block.1}}</td>
+									<td>{{block.2}}</td>
+									<td>
+										{% for elem in block.3 %}
+											{% if elem.0 == "repeat" %}
+												<FONT SIZE=7>[</font><img src="/web/static/plugins/images/blocks/{{elem.0}}.png" alt="{{elem.0}}" width="50" height="50" />, n={{elem.1}},<FONT SIZE=6>[</FONT>
+												{% for elem_repeat in elem.2 %}
+													{% if elem_repeat.0 == "repeat" %}
+														<FONT SIZE=5>[</font><img src="/web/static/plugins/images/blocks/{{elem_repeat.0}}.png" alt="{{elem_repeat.0}}" width="50" height="50" />, n={{elem_repeat.1}},<FONT SIZE=4>[</font>&nbsp;
+															{% for elem_repeat2 in elem_repeat.4 %}
+																{% if elem_repeat2.0 == "repeat" %}
+																	<FONT SIZE=2>[</font><img src="/web/static/plugins/images/blocks/{{elem_repeat2.0}}.png" alt="{{elem_repeat2.0}}" width="50" height="50" />, n={{elem_repeat2.1}},[...]&nbsp;
+																{% elif elem_repeat2.0 != "say" %}
+																	<FONT SIZE=2>[</font><img src="/web/static/plugins/images/blocks/{{elem_repeat2.0}}.png" alt="{{elem_repeat2.0}}" width="50" height="50" />, n={{elem_repeat2.1}}<FONT SIZE=2>]</font>,&nbsp;
+																{% else %}
+																	<FONT SIZE=2>[</font><img src="/web/static/plugins/images/blocks/{{elem_repeat2.0}}.png" alt="{{elem_repeat2.0}}" width="50" height="50" />, txt={{elem_repeat2.1}}<FONT SIZE=2>]</font>,&nbsp;
+																{% endif %}
+															{% endfor %}
+															<FONT SIZE=4>]</font><FONT SIZE=5>]</FONT>,&nbsp;
+													{% elif elem_repeat.0 != "say" %}
+														<FONT SIZE=5>[</font><img src="/web/static/plugins/images/blocks/{{elem_repeat.0}}.png" alt="{{elem_repeat.0}}" width="50" height="50" />, n={{elem_repeat.1}}<FONT SIZE=5>]</font>,&nbsp;
+													{% else %}
+														<FONT SIZE=5>[</font><img src="/web/static/plugins/images/blocks/{{elem_repeat.0}}.png" alt="{{elem_repeat.0}}" width="50" height="50" />, txt={{elem_repeat.1}}<FONT SIZE=5>]</font>,&nbsp;
+													{% endif %}
+												{% endfor %}
+												<FONT SIZE=6>]</font><FONT SIZE=7>]</FONT>,&nbsp;
+											{% elif elem.0 != "say" %}
+												<FONT SIZE=7>[</font><img src="/web/static/plugins/images/blocks/{{elem.0}}.png" alt="{{elem.0}}" width="50" height="50" />, n={{elem.1}}<FONT SIZE=7>]</font>,&nbsp;
+											{% else %}
+												<FONT SIZE=7>[</font><img src="/web/static/plugins/images/blocks/{{elem.0}}.png" alt="{{elem.0}}" width="50" height="50" />, txt={{elem.1}}<FONT SIZE=7>]</font>,&nbsp;
+											{% endif %}
+										{% endfor %}
+									</td>
+								</tr>
+							</tbody>
+						{% endfor %}
+						</table>
+						</div>
+					{% elif other_data %}
+						<br>
+						{% for elem in other_data %}
+							<p class="text-center bg-info">{{elem}}</p>
+						{% endfor %}
+					{% elif creativity %}
+						<h2>{{types}}:</h2>
+						<br>
+						<br>
+						{% for elem, imagenes in creativity.items %}
+							{{elem}}:
+							<a href="/web/static/characters/{{imagenes}}" target="_blank"><img src="/web/static/plugins/characters/{{imagenes}}" alt="expired" width="150" height="150" /></a>
+							<br>
+							<br>
+						{% endfor %}
+					{% else %}
+						{% blocktrans %}
+							Perfect! student has used all {{types}} blocks
+						{% endblocktrans %}
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

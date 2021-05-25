@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block goback %}
+    <h4 style="cursor:pointer" class="page-title text-uppercase font-medium font-14" onClick="history.go(-1);">
+        <img src="/web/static/plugins/images/back.png" alt="back-icon" width="45px" height="35px"/>
+        <b style="color: white; padding-left:10px;">{% trans " Go Back" %}</b>
+    </h4>
+{% endblock %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-md-12">
+			<h1 class="text-center" style="color: white;"><i>{% trans "Blocks" %}</i></h1>
+			<div class="white-box">
+				<div id="content">
+					{% if blocksDict %}
+						{% blocktrans trimmed %}
+							<h2>The program analyzes the variety of blocks that the student uses of each type of blocks that ScratchJr provides.</h2>
+						{% endblocktrans %}
+						<br>
+						<br>
+						{% for type, blocks in blocksDict.items %}
+                            <div class="white-box">
+                                <h3 class="text-center">{{type}}</h3>
+                                <br>
+                                <div class="row justify-content-md-center">
+                                    {% for block in blocks %}
+                                        <div class="col-6">
+                                            <div class="white-box">
+                                                <div class="row justify-content-md-center">
+                                                    <div class="col-5">
+                                                        <img src="/web/static/plugins/images/blocks/{{block}}.png" alt="{{block}}" width="100" height="100" />
+                                                        <p><b><i>{{block}}</i></b></p>
+                                                    </div>
+                                                    <div class="col-5" style="padding-top:15px;">
+                                                        <i>
+                                                        {% if block == 'onflag'  %}
+                                                            {% trans "Starts the script when the Green Flag is tapped." %}
+                                                        {% elif block == 'onclick'  %}
+                                                            {% trans "Starts the script when you tap on the character." %}
+                                                        {% elif block == 'ontouch'  %}
+                                                            {% trans "Starts the script when the character is touched by another character." %}
+                                                        {% elif block == 'message'  %}
+                                                            {% trans "Starts the script whenever a message of the specified color is sent." %}
+                                                        {% elif block == 'onmessage'  %}
+                                                            {% trans "Sends a message of the specified color." %}
+                                                        {% elif block == 'forward-back'  %}
+                                                            {% trans "Rotates the character a specified amount. Turn 12 for a full rotation." %}
+                                                        {% elif block == 'up-down'  %}
+                                                            {% trans "Moves the character a specified number of grid squares up/down." %}
+                                                        {% elif block == 'left-right'  %}
+                                                            {% trans "Moves the character a specified number of grid squares sideways." %}
+                                                        {% elif block == 'hop'  %}
+                                                            {% trans "Moves the character up a specified number of grid squares and then down again." %}
+                                                        {% elif block == 'home'  %}
+                                                            {% trans "Resets the character's location to its starting position. (To set a new starting position, drag the character to the location)." %}
+                                                        {% elif block == 'say'  %}
+                                                            {% trans "Shows a specified message in a speech bubble above the character." %}
+                                                        {% elif block == 'grow-shrink'  %}
+                                                            {% trans "Increases/Decreases the character's size." %}
+                                                        {% elif block == 'same'  %}
+                                                            {% trans "Returns the character to its default size." %}
+                                                        {% elif block == 'hide-show'  %}
+                                                            {% trans "Hide/show the character." %}
+                                                        {% elif block == 'playsnd'  %}
+                                                            {% trans "Plays a 'Pop' Sound" %}
+                                                        {% elif block == 'playusersnd'  %}
+                                                            {% trans "Plays a sound recorded by the user." %}
+                                                        {% elif block == 'wait'  %}
+                                                            {% trans "Pauses the script for a specified amount of time (in tenths of seconds)." %}
+                                                        {% elif block == 'stopmine'  %}
+                                                            {% trans "Stops all the characters' scripts." %}
+                                                        {% elif block == 'repeat'  %}
+                                                            {% trans "Runs the blocks inside a specified number of times." %}
+                                                        {% elif block == 'setspeed'  %}
+                                                            {% trans "Changes the rate at which certain blocks are run." %}
+                                                        {% elif block == 'endstack'  %}
+                                                            {% trans "Indicates the end of the script (but does not affect the script in any way)." %}
+                                                        {% elif block == 'forever'  %}
+                                                            {% trans "Runs the script over and over." %}
+                                                        {% elif block == 'gotopage'  %}
+                                                            {% trans "Changes to the specified page of the project." %}
+                                                        {% endif %}
+                                                        </i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+						{% endfor %}
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

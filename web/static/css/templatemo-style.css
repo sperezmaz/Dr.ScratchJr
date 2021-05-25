@@ -1,0 +1,89 @@
+.intro-box {
+    color: rgb(228, 219, 211);
+    text-align: center;
+    vertical-align: middle;
+    text-shadow: rgb(46, 131, 228) 0px 0px 10px;
+}
+
+.intro-title{
+    color: rgb(228, 143, 63);
+    text-shadow: rgb(46, 131, 228) 0px 0px 15px;
+    font-size: 55px;
+}
+
+/* Left & Right Post */
+.right-image-post {
+    margin-top: 60px;
+    padding-top: 60px;
+    border-top: 2px solid rgba(250, 250, 250, 0.1);
+}
+
+.left-image img,
+.right-image img {
+    border-radius: 5px;
+}
+
+.right-image-post h4,
+.left-image-post h4 {
+    margin-top: 30px;
+}
+
+.right-image-post p,
+.left-image-post p {
+    margin-top: 20px;
+}
+
+.right-image-post .white-button,
+.left-image-post .white-button {
+    margin-top: 30px;
+}
+
+@media screen and (max-width: 1280px) {
+    .menu {
+        left: 0%;
+    }
+
+    .right-image-post h4,
+    .left-image-post h4 {
+        margin-top: 0px;
+    }
+
+    .right-image-post p,
+    .left-image-post p {
+        margin-top: 15px;
+    }
+
+    .right-image-post .white-button,
+    .left-image-post .white-button {
+        margin-top: 25px;
+    }
+
+}
+
+.abs-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+  }
+#main-wrapper[data-layout=vertical] .topbar .navbar-collapse[data-navbarbg=skin5]{
+    background-color: white;
+    
+}
+.navbar-dark .navbar-nav .nav-link, .navbar-dark .navbar-nav .show>.nav-link{
+    color: #54667a;
+    transition: 0.3s;
+}
+.navbar-dark .navbar-nav .nav-link{
+    color: black;
+
+}
+.page-breadcrumb.bg-white{
+    background-color: #4b8ddb !important;
+}
+.page-breadcrumb.bg-white .breadcrumb a, .page-breadcrumb.bg-white .breadcrumb a:hover{
+    color: white;
+}
+.topbar .top-navbar{
+    background-color: white;
+}

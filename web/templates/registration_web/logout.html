@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+      <div class="white-box">
+        <div id="content">
+            <h1>{% trans 'Logged out' %}</h1>
+            <br>
+            <p><a href="/">{% trans "Back to Home Pag" %}</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block goback %}
+  <h4 style="cursor:pointer" class="page-title text-uppercase font-medium font-14" onClick="history.go(-1);">
+    <img src="/web/static/plugins/images/back.png" alt="back-icon" width="45px" height="35px"/>
+    <b style="color: white; padding-left:10px;">{% trans " Go Back" %}</b>
+  </h4>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="white-box">
+                <div id="content">
+                    <h1>{{student}}</h1>
+
+                        {% if message %}
+                            <div class='alert alert-danger'>
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            {{ message }}
+                        </div>
+                        {% endif %}
+
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="border-top-0">#</th>
+                                    <th class="border-top-0">{% trans "Projects" %}</th>
+                                    <th class="border-top-0">{% trans "Date" %}</th>
+                                    <th class="border-top-0">{% trans "# Variability(Use of blocks)" %}</th>
+                                    <th class="border-top-0">{% trans "Bad habits" %}</th>
+                                    <th class="border-top-0">{% trans "Delete" %}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for file, data in studentDict.items %}
+                                    <tr>
+                                        <td>{{forloop.counter}}</td>
+                                        <td><a href="/analysis/{{student}}/{{file}}">{{file}}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <a href="javascript:edit_name('/edit_file/{{file}}/{{student}}')" class="fa fa-edit"></a></td>
+                                        {% for elem in data %}
+                                            <td>{{elem}}</td>
+                                        {% endfor %}
+                                        <td><a href="javascript:confirmation('/delete/{{student}}/{{file}}/{{data.0}}')" class="fa fa-trash-alt"></a></td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <a href="/create_csv_student/{{student}}" download class="btn btn-warning">{% trans "Export" %}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

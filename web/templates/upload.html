@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  {% if variability_dict|length != 0 %}
+	<h6 class="card-subtitle">
+	  {% if message != "" %}
+		<div class='alert alert-info'>
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		  {{ message }}
+		</div>
+	  {% endif %}
+	</h6>
+	{% blocktrans trimmed %}
+		<h1>Analysis:  {{file_up}}</h1>
+	{% endblocktrans %}
+	<div class="row">
+	  <div class="col-lg-4 col-xlg-3 col-md-12">
+		<div class="card">
+		  <div class="card-body">
+			<section>
+			  <div class="table-responsive">
+				<table class="table">
+					<thead>
+						<tr>
+							<th class="border-top-0">{% trans "# Variability (Use of blocks)" %}</th>
+							<th class="border-top-0">{% trans "Level" %}</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for types, blocks in variability_dict.items %}
+							{% for types_, blocks_ in blocksDict.items %}
+								{% if types == types_ %}
+									{% if types == 'Total' %}
+										<tr>
+										<td><b>{{types}}</b></td>
+										<td>
+											<div class="progress">
+												<div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: {% widthratio blocks blocks_ 100 %}%"></div>
+											</div>
+											<b>{{blocks}}/{{blocks_}}</b>
+										</td>
+										</tr>
+									{% else %}
+										<tr>
+											<td>{{types}}</td>
+											<td>
+												<div class="progress">
+													<div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: {% widthratio blocks|length blocks_|length 100 %}%"></div>
+												</div>
+												<a href="/results/variability/{{types}}/">{{blocks|length}}/{{blocks_|length}}</a>
+											</td>
+										</tr>
+									{% endif %}
+								{% endif %}
+							{% endfor %}
+						{% endfor %}
+					</tbody>
+				</table>
+			  </div>
+			</section>
+		  </div>
+		</div>
+	  </div>
+	  <div class="col-lg-3 col-xlg-3 col-md-12">
+		<div class="card">
+			<div class="card-body">
+				<section>
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+								<tr>
+									<th class="border-top-0">{% trans "# Bad habits" %}</th>
+									<th class="border-top-0">{% trans "Level" %}</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for types, blocks in badhabits_dict.items %}
+								<tr>
+									<td>{{types}}</td>
+									{% ifequal blocks|length 0 %}
+										<td>{{blocks|length}}</td>
+									{% else %}
+										<td><a href="/results/badhabits/{{types}}/">{{blocks|length}}</a></td>
+									{% endifequal %}
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</section>
+			</div>
+		</div>
+		<div class="card">
+			<div class="card-body">
+				<section>
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+								<tr>
+									<th class="border-top-0">{% trans "# Creativity" %}</th>
+									<th class="border-top-0">{% trans "Level" %}</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for types, blocks in creativ_dict.items %}
+									<tr>
+										<td>{{types}}</td>
+										{% ifequal blocks|length 0 %}
+											<td>{{blocks|length}}</td>
+										{% else %}
+											<td><a href="/results/creativity/{{types}}/">{{blocks|length}}</a></td>
+										{% endifequal %}
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</section>
+			</div>
+		</div>
+	  </div>
+	  <div class="col-lg-5 col-xlg-3 col-md-12">
+		<div class="card">
+		  <div class="card-body">
+			<section>
+			  <div class="table-responsive">
+				<table class="table">
+					<thead>
+						<tr>
+							<th class="border-top-0">{% trans "# Other data" %}</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for types, blocks in otherdat_dict.items %}
+						  <tr>
+							<td>{{types}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+							{% if blocks.items %}
+							  {% ifequal blocks|length 0 %}
+								<td>{{blocks|length}}</td>
+							  {% else %}
+							  	<td><b>{{blocks}}</b></td>
+							  {% endifequal %}
+							{% else %}  
+							  {% ifequal blocks|length 0 %}
+								<td>{{blocks|length}}</td>
+							  {% else %}
+								<td><a href="/results/otherdata/{{types}}/">{{blocks|length}}</a></td>
+							  {% endifequal %}
+							{% endif %}
+						  </tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			  </div>
+			</section>
+		  </div>
+		</div>
+	  </div>
+	</div>
+  {% else %}
+	{% if message %}
+		<div class='alert alert-info'>
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+			{{ message }}
+		</div>
+	{% endif %}
+	<div class="row">
+	  <div class="col-12">
+		<div class="white-box">
+		  <h1>{% trans "Upload proyect" %}</h1>
+		  {% blocktrans trimmed %}
+			<p>Select an existing student or write a new student:</p>
+		  {% endblocktrans %}
+		  <form enctype="multipart/form-data" action="" method="POST" id="upload-files-form"> 
+			  {% csrf_token %}
+			  {% if user.is_authenticated %}
+				<p> {% trans "Student: " %}<input type="text" list="items" name="name_student" autocomplete="off">
+				<datalist id="items" name="name_student">
+				  {% for student in students %}
+					<option>{{student}}</option>
+				  {% endfor %}
+				</datalist>
+				</p>
+			  {% endif %}
+			  <p> {% trans "Upload proyect: " %}<input type="file" name="file"></p>
+			  <input type="submit" class="btn btn-primary" value="{% trans 'Analyze' %}">
+		  </form>
+		</div>
+	  </div>
+    </div>
+
+  {% endif %}
+  
+{% endblock %}
