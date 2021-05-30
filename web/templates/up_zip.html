@@ -14,20 +14,23 @@
             <h1>{% trans "Upload multiple projects" %}</h1>
 			<br>
 		{% if elementos|length != 0 %}
-			<form method="POST">
+			<form method="POST" enctype="multipart/form-data">
 				{% csrf_token %}
-				{{ formset.management_form }}
-				{% for form in formset %}
-					{{form}}
-					{% for elemento in elementos %}
-						{% if forloop.counter0 == forloop.parentloop.counter0 %}
-							&nbsp;&nbsp;&nbsp;<i>{{elemento}}</i>
-						{% endif %}
+					{{ formset.management_form }}
+					{% for form in formset %}
+					<div class="form-inline">
+						{{ form }}
+						{% for elemento in elementos %}
+							{% if forloop.counter0 == forloop.parentloop.counter0 %}
+								&nbsp;&nbsp;&nbsp;<i>{{elemento}}</i>
+							{% endif %}
+						{% endfor %}
+						<br>
+						<br>
+					</div>
 					{% endfor %}
-					<br>
-				{% endfor %}
 				<br>
-				<input type="submit" name="formset" value="{% trans 'Finalize' %}" />
+				<input type="submit" name="formset" value="{% trans 'Finalize' %}" required>
 			</form>
         {% else %}
             <form enctype="multipart/form-data" action="" method="POST"> 

@@ -33,7 +33,7 @@
 											<td>{{forloop.counter}}</td>
 										{% for student, project in stud_proj_dict.items %}
 											<td>{{student}}&nbsp;&nbsp;&nbsp;&nbsp;</td>
-											<td><a href="/analysis2/{{student}}/{{project.0}}/{{project.1}}">{{project.0}}</a>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+											<td><a href="/analysis2/{{student}}/{{project.0}}/{{project.1}}/{{rand_folder}}">{{project.0}}</a>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 											<td>{{project.1}}</td>
 												<td><i class="fa fa-trash-alt"></i></td>
 											</tr>

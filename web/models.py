@@ -1,6 +1,8 @@
 from __future__ import unicode_literals
 
 from django.db import models
+import random
+import string
 
 # Models.
 
@@ -22,7 +24,6 @@ class Page (models.Model):
 
 
 class Sprite (models.Model):
-    # data = models.ForeignKey(Data, on_delete=models.CASCADE)
     mtime = models.CharField(max_length=200)
     page = models.CharField(max_length=200)
     shown = models.CharField(max_length=200)
@@ -80,6 +81,7 @@ class Block_analysis(models.Model):
     sound = models.CharField(max_length=200)
     ends = models.CharField(max_length=200)
     total = models.IntegerField()
+    updated = models.DateTimeField(auto_now_add=False, auto_now=True)
     # average = models.FloatField()
 
 
@@ -91,22 +93,23 @@ class Bad_habits(models.Model):
     unfinishedcode = models.CharField(max_length=200)
     adjacentcode = models.CharField(max_length=200)
     sprites_tot = models.CharField(max_length=200)
-    text_sequences = models.CharField(max_length=200, default="")
+    text_sequences = models.CharField(max_length=200)
     num_pages = models.CharField(max_length=200)
     unedited_sprites = models.CharField(max_length=200)
     unedited_pages = models.CharField(max_length=200)
     sprites_in_pages = models.CharField(max_length=200)
     sprites_same_name = models.CharField(max_length=200)
-    edited_pages = models.CharField(max_length=200, default="")
-    edited_sprites = models.CharField(max_length=200, default="")
+    edited_pages = models.CharField(max_length=200)
+    edited_sprites = models.CharField(max_length=200)
 
 
 class Analysis_types(models.Model):
-    variability = models.CharField(max_length=200, default="")
-    badhabits = models.CharField(max_length=200, default="")
-    otherdata = models.CharField(max_length=200, default="")
-    creativity = models.CharField(max_length=200, default="")
-
+    file_name = models.CharField(max_length=200)
+    variability = models.CharField(max_length=200)
+    badhabits = models.CharField(max_length=200)
+    otherdata = models.CharField(max_length=200)
+    creativity = models.CharField(max_length=200)
+    timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
 
 class Student(models.Model):
     owner = models.ForeignKey('auth.User', on_delete=models.PROTECT)
@@ -118,10 +121,17 @@ class Student(models.Model):
         return self.title
 
 
+def get_path_(min_path):
+    letters = string.ascii_letters
+    rand_folder = ''.join(random.choice(letters) for _ in range(6))
+    folder_upload = min_path + rand_folder
+    return folder_upload
+
+
 class StudentFiles(models.Model):
     student = models.ForeignKey(Student, related_name='files',
                                 on_delete=models.PROTECT)
-    file_up = models.FileField(upload_to='web/files/')
+    file_up = models.FileField(upload_to=get_path_('web/files/'))
     timestamp = models.DateTimeField(auto_now_add=False, auto_now=True)
     mtime = models.CharField(max_length=200)
 
@@ -130,17 +140,34 @@ class StudentFiles(models.Model):
 
 
 class Files(models.Model):
-    file_up = models.FileField(upload_to='web/files/')
+    file_up = models.FileField(upload_to=get_path_('web/files/'))
 
+
+def user_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
+    return 'web/file_up_zip/{0}/{1}'.format(instance.rand_folder, filename)
 
 class Files_zip(models.Model):
-    zip_up = models.FileField(upload_to='web/files_zip/')
+    zip_up = models.FileField(upload_to=user_directory_path)
+    rand_folder = models.CharField(max_length=200)
 
 
 class Files_zips(models.Model):
-    zip_name = models.CharField(max_length=200, default='')
+    zip_name = models.CharField(max_length=200)
     student_name = models.CharField(max_length=200)
-    student_obj_zip = models.ForeignKey(Student, on_delete=models.PROTECT, default='', null=True)
+    student_obj_zip = models.ForeignKey(Student, on_delete=models.PROTECT, 
+                                        default='', null=True)
     file_name = models.CharField(max_length=200)
     project = models.CharField(max_length=200)
-    mtime = models.CharField(max_length=200, default='')
+    mtime = models.CharField(max_length=200)
+    timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
+    rand_folder = models.CharField(max_length=200)
+
+
+class Contact(models.Model):
+    email = models.EmailField()
+    subject = models.CharField(max_length=255)
+    message = models.TextField()
+
+    def __str__(self):
+        return self.email

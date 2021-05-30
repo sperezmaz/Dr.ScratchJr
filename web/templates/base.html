@@ -75,8 +75,6 @@
 							{% get_available_languages as LANGUAGES %} 
 							<form action="/i18n/setlang/" method="post">
 								{% csrf_token %} 
-								<!-- <input name="next" type="hidden" value="/" />  -->
-								{% csrf_token %} 
 								<select name="language">
 									<option value="">{% trans "Language" %}</option>
 								{% for lang in LANGUAGES %}
@@ -86,17 +84,6 @@
 								<input type="submit" value="{% trans 'Translate' %}"/> 
 							</form>
 						</li>
-						<!-- <li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
-								<i class="fas fa-globe fa-fw"></i> {% trans "Spanish" %}
-							</a>
-							<ul class="dropdown-menu dropdown-user">
-								<li><a class="dropdown-item" href=""> {% trans "English" %}</a>
-								</li>
-								<li><a class="dropdown-item" href=""></i> {% trans "Spanish" %}</a>
-								</li>
-							</ul>
-						</li> -->
 						
 						{% if user.is_authenticated %}
 							<li class="nav-item dropdown">
@@ -239,13 +226,11 @@
 			<!-- ============================================================== -->
 			<div class="container-fluid">
 				{% block content %}
-					<div class="row px-5 mx-5">
-						<div class="mx-5 text-center">
+					<div class="row justify-content-md-center">
+						<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 text-center">
 							<div class="intro-box">
-								<h1 class="text-center intro-title">{% trans "Welcome to Dr.ScratchJr" %}</h1>
+								<h1 class="intro-title">{% trans "Welcome to Dr.ScratchJr" %}</h1>
 									<br>
-									<!-- </h3 class="text-center"><strong>
-										<a href=""></a></strong></h3><br> -->
 								{% if not user.is_authenticated %}
 									<h4 class="text-justify"><strong>
 										{% blocktrans trimmed %}
@@ -283,37 +268,39 @@
 					</div>
 					{% endif %}
 					<div class="row justify-content-center">
-						<div class="col-6">
+						<div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 text-center">
 							<div class="white-box text-center">
 								<h1>{% trans "Analyze proyect" %}</h1>
-								{% blocktrans trimmed %}
-									<p>Select an existing student or write a new student:</p>
-								{% endblocktrans %}
 								<form enctype="multipart/form-data" action="albums/upload/" method="POST" id="upload-files-form"> 
 									{% csrf_token %}
 									{% if user.is_authenticated %}
-										<p> {% trans "Student: " %}<input type="text" list="items" name="name_student" autocomplete="off">
+										{% blocktrans trimmed %}
+											<p>Select an existing student or write a new student:</p>
+										{% endblocktrans %}
+										<p> {% trans "Student: " %}<input type="text" list="items" name="name_student" autocomplete="off" required>
 										<datalist id="items" name="name_student">
 										{% for student in students %}
 											<option>{{student}}</option>
 										{% endfor %}
 										</datalist>
 										</p>
+									{% else %}
+										<br>
 									{% endif %}
-									<p><i>{% trans "Upload proyect" %} SJR: </i><input type="file" name="file"></p>
+									<p><i>{% trans "Upload proyect" %} SJR: </i><input type="file" name="file" required></p>
 									<input type="submit" class="btn btn-primary" value="{% trans 'Analyze' %}">
 								</form>
 							</div>
 						</div>
-						<div class="col-6">
-							<div class="white-box text-center">
+						<div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 text-center">
+							<div class="white-box">
 								<h1>{% trans "Analyze multiple projects" %}</h1></i>
 								{% blocktrans trimmed %}
 									<p>Upload multiple zipped projects with files name <i>"ProjectName-StudentName.sjr"</i> in a single .zip file: </p>
 								{% endblocktrans %}
 								<form enctype="multipart/form-data" action="albums/upload_zip/" method="POST"> 
 									{% csrf_token %}
-									<p><i>{% trans "Upload proyect" %} ZIP: </i><input type="file" name="file"></p>
+									<p><i>{% trans "Upload proyect" %} ZIP: </i><input type="file" name="file" required></p>
 									<input type="submit" name="form" class="btn btn-primary" value="{% trans 'Analyze' %}">
 								</form>
 							</div>
@@ -347,6 +334,7 @@
 	<!-- ============================================================== -->
 	<script src="/web/static/plugins/bower_components/jquery/dist/jquery.min.js"></script>
 	<!-- Bootstrap tether Core JavaScript -->
+	<script src="/web/static/bootstrap/dist/js/bootstrap.min.js"></script>
 	<script src="/web/static/js/app-style-switcher.js"></script>
 	<script src="/web/static/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
 	<!--Wave Effects -->

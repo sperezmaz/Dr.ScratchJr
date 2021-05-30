@@ -2,12 +2,35 @@
 {% load i18n %}
 
 {% block content %}
-	<div class="row">
-        <div class="col-md-12">
-            <h1 style="color: white;" class="text-center" ><i>{% trans "Contact us" %}</i></h1>
+    <h1 style="color: white;" class="text-center" ><i>{% trans "Contact us" %}</i></h1>
+    <p class="text-center">{% trans "If you have any questions or suggestions, please feel free to write to us" %}: </p>
+    {% if message %}
+        <div class='alert alert-info'>
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
         </div>
-	</div>
-    <div class="text-center">
-        <img src="/web/static/plugins/images/construccion.jpg" alt="" width="800px" height="400px">
-    </div>    
+    {% endif %}
+    <div class="row justify-content-md-center">
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6">
+            <div class="white-box">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="id_email">{% trans "Email" %}: </label>
+                        <input class="form-control" type="email" name="email" maxlength="254" placeholder="{% trans 'name@example.com' %}" required id="id_email">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_subject">{% trans "Subject" %}: </label>
+                        <input class="form-control" type="text" name="subject" maxlength="255" required id="id_subject">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_message">{% trans "Message" %}: </label>
+                        <textarea class="form-control" name="message" cols="40" rows="2" required id="id_message"></textarea>
+                    </div>
+                    <input type="submit" value="Submit" class="btn btn-primary">
+                </form>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}

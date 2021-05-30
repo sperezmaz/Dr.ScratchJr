@@ -48,7 +48,7 @@
 												<div class="progress">
 													<div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: {% widthratio blocks|length blocks_|length 100 %}%"></div>
 												</div>
-												<a href="/results/variability/{{types}}/">{{blocks|length}}/{{blocks_|length}}</a>
+												<a href="/results/{{file_up}}/variability/{{types}}/">{{blocks|length}}/{{blocks_|length}}</a>
 											</td>
 										</tr>
 									{% endif %}
@@ -81,7 +81,7 @@
 									{% ifequal blocks|length 0 %}
 										<td>{{blocks|length}}</td>
 									{% else %}
-										<td><a href="/results/badhabits/{{types}}/">{{blocks|length}}</a></td>
+										<td><a href="/results/{{file_up}}/badhabits/{{types}}/">{{blocks|length}}</a></td>
 									{% endifequal %}
 								</tr>
 								{% endfor %}
@@ -109,7 +109,7 @@
 										{% ifequal blocks|length 0 %}
 											<td>{{blocks|length}}</td>
 										{% else %}
-											<td><a href="/results/creativity/{{types}}/">{{blocks|length}}</a></td>
+											<td><a href="/results/{{file_up}}/creativity/{{types}}/">{{blocks|length}}</a></td>
 										{% endifequal %}
 									</tr>
 								{% endfor %}
@@ -145,7 +145,7 @@
 							  {% ifequal blocks|length 0 %}
 								<td>{{blocks|length}}</td>
 							  {% else %}
-								<td><a href="/results/otherdata/{{types}}/">{{blocks|length}}</a></td>
+								<td><a href="/results/{{file_up}}/otherdata/{{types}}/">{{blocks|length}}</a></td>
 							  {% endifequal %}
 							{% endif %}
 						  </tr>
@@ -175,7 +175,7 @@
 		  <form enctype="multipart/form-data" action="" method="POST" id="upload-files-form"> 
 			  {% csrf_token %}
 			  {% if user.is_authenticated %}
-				<p> {% trans "Student: " %}<input type="text" list="items" name="name_student" autocomplete="off">
+				<p> {% trans "Student: " %}<input type="text" list="items" name="name_student" autocomplete="off" required>
 				<datalist id="items" name="name_student">
 				  {% for student in students %}
 					<option>{{student}}</option>
@@ -183,7 +183,7 @@
 				</datalist>
 				</p>
 			  {% endif %}
-			  <p> {% trans "Upload proyect: " %}<input type="file" name="file"></p>
+			  <p> {% trans "Upload proyect: " %}<input type="file" name="file" required></p>
 			  <input type="submit" class="btn btn-primary" value="{% trans 'Analyze' %}">
 		  </form>
 		</div>
