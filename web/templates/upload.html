@@ -48,7 +48,7 @@
 												<div class="progress">
 													<div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: {% widthratio blocks|length blocks_|length 100 %}%"></div>
 												</div>
-												<a href="/results/{{file_up}}/variability/{{types}}/">{{blocks|length}}/{{blocks_|length}}</a>
+												<a href="/results/{{file_up}}/{{mtime}}/variability/{{types}}/">{{blocks|length}}/{{blocks_|length}}</a>
 											</td>
 										</tr>
 									{% endif %}
@@ -81,7 +81,7 @@
 									{% ifequal blocks|length 0 %}
 										<td>{{blocks|length}}</td>
 									{% else %}
-										<td><a href="/results/{{file_up}}/badhabits/{{types}}/">{{blocks|length}}</a></td>
+										<td><a href="/results/{{file_up}}/{{mtime}}/badhabits/{{types}}/">{{blocks|length}}</a></td>
 									{% endifequal %}
 								</tr>
 								{% endfor %}
@@ -109,7 +109,7 @@
 										{% ifequal blocks|length 0 %}
 											<td>{{blocks|length}}</td>
 										{% else %}
-											<td><a href="/results/{{file_up}}/creativity/{{types}}/">{{blocks|length}}</a></td>
+											<td><a href="/results/{{file_up}}/{{mtime}}/creativity/{{types}}/">{{blocks|length}}</a></td>
 										{% endifequal %}
 									</tr>
 								{% endfor %}
@@ -145,7 +145,7 @@
 							  {% ifequal blocks|length 0 %}
 								<td>{{blocks|length}}</td>
 							  {% else %}
-								<td><a href="/results/{{file_up}}/otherdata/{{types}}/">{{blocks|length}}</a></td>
+								<td><a href="/results/{{file_up}}/{{mtime}}/otherdata/{{types}}/">{{blocks|length}}</a></td>
 							  {% endifequal %}
 							{% endif %}
 						  </tr>

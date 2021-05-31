@@ -22,7 +22,7 @@ urlpatterns = [
          name='analysis_view'),
     path('analysis2/<name>/<project>/<file_name>/<rand_folder>/',
          views.analysis2_view, name='analysis2_view'),
-    path('results/<file_name>/<type1>/<type2>/', views.results_view,
+    path('results/<file_name>/<mtime>/<type1>/<type2>/', views.results_view,
          name='results_view'),
     path('basedatos/', views.basedatos, name='basedatos'),
     path('review/', views.review_view, name='review_view'),

@@ -253,7 +253,7 @@ def extract_data(files_obj, student_obj):
     if os.path.exists(folder_file_up):
         shutil.rmtree(folder_file_up)
 
-    return (file_name, variability_dict, badhabits_dict, otherdat_dict,
+    return (file_name, mtime, variability_dict, badhabits_dict, otherdat_dict,
             creativ_dict)
 
 
@@ -771,6 +771,7 @@ def upload_files_view(request):
     form = UploadFilesGuestForm()
     message = ""
     name = ""
+    mtime = ""
     students = []
     variability_d = {}
     badhabits_d = {}
@@ -835,11 +836,11 @@ def upload_files_view(request):
                 message = _("File uploaded succesfully!")
 
                 # extract data from uploaded file
-                (name, variability_d, badhabits_d, otherdat_d, creativ_d) = \
-                    extract_data(files_obj, student_obj)
+                (name, mtime, variability_d, badhabits_d, otherdat_d,
+                 creativ_d) = extract_data(files_obj, student_obj)
 
-                save_analys(str(name), variability_d, badhabits_d, otherdat_d,
-                            creativ_d)
+                save_analys(str(name), mtime, variability_d, badhabits_d,
+                            otherdat_d, creativ_d)
 
                 # delete edited images after 1 year
                 delete_filesbytime('web/static/plugins/characters/', 365)
@@ -853,7 +854,7 @@ def upload_files_view(request):
     else:
         choose_forms()
     return render(request, 'upload.html', {'form': form, 'message': message,
-                                           'file_up': name,
+                                           'file_up': name, 'mtime': mtime,
                                            'students': students,
                                            'variability_dict': variability_d,
                                            'badhabits_dict': badhabits_d,
@@ -1038,13 +1039,15 @@ def remove_old():
     analysis_types_objs = Analysis_types.objects.all()
     for analysis_types in analysis_types_objs:
         sec_analysis = get_time(analysis_types.timestamp)
-        # delete objs after 5 min
-        seconds_anal = utc_now_sec - 300
+
+        # delete objs after 30 min
+        seconds_anal = utc_now_sec - 1800
+
         if seconds_anal >= sec_analysis:
             analysis_types.delete()
 
 
-def save_analys(file_name, variability_d, badhabits_d, otherdat_d, creativ_d):
+def save_analys(file_name, mtime, varia_d, badhabits_d, otherdat_d, creativ_d):
     """Function.
 
     Removes the dictionaries from the analysis of an old project from the
@@ -1052,13 +1055,14 @@ def save_analys(file_name, variability_d, badhabits_d, otherdat_d, creativ_d):
 
     """
     try:
-        analys_obj = Analysis_types.objects.get(file_name=file_name)
+        analys_obj = Analysis_types.objects.get(file_name=file_name,
+                                                mtime=mtime)
         analys_obj.delete()
     except ObjectDoesNotExist:
         pass
-    analys_obj = Analysis_types(file_name=file_name, variability=variability_d,
-                                badhabits=badhabits_d, otherdata=otherdat_d,
-                                creativity=creativ_d)
+    analys_obj = Analysis_types(file_name=file_name, mtime=mtime,
+                                variability=varia_d, badhabits=badhabits_d,
+                                otherdata=otherdat_d, creativity=creativ_d)
     analys_obj.save()
 
 
@@ -1076,13 +1080,14 @@ def analysis_view(request, name, name_file):
     (variab_dict, badhabit_dict, otherdat_dict, creativ_dict) = \
         extract_analysis(file_objs.mtime, student_obj, name_file)
 
-    save_analys(str(file_objs.file_up), variab_dict, badhabit_dict,
-                otherdat_dict, creativ_dict)
+    save_analys(str(file_objs.file_up), file_objs.mtime, variab_dict,
+                badhabit_dict, otherdat_dict, creativ_dict)
 
     for typess in blocksDict:
         _blocksDict[_(typess)] = blocksDict[typess]
 
     return render(request, "analysis.html", {'file_up': file_objs.file_up,
+                                             'mtime': file_objs.mtime,
                                              'variability_dict': variab_dict,
                                              'badhabits_dict': badhabit_dict,
                                              'otherdat_dict': otherdat_dict,
@@ -1114,13 +1119,14 @@ def analysis2_view(request, name, project, file_name, rand_folder):
     (variab_dict, badhabit_dict, otherdat_dict, creativ_dict) = \
         extract_analysis(files_obj.mtime, student, files_obj.project)
 
-    save_analys(files_obj.file_name, variab_dict, badhabit_dict, otherdat_dict,
-                creativ_dict)
+    save_analys(files_obj.file_name, files_obj.mtime, variab_dict,
+                badhabit_dict, otherdat_dict, creativ_dict)
 
     for typess in blocksDict:
         _blocksDict[_(typess)] = blocksDict[typess]
 
     return render(request, "analysis.html", {'file_up': files_obj.file_name,
+                                             'mtime': files_obj.mtime,
                                              'variability_dict': variab_dict,
                                              'badhabits_dict': badhabit_dict,
                                              'otherdat_dict': otherdat_dict,
@@ -1128,7 +1134,7 @@ def analysis2_view(request, name, project, file_name, rand_folder):
                                              'blocksDict': _blocksDict})
 
 
-def results_view(request, file_name, type1, type2):
+def results_view(request, file_name, mtime, type1, type2):
     """View that builds the template results.html.
 
     Adapts the saved analyses of a project in lists for the template.
@@ -1140,7 +1146,7 @@ def results_view(request, file_name, type1, type2):
     other_data = []
     creativity = []
 
-    analys_obj = Analysis_types.objects.get(file_name=file_name)
+    analys_obj = Analysis_types.objects.get(file_name=file_name, mtime=mtime)
 
     for typess in blocksDict:
         _blocksDict[_(typess)] = blocksDict[typess]
