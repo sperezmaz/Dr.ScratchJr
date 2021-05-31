@@ -105,6 +105,7 @@ class Bad_habits(models.Model):
 
 class Analysis_types(models.Model):
     file_name = models.CharField(max_length=200)
+    mtime = models.CharField(max_length=200)
     variability = models.CharField(max_length=200)
     badhabits = models.CharField(max_length=200)
     otherdata = models.CharField(max_length=200)
@@ -144,7 +145,7 @@ class Files(models.Model):
 
 
 def user_directory_path(instance, filename):
-    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
+    # file will be uploaded to MEDIA_ROOT/web/<rand_folder>/<filename>
     return 'web/file_up_zip/{0}/{1}'.format(instance.rand_folder, filename)
 
 class Files_zip(models.Model):
