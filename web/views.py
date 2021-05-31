@@ -412,6 +412,8 @@ def create_csv_user(request):
     other_data.to_excel(writer, sheet_name=_("Other_data"), index=False)
     writer.save()
 
+    shutil.copy2("web/csv/README.txt", folder_upload + user)
+
     # delete zips old (30 min)
     delete_filesbytime("web/csv", 1/48)
 
@@ -487,7 +489,7 @@ def create_csv(files_obj, name_zip, folder_upload, project_folder, is_zip):
     other_data.to_excel(writer, sheet_name=_("Other_data"), index=False)
     writer.save()
 
-    shutil.copy2("web/csv/README.TXT", folder_upload + name_zip)
+    shutil.copy2("web/csv/README.txt", folder_upload + name_zip)
 
     # delete zips old (30 min)
     delete_filesbytime("web/csv", 1/48)
@@ -997,8 +999,8 @@ def remove_old():
     utc_now_sec = datetime.strptime(utc_now, '%Y-%m-%d %H:%M:%S')
     utc_now_sec = time.mktime(utc_now_sec.timetuple())
 
-    # delete objs after 5 min
-    seconds = utc_now_sec - 300
+    # delete objs after 2h
+    seconds = utc_now_sec - 7200
 
     def get_time(timestamp):
         """Function converts date to seconds."""
@@ -1036,7 +1038,9 @@ def remove_old():
     analysis_types_objs = Analysis_types.objects.all()
     for analysis_types in analysis_types_objs:
         sec_analysis = get_time(analysis_types.timestamp)
-        if seconds >= sec_analysis:
+        # delete objs after 5 min
+        seconds_anal = utc_now_sec - 300
+        if seconds_anal >= sec_analysis:
             analysis_types.delete()
 
 
