@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block goback %}
+    <h4 style="cursor:pointer" class="page-title text-uppercase font-medium font-14" onClick="history.go(-1);">
+        <img src="/web/static/plugins/images/back.png" alt="back-icon" width="45px" height="35px"/>
+        <b style="color: white; padding-left:10px;">{% trans " Go Back" %}</b>
+    </h4>
+{% endblock %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-md-12">
+			<h1 class="text-center" style="color: white;"><i>{% trans "Bad habits" %}</i></h1>
+			<div class="white-box">
+				<div id="content">
+                    <br>
+                    <br>
+                    <div class="row justify-content-md-center">
+                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6">
+                            <div class="white-box">
+                                <h2>{% trans "Dead code" %}</h2>
+                                <p style="text-align: justify">
+                                    {% blocktrans trimmed %}
+                                        Sequences of blocks that will not be executed because they don’t start with 
+                                        an Triggering block. It is also considered dead code when a sequence starts with 
+                                        the Triggering block "Start with message" but there isn't any "Send message" 
+                                        block of the same color in the project.			
+                                    {% endblocktrans %}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6">
+                            <div class="white-box">
+                                <h2>{% trans "Sequences with adjacent blocks" %}</h2>
+                                <p style="text-align: justify">
+                                    {% blocktrans trimmed %}
+                                        Sequences that have multiple contiguous blocks that are the same. 
+                                        This is a bad habit because we should use only one block and indicate 
+                                        the number of times the action of the block is repeated.	
+                                    {% endblocktrans %}
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6">
+                            <div class="white-box">
+                                <h2>{% trans "Unfinished code" %}</h2>
+                                <p style="text-align: justify">
+                                    {% blocktrans trimmed %}
+                                        Sequences of blocks that don't end with a "End " block.			
+                                    {% endblocktrans %}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6">
+                            <div class="white-box">
+                                <h2>{% trans "Characters same name in page" %}</h2>
+                                <p style="text-align: justify">
+                                    {% blocktrans trimmed %}
+                                        Characters with the same name on a page. Even if the character 
+                                        is displayed in ScratchJr, you must name the character correctly 
+                                        when you create it so that there are no characters with the same 
+                                        name on the same page.			
+                                    {% endblocktrans %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

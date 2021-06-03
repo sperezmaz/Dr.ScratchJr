@@ -174,8 +174,8 @@ def about_view(request):
     return render(request, "about.html", {})
 
 
-def blocks_view(request):
-    """View that builds the template blocks.html."""
+def variability_view(request):
+    """View that builds the template variability.html."""
     _blocksDict = {}
 
     for typess in blocksDict:
@@ -183,7 +183,12 @@ def blocks_view(request):
             pass
         else:
             _blocksDict[_(typess)] = blocksDict[typess]
-    return render(request, "blocks.html", {'blocksDict': _blocksDict})
+    return render(request, "variability.html", {'blocksDict': _blocksDict})
+
+
+def bad_habits_view(request):
+    """View that builds the template bad_habits.html."""
+    return render(request, "bad_habits.html", {})
 
 
 def extract_data(files_obj, student_obj):
@@ -551,9 +556,11 @@ def variability_csv(variability_dict, variability_path):
 
 def bad_habits_csv(badhabits_dict, bad_habits_dict, bad_habits_path):
     """Function adapts badhabits_dict to create csv file."""
-    fieldnames = [_('Name'), _('Project name'), _('Existence bad habit'),
-                  _('Type of bad habit'), _('Page'), _('Character'),
-                  _('Sequence name'), _('Sequence')]
+    fieldnames = [_('Name'), _('Project name'), _('Type of bad habit'),
+                  _('Existence bad habit'), _('Page'), _('Character'),
+                  _('Sequence name'), _('Sequence'),
+                  _("Characters same name in page")]
+
     for clave in badhabits_dict:
         bad_habits_dict[_("Type of bad habit")] = clave
         if badhabits_dict[clave] == []:
@@ -562,36 +569,48 @@ def bad_habits_csv(badhabits_dict, bad_habits_dict, bad_habits_path):
             bad_habits_dict[_("Character")] = "----"
             bad_habits_dict[_("Sequence name")] = "----"
             bad_habits_dict[_("Sequence")] = "----"
+            bad_habits_dict[_("Characters same name in page")] = "----"
             write_csv(bad_habits_path, fieldnames, bad_habits_dict)
-        for elem in badhabits_dict[clave]:
+        elif type(badhabits_dict[clave]) is dict:
             bad_habits_dict[_("Existence bad habit")] = _("YES")
-            bad_habits_dict[_("Page")] = elem[0]
-            bad_habits_dict[_("Character")] = elem[1]
-            bad_habits_dict[_("Sequence name")] = elem[2]
-            bad_habits_dict[_("Sequence")] = elem[3]
+            bad_habits_dict[_("Page")] = "----"
+            bad_habits_dict[_("Character")] = "----"
+            bad_habits_dict[_("Sequence name")] = "----"
+            bad_habits_dict[_("Sequence")] = "----"
+            bad_habits_dict[_("Characters same name in page")] = \
+                badhabits_dict[clave]
             write_csv(bad_habits_path, fieldnames, bad_habits_dict)
+        else:   
+            for elem in badhabits_dict[clave]:
+                bad_habits_dict[_("Existence bad habit")] = _("YES")
+                bad_habits_dict[_("Page")] = elem[0]
+                bad_habits_dict[_("Character")] = elem[1]
+                bad_habits_dict[_("Sequence name")] = elem[2]
+                bad_habits_dict[_("Sequence")] = elem[3]
+                bad_habits_dict[_("Characters same name in page")] = "----"
+                write_csv(bad_habits_path, fieldnames, bad_habits_dict)
 
 
 def other_data_csv(otherdat_dict, other_data_path):
     """Function adapts otherdat_dict to create csv file."""
     fieldnames = [_('Name'), _('Project name'), _('Total pages'), _('Pages'),
-                  _('Total sprites'), _('Sprites'), _("Total texts"),
+                  _('Total characters'), _('Characters'), _("Total texts"),
                   _("Texts in pages"),
                   _('Total pages with unedited background'),
                   _('Pages with unedited background'),
-                  _('Total unedited sprites'), _('Unedited sprites'),
-                  _('Sprites in pages'), _('Sprites same name')]
+                  _('Total unedited characters'), _('Unedited characters'),
+                  _('Characters in pages')]
 
     otherdat_dict[_("Pages")] = str(otherdat_dict[_("Total pages")])
     otherdat_dict[_("Total pages")] = len(otherdat_dict[_("Total pages")])
-    otherdat_dict[_("Sprites")] = str(otherdat_dict[_("Total sprites")])
-    otherdat_dict[_("Total sprites")] = len(otherdat_dict[_("Total sprites")])
+    otherdat_dict[_("Characters")] = str(otherdat_dict[_("Total characters")])
+    otherdat_dict[_("Total characters")] = len(otherdat_dict[_("Total characters")])
     otherdat_dict[_("Texts in pages")] = str(otherdat_dict[_("Total texts")])
     otherdat_dict[_("Total texts")] = len(otherdat_dict[_("Total texts")])
     otherdat_dict[_("Total pages with unedited background")] = \
         len(otherdat_dict[_("Pages with unedited background")])
-    otherdat_dict[_("Total unedited sprites")] = \
-        len(otherdat_dict[_("Unedited sprites")])
+    otherdat_dict[_("Total unedited characters")] = \
+        len(otherdat_dict[_("Unedited characters")])
     write_csv(other_data_path, fieldnames, otherdat_dict)
 
 
@@ -737,19 +756,19 @@ def extract_analysis(mtime, student_obj, name_file):
     badhabits_dict[_("Unfinished code")] = eval(badhabits_obj.unfinishedcode)
     badhabits_dict[_("Sequences with adjacent blocks")] = \
         eval(badhabits_obj.adjacentcode)
+    badhabits_dict[_("Characters same name in page")] = \
+        eval(badhabits_obj.sprites_same_name)
 
     otherdat_dict[_("Total pages")] = eval(badhabits_obj.num_pages)
-    otherdat_dict[_("Total sprites")] = eval(badhabits_obj.sprites_tot)
+    otherdat_dict[_("Total characters")] = eval(badhabits_obj.sprites_tot)
     otherdat_dict[_("Total texts")] = eval(badhabits_obj.text_sequences)
     otherdat_dict[_("Pages with unedited background")] = \
         eval(badhabits_obj.unedited_pages)
-    otherdat_dict[_("Unedited sprites")] = eval(badhabits_obj.unedited_sprites)
-    otherdat_dict[_("Sprites in pages")] = eval(badhabits_obj.sprites_in_pages)
-    otherdat_dict[_("Sprites same name")] = \
-        eval(badhabits_obj.sprites_same_name)
+    otherdat_dict[_("Unedited characters")] = eval(badhabits_obj.unedited_sprites)
+    otherdat_dict[_("Characters in pages")] = eval(badhabits_obj.sprites_in_pages)
 
     creativ_dict[_("Edited pages")] = eval(badhabits_obj.edited_pages)
-    creativ_dict[_("Edited sprites")] = eval(badhabits_obj.edited_sprites)
+    creativ_dict[_("Edited characters")] = eval(badhabits_obj.edited_sprites)
 
     if student_obj == "Guest":
         block_analy_obj.delete()
@@ -1387,14 +1406,15 @@ def analysis(id_file, student_obj, name_file):
     sprites_objs = Sprite.objects.all()
     for sprite in sprites_objs:
         if sprite.mtime == id_file:
-            sprites_tot.append(sprite.id_name)
+            names_sprites = sprite.name_sprite + ' (' + sprite.id_name + ')'
+            sprites_tot.append(names_sprites)
 
             if len(sprite.looks) < 30:
-                unedited_sprites.append(sprite.id_name)
+                unedited_sprites.append(names_sprites)
             else:
-                if sprite.id_name not in edited_sprites:
-                    edited_sprites[sprite.id_name] = {}
-                edited_sprites[sprite.id_name] = sprite.looks
+                if names_sprites not in edited_sprites:
+                    edited_sprites[names_sprites] = {}
+                edited_sprites[names_sprites] = sprite.looks
 
             if sprite.page not in sprites_in_pages:
                 sprites_in_pages[sprite.page] = []
@@ -1408,8 +1428,8 @@ def analysis(id_file, student_obj, name_file):
             array_script = array_script[0]
             if sprite.page not in adapted_dict:
                 adapted_dict[sprite.page] = {}
-            adapted_dict[sprite.page][sprite.id_name] = {}
-            dict_sprite = adapted_dict[sprite.page][sprite.id_name]
+            adapted_dict[sprite.page][names_sprites] = {}
+            dict_sprite = adapted_dict[sprite.page][names_sprites]
             n = 0
             for sequence in array_script:
                 n = n + 1
@@ -1426,8 +1446,8 @@ def analysis(id_file, student_obj, name_file):
             if sprites_in_pages[page].count(name) > 1:
                 if page not in sprites_same_name:
                     sprites_same_name[page] = {}
-                sprites_same_name[page][name] = (sprites_in_pages[page].
-                                                 count(name))
+                sprites_same_name[page][name] = str(sprites_in_pages[page].
+                                                count(name)) + _(" occasions")
 
     total = analys_variability(adapted_dict)
 

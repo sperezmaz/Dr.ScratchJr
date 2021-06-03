@@ -84,9 +84,7 @@
 								</div>
 							</div>
 						{% endfor %}
-
 						</div>
-						<a href="/blocks/"><h3 class="text-center">{% trans "See all blocks" %}</h3></a>
 					{% elif bad_habits %}
 						<div class="table-responsive">
 						<table class="table">
@@ -146,7 +144,7 @@
 							<p class="text-center bg-info">{{elem}}</p>
 						{% endfor %}
 					{% elif creativity %}
-						<h2>{{types}}:</h2>
+						<h2>{% trans "This has been edited in name or appearance from the default" %}:</h2>
 						<br>
 						<br>
 						{% for elem, imagenes in creativity.items %}

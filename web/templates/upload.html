@@ -11,9 +11,7 @@
 		</div>
 	  {% endif %}
 	</h6>
-	{% blocktrans trimmed %}
-		<h1>Analysis:  {{file_up}}</h1>
-	{% endblocktrans %}
+	<h2> <b style="color: white">{% trans "Analysis" %}: </b> {{file_up}}</h2>
 	<div class="row">
 	  <div class="col-lg-4 col-xlg-3 col-md-12">
 		<div class="card">
@@ -23,7 +21,7 @@
 				<table class="table">
 					<thead>
 						<tr>
-							<th class="border-top-0">{% trans "# Variability (Use of blocks)" %}</th>
+							<th class="border-top-0"><a href="/variability/">{% trans "# Variability (Use of blocks)" %}</a></th>
 							<th class="border-top-0">{% trans "Level" %}</th>
 						</tr>
 					</thead>
@@ -62,7 +60,7 @@
 		  </div>
 		</div>
 	  </div>
-	  <div class="col-lg-3 col-xlg-3 col-md-12">
+	  <div class="col-lg-4 col-xlg-3 col-md-12">
 		<div class="card">
 			<div class="card-body">
 				<section>
@@ -70,19 +68,23 @@
 						<table class="table">
 							<thead>
 								<tr>
-									<th class="border-top-0">{% trans "# Bad habits" %}</th>
-									<th class="border-top-0">{% trans "Level" %}</th>
+									<th class="border-top-0"><a href="/bad_habits/">{% trans "# Bad habits" %}</a></th>
+									<th class="border-top-0">{% trans "Quantity" %}</th>
 								</tr>
 							</thead>
 							<tbody>
 								{% for types, blocks in badhabits_dict.items %}
 								<tr>
 									<td>{{types}}</td>
-									{% ifequal blocks|length 0 %}
-										<td>{{blocks|length}}</td>
-									{% else %}
-										<td><a href="/results/{{file_up}}/{{mtime}}/badhabits/{{types}}/">{{blocks|length}}</a></td>
-									{% endifequal %}
+									{% if blocks.items %}
+										<td>{{blocks}}</td>
+									{% else %}  
+										{% ifequal blocks|length 0 %}
+											<td>{{blocks|length}}</td>
+										{% else %}
+											<td><a href="/results/{{file_up}}/{{mtime}}/badhabits/{{types}}/">{{blocks|length}}</a></td>
+										{% endifequal %}
+									{% endif %}
 								</tr>
 								{% endfor %}
 							</tbody>
@@ -99,7 +101,7 @@
 							<thead>
 								<tr>
 									<th class="border-top-0">{% trans "# Creativity" %}</th>
-									<th class="border-top-0">{% trans "Level" %}</th>
+									<th class="border-top-0">{% trans "Quantity" %}</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -120,7 +122,7 @@
 			</div>
 		</div>
 	  </div>
-	  <div class="col-lg-5 col-xlg-3 col-md-12">
+	  <div class="col-lg-4 col-xlg-3 col-md-12">
 		<div class="card">
 		  <div class="card-body">
 			<section>
@@ -145,7 +147,12 @@
 							  {% ifequal blocks|length 0 %}
 								<td>{{blocks|length}}</td>
 							  {% else %}
-								<td><a href="/results/{{file_up}}/{{mtime}}/otherdata/{{types}}/">{{blocks|length}}</a></td>
+								<td>
+									<div class="tooltip_popup">
+										<a href="/results/{{file_up}}/{{mtime}}/otherdata/{{types}}/">{{blocks|length}}</a>
+										<span class="tooltiptext">{{blocks}}</span>
+									</div>
+								</td>
 							  {% endifequal %}
 							{% endif %}
 						  </tr>

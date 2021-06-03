@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-30 01:45+0200\n"
+"POT-Creation-Date: 2021-06-03 13:25+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,37 +39,92 @@ msgstr "Cuenta eliminada"
 msgid "Back to Home Pag"
 msgstr "Volver a la Pagina Principal"
 
-#: .\web\templates\analysis.html:7 .\web\templates\blocks.html:7
-#: .\web\templates\student.html:7
+#: .\web\templates\analysis.html:7 .\web\templates\bad_habits.html:7
+#: .\web\templates\student.html:7 .\web\templates\variability.html:7
 msgid " Go Back"
 msgstr " Volver"
 
-#: .\web\templates\analysis.html:12
-#, python-format
-msgid "<h1>Analysis:  \"%(file_up)s\"</h1>"
-msgstr "<h1>Análisis:  \"%(file_up)s\"</h1>"
+#: .\web\templates\analysis.html:11 .\web\templates\upload.html:14
+msgid "Analysis"
+msgstr "Análisis"
 
-#: .\web\templates\analysis.html:24 .\web\templates\upload.html:26
+#: .\web\templates\analysis.html:21 .\web\templates\upload.html:24
 msgid "# Variability (Use of blocks)"
 msgstr "# Variabilidad (Uso de bloques)"
 
-#: .\web\templates\analysis.html:25 .\web\templates\analysis.html:72
-#: .\web\templates\analysis.html:100 .\web\templates\upload.html:27
-#: .\web\templates\upload.html:74 .\web\templates\upload.html:102
+#: .\web\templates\analysis.html:22 .\web\templates\analysis.html:69
+#: .\web\templates\analysis.html:101 .\web\templates\upload.html:25
 msgid "Level"
 msgstr "Nivel"
 
-#: .\web\templates\analysis.html:71 .\web\templates\upload.html:73
+#: .\web\templates\analysis.html:68 .\web\templates\upload.html:71
 msgid "# Bad habits"
 msgstr "# Malos hábitos"
 
-#: .\web\templates\analysis.html:99 .\web\templates\upload.html:101
+#: .\web\templates\analysis.html:100 .\web\templates\upload.html:103
 msgid "# Creativity"
 msgstr "# Creatividad"
 
-#: .\web\templates\analysis.html:129 .\web\templates\upload.html:131
+#: .\web\templates\analysis.html:130 .\web\templates\upload.html:133
 msgid "# Other data"
 msgstr "# Otros datos"
+
+#: .\web\templates\bad_habits.html:14 .\web\templates\student.html:33
+msgid "Bad habits"
+msgstr "Malos hábitos"
+
+#: .\web\templates\bad_habits.html:22 .\web\views.py:755
+msgid "Dead code"
+msgstr "Código muerto"
+
+#: .\web\templates\bad_habits.html:24
+msgid ""
+"Sequences of blocks that will not be executed because they don’t start with "
+"an Triggering block. It is also considered dead code when a sequence starts "
+"with the Triggering block \"Start with message\" but there isn't any \"Send "
+"message\" block of the same color in the project."
+msgstr ""
+"Secuencias de bloques que no se van a ejecutar porque no comienzan por un "
+"bloque de Evento. También es considerado código muerto cuando una secuencia "
+"comienza por el bloque de Evento 'Comenzar con mensaje' pero no hay en el "
+"proyecto un bloque 'Enviar mensaje' del mismo color."
+
+#: .\web\templates\bad_habits.html:35 .\web\views.py:757
+msgid "Sequences with adjacent blocks"
+msgstr "Secuencias con bloques adyacentes"
+
+#: .\web\templates\bad_habits.html:37
+msgid ""
+"Sequences that have multiple contiguous blocks that are the same. This is a "
+"bad habit because we should use only one block and indicate the number of "
+"times the action of the block is repeated."
+msgstr ""
+"Secuencias que tienen bloques contiguos iguales. Es un mal habito porque se "
+"debe usar un solo bloque e indicar el número de veces que se repite la acción"
+" del bloque."
+
+#: .\web\templates\bad_habits.html:47 .\web\views.py:756
+msgid "Unfinished code"
+msgstr "Código inacabado"
+
+#: .\web\templates\bad_habits.html:49
+msgid "Sequences of blocks that don't end with a \"End \" block."
+msgstr "Secuencias de bloques que no terminan con un bloque de 'Finalización'."
+
+#: .\web\templates\bad_habits.html:57 .\web\views.py:562 .\web\views.py:572
+#: .\web\views.py:580 .\web\views.py:590 .\web\views.py:759
+msgid "Characters same name in page"
+msgstr "Personajes con mismo nombre en una página"
+
+#: .\web\templates\bad_habits.html:59
+msgid ""
+"Characters with the same name on a page. Even if the character is displayed "
+"in ScratchJr, you must name the character correctly when you create it so "
+"that there are no characters with the same name on the same page."
+msgstr ""
+"Personajes con el mismo nombre en una página. Aunque el personaje se "
+"visualice en ScratchJr, se debe nombrar correctamente el personaje al crearlo"
+" para que no haya personajes con el mismo nombre en la misma página."
 
 #: .\web\templates\base.html:79
 msgid "Language"
@@ -127,7 +182,7 @@ msgstr "Subir"
 
 #: .\web\templates\base.html:213 .\web\templates\base.html:291
 #: .\web\templates\base.html:304 .\web\templates\up_zip.html:42
-#: .\web\templates\upload.html:187
+#: .\web\templates\upload.html:194
 msgid "Analyze"
 msgstr "Analizar"
 
@@ -167,17 +222,17 @@ msgstr ""
 msgid "Analyze proyect"
 msgstr "Analizar proyecto"
 
-#: .\web\templates\base.html:277 .\web\templates\upload.html:172
+#: .\web\templates\base.html:277 .\web\templates\upload.html:179
 msgid "<p>Select an existing student or write a new student:</p>"
 msgstr ""
 "<p>Selecciona un estudiante existente o escribe un estudiante nuevo:</p>"
 
-#: .\web\templates\base.html:280 .\web\templates\upload.html:178
+#: .\web\templates\base.html:280 .\web\templates\upload.html:185
 msgid "Student: "
 msgstr "Estudiante: "
 
 #: .\web\templates\base.html:290 .\web\templates\base.html:303
-#: .\web\templates\upload.html:171
+#: .\web\templates\upload.html:178
 msgid "Upload proyect"
 msgstr "Subir proyecto"
 
@@ -192,130 +247,6 @@ msgid ""
 msgstr ""
 "<p>Sube varios proyectos comprimidos en un zip, con el nombre de los "
 "archivos <i>\"NombreProyecto-NombreEstudiante.sjr\"</i>: </p>"
-
-#: .\web\templates\blocks.html:14
-msgid "Blocks"
-msgstr "Bloques"
-
-#: .\web\templates\blocks.html:18
-msgid ""
-"<h2>The program analyzes the variety of blocks that the student uses of each "
-"type of blocks that ScratchJr provides.</h2>"
-msgstr ""
-"<h2>El programa analiza la variedad de bloques que el alumno utiliza de cada "
-"tipo de bloques proporcionados por ScratchJr.</h2>"
-
-#: .\web\templates\blocks.html:39 .\web\templates\results.html:35
-msgid "Starts the script when the Green Flag is tapped."
-msgstr "La secuencia de comandos se inicia al pulsar la bandera verde."
-
-#: .\web\templates\blocks.html:41 .\web\templates\results.html:37
-msgid "Starts the script when you tap on the character."
-msgstr "La secuencia de comandos se inicia al pulsar sobre el personaje."
-
-#: .\web\templates\blocks.html:43 .\web\templates\results.html:39
-msgid "Starts the script when the character is touched by another character."
-msgstr ""
-"La secuencia de comandos se inicia cuando otro personaje toca al personaje."
-
-#: .\web\templates\blocks.html:45 .\web\templates\results.html:41
-msgid "Starts the script whenever a message of the specified color is sent."
-msgstr ""
-"La secuencia de comandos se inicia cuando se envía un mensaje del color "
-"indicado."
-
-#: .\web\templates\blocks.html:47 .\web\templates\results.html:43
-msgid "Sends a message of the specified color."
-msgstr "Envía un mensaje del color indicado."
-
-#: .\web\templates\blocks.html:49 .\web\templates\results.html:45
-msgid "Rotates the character a specified amount. Turn 12 for a full rotation."
-msgstr ""
-"Gira el personaje la cantidad específicada. Se especifica ire 12 para una "
-"rotación completa."
-
-#: .\web\templates\blocks.html:51 .\web\templates\results.html:47
-msgid "Moves the character a specified number of grid squares up/down."
-msgstr ""
-"Mueve el personaje el número de cuadrículas indicado hacia arriba/abajo."
-
-#: .\web\templates\blocks.html:53 .\web\templates\results.html:49
-msgid "Moves the character a specified number of grid squares sideways."
-msgstr "Mueve el personaje el número de cuadrículas indicado hacia los lados."
-
-#: .\web\templates\blocks.html:55 .\web\templates\results.html:51
-msgid ""
-"Moves the character up a specified number of grid squares and then down "
-"again."
-msgstr ""
-"Mueve el personaje el número de cuadrículas indicado hacia arriba y después "
-"hacia abajo."
-
-#: .\web\templates\blocks.html:57 .\web\templates\results.html:53
-msgid ""
-"Resets the character's location to its starting position. (To set a new "
-"starting position, drag the character to the location)."
-msgstr ""
-"Vuelve a situar al personaje en la posición inicial. (Para establecer una "
-"nueva posición inicial, arrastra el personaje hasta el lugar deseado)."
-
-#: .\web\templates\blocks.html:59 .\web\templates\results.html:55
-msgid "Shows a specified message in a speech bubble above the character."
-msgstr "Aparece el mensaje indicado en un globo por encima del personaje."
-
-#: .\web\templates\blocks.html:61 .\web\templates\results.html:57
-msgid "Increases/Decreases the character's size."
-msgstr "Aumenta/Reduce el tamaño del personaje."
-
-#: .\web\templates\blocks.html:63 .\web\templates\results.html:59
-msgid "Returns the character to its default size."
-msgstr "Devuelve el personaje a su tamaño original."
-
-#: .\web\templates\blocks.html:65 .\web\templates\results.html:61
-msgid "Hide/show the character."
-msgstr "Oculta/muestra gradualmente al personaje."
-
-#: .\web\templates\blocks.html:67 .\web\templates\results.html:63
-msgid "Plays a 'Pop' Sound"
-msgstr "Reproducce el sonido 'Pop'."
-
-#: .\web\templates\blocks.html:69 .\web\templates\results.html:65
-msgid "Plays a sound recorded by the user."
-msgstr "Reproduce un sonido grabado por el usuario."
-
-#: .\web\templates\blocks.html:71 .\web\templates\results.html:67
-msgid ""
-"Pauses the script for a specified amount of time (in tenths of seconds)."
-msgstr ""
-"Pausa la secuencia de comandos durante el tiempo indicado (en décimas de "
-"segundo)."
-
-#: .\web\templates\blocks.html:73 .\web\templates\results.html:69
-msgid "Stops all the characters' scripts."
-msgstr "Detiene todas las secuencias de comandos del personaje."
-
-#: .\web\templates\blocks.html:75 .\web\templates\results.html:71
-msgid "Runs the blocks inside a specified number of times."
-msgstr "Ejecuta los bloques un número indicado de veces."
-
-#: .\web\templates\blocks.html:77 .\web\templates\results.html:73
-msgid "Changes the rate at which certain blocks are run."
-msgstr "Cambia la velocidad a la que se ejecutan determinados bloques."
-
-#: .\web\templates\blocks.html:79 .\web\templates\results.html:75
-msgid ""
-"Indicates the end of the script (but does not affect the script in any way)."
-msgstr ""
-"Indica el final de la secuencia de comandos (pero no afecta en modo alguno a "
-"la secuencia)."
-
-#: .\web\templates\blocks.html:81 .\web\templates\results.html:77
-msgid "Runs the script over and over."
-msgstr "Ejecuta la secuencia de comandos una y otra vez."
-
-#: .\web\templates\blocks.html:83 .\web\templates\results.html:79
-msgid "Changes to the specified page of the project."
-msgstr "Cambia a la página del proyecto indicada."
 
 #: .\web\templates\contactus.html:6
 msgid ""
@@ -496,30 +427,142 @@ msgstr "Detalles"
 msgid "<h2>The student hasn't used these %(types)s blocks:</h2>"
 msgstr "<h2>El alumno no ha usado estos bloques de %(types)s:</h2>"
 
-#: .\web\templates\results.html:89
-msgid "See all blocks"
-msgstr "Ver todos los bloques"
+#: .\web\templates\results.html:35 .\web\templates\variability.html:39
+msgid "Starts the script when the Green Flag is tapped."
+msgstr "La secuencia de comandos se inicia al pulsar la bandera verde."
 
-#: .\web\templates\results.html:95 .\web\views.py:548 .\web\views.py:554
-#: .\web\views.py:561
+#: .\web\templates\results.html:37 .\web\templates\variability.html:41
+msgid "Starts the script when you tap on the character."
+msgstr "La secuencia de comandos se inicia al pulsar sobre el personaje."
+
+#: .\web\templates\results.html:39 .\web\templates\variability.html:43
+msgid "Starts the script when the character is touched by another character."
+msgstr ""
+"La secuencia de comandos se inicia cuando otro personaje toca al personaje."
+
+#: .\web\templates\results.html:41 .\web\templates\variability.html:45
+msgid "Starts the script whenever a message of the specified color is sent."
+msgstr ""
+"La secuencia de comandos se inicia cuando se envía un mensaje del color "
+"indicado."
+
+#: .\web\templates\results.html:43 .\web\templates\variability.html:47
+msgid "Sends a message of the specified color."
+msgstr "Envía un mensaje del color indicado."
+
+#: .\web\templates\results.html:45 .\web\templates\variability.html:49
+msgid "Rotates the character a specified amount. Turn 12 for a full rotation."
+msgstr ""
+"Gira el personaje la cantidad específicada. Se especifica ire 12 para una "
+"rotación completa."
+
+#: .\web\templates\results.html:47 .\web\templates\variability.html:51
+msgid "Moves the character a specified number of grid squares up/down."
+msgstr ""
+"Mueve el personaje el número de cuadrículas indicado hacia arriba/abajo."
+
+#: .\web\templates\results.html:49 .\web\templates\variability.html:53
+msgid "Moves the character a specified number of grid squares sideways."
+msgstr "Mueve el personaje el número de cuadrículas indicado hacia los lados."
+
+#: .\web\templates\results.html:51 .\web\templates\variability.html:55
+msgid ""
+"Moves the character up a specified number of grid squares and then down "
+"again."
+msgstr ""
+"Mueve el personaje el número de cuadrículas indicado hacia arriba y después "
+"hacia abajo."
+
+#: .\web\templates\results.html:53 .\web\templates\variability.html:57
+msgid ""
+"Resets the character's location to its starting position. (To set a new "
+"starting position, drag the character to the location)."
+msgstr ""
+"Vuelve a situar al personaje en la posición inicial. (Para establecer una "
+"nueva posición inicial, arrastra el personaje hasta el lugar deseado)."
+
+#: .\web\templates\results.html:55 .\web\templates\variability.html:59
+msgid "Shows a specified message in a speech bubble above the character."
+msgstr "Aparece el mensaje indicado en un globo por encima del personaje."
+
+#: .\web\templates\results.html:57 .\web\templates\variability.html:61
+msgid "Increases/Decreases the character's size."
+msgstr "Aumenta/Reduce el tamaño del personaje."
+
+#: .\web\templates\results.html:59 .\web\templates\variability.html:63
+msgid "Returns the character to its default size."
+msgstr "Devuelve el personaje a su tamaño original."
+
+#: .\web\templates\results.html:61 .\web\templates\variability.html:65
+msgid "Hide/show the character."
+msgstr "Oculta/muestra gradualmente al personaje."
+
+#: .\web\templates\results.html:63 .\web\templates\variability.html:67
+msgid "Plays a 'Pop' Sound"
+msgstr "Reproducce el sonido 'Pop'."
+
+#: .\web\templates\results.html:65 .\web\templates\variability.html:69
+msgid "Plays a sound recorded by the user."
+msgstr "Reproduce un sonido grabado por el usuario."
+
+#: .\web\templates\results.html:67 .\web\templates\variability.html:71
+msgid ""
+"Pauses the script for a specified amount of time (in tenths of seconds)."
+msgstr ""
+"Pausa la secuencia de comandos durante el tiempo indicado (en décimas de "
+"segundo)."
+
+#: .\web\templates\results.html:69 .\web\templates\variability.html:73
+msgid "Stops all the characters' scripts."
+msgstr "Detiene todas las secuencias de comandos del personaje."
+
+#: .\web\templates\results.html:71 .\web\templates\variability.html:75
+msgid "Runs the blocks inside a specified number of times."
+msgstr "Ejecuta los bloques un número indicado de veces."
+
+#: .\web\templates\results.html:73 .\web\templates\variability.html:77
+msgid "Changes the rate at which certain blocks are run."
+msgstr "Cambia la velocidad a la que se ejecutan determinados bloques."
+
+#: .\web\templates\results.html:75 .\web\templates\variability.html:79
+msgid ""
+"Indicates the end of the script (but does not affect the script in any way)."
+msgstr ""
+"Indica el final de la secuencia de comandos (pero no afecta en modo alguno a "
+"la secuencia)."
+
+#: .\web\templates\results.html:77 .\web\templates\variability.html:81
+msgid "Runs the script over and over."
+msgstr "Ejecuta la secuencia de comandos una y otra vez."
+
+#: .\web\templates\results.html:79 .\web\templates\variability.html:83
+msgid "Changes to the specified page of the project."
+msgstr "Cambia a la página del proyecto indicada."
+
+#: .\web\templates\results.html:93 .\web\views.py:560 .\web\views.py:568
+#: .\web\views.py:576 .\web\views.py:586
 msgid "Page"
 msgstr "Página"
 
-#: .\web\templates\results.html:96 .\web\views.py:548 .\web\views.py:555
-#: .\web\views.py:562
+#: .\web\templates\results.html:94 .\web\views.py:560 .\web\views.py:569
+#: .\web\views.py:577 .\web\views.py:587
 msgid "Character"
 msgstr "Persoanje"
 
-#: .\web\templates\results.html:97
+#: .\web\templates\results.html:95
 msgid "Seq. Name"
 msgstr "Nombre Secuencia"
 
-#: .\web\templates\results.html:98 .\web\views.py:549 .\web\views.py:557
-#: .\web\views.py:564
+#: .\web\templates\results.html:96 .\web\views.py:561 .\web\views.py:571
+#: .\web\views.py:579 .\web\views.py:589
 msgid "Sequence"
 msgstr "Secuencia"
 
-#: .\web\templates\results.html:159
+#: .\web\templates\results.html:147
+msgid "This has been edited in name or appearance from the default"
+msgstr ""
+
+#: .\web\templates\results.html:157
 #, python-format
 msgid ""
 "\n"
@@ -531,9 +574,9 @@ msgstr ""
 "%(types)s\n"
 "        "
 
-#: .\web\templates\review.html:21 .\web\views.py:391 .\web\views.py:395
-#: .\web\views.py:399 .\web\views.py:466 .\web\views.py:470 .\web\views.py:474
-#: .\web\views.py:539 .\web\views.py:547 .\web\views.py:570
+#: .\web\templates\review.html:21 .\web\views.py:399 .\web\views.py:403
+#: .\web\views.py:407 .\web\views.py:476 .\web\views.py:480 .\web\views.py:484
+#: .\web\views.py:551 .\web\views.py:559 .\web\views.py:596
 msgid "Name"
 msgstr "Nombre"
 
@@ -583,202 +626,192 @@ msgstr "Fecha"
 msgid "# Variability(Use of blocks)"
 msgstr "# Variabilidad(Uso de bloques)"
 
-#: .\web\templates\student.html:33
-msgid "Bad habits"
-msgstr "Malos hábitos"
-
 #: .\web\templates\up_zip.html:14
 msgid "Upload multiple projects"
 msgstr "Subir varios proyectos"
 
-#: .\web\templates\upload.html:14
-#, python-format
-msgid "<h1>Analysis:  %(file_up)s</h1>"
-msgstr "<h1>Análisis:  %(file_up)s</h1>"
+#: .\web\templates\upload.html:72 .\web\templates\upload.html:104
+msgid "Quantity"
+msgstr "Cantidad"
 
-#: .\web\templates\upload.html:186
+#: .\web\templates\upload.html:193
 msgid "Upload proyect: "
 msgstr "Subir proyecto: "
 
-#: .\web\views.py:91
-msgid "Message sent!"
-msgstr ""
-
-#: .\web\views.py:392 .\web\views.py:396 .\web\views.py:400 .\web\views.py:467
-#: .\web\views.py:471 .\web\views.py:475 .\web\views.py:539 .\web\views.py:547
-#: .\web\views.py:570
-msgid "Project name"
-msgstr "Nombre del proyecto"
-
-#: .\web\views.py:407 .\web\views.py:482
+#: .\web\templates\variability.html:14 .\web\views.py:415 .\web\views.py:492
 msgid "Variability"
 msgstr "Variabilidad"
 
-#: .\web\views.py:408 .\web\views.py:483
+#: .\web\templates\variability.html:18
+msgid ""
+"<h2>The program analyzes the variety of blocks that the student uses of each "
+"type of blocks that ScratchJr provides.</h2>"
+msgstr ""
+"<h2>El programa analiza la variedad de bloques que el alumno utiliza de cada "
+"tipo de bloques proporcionados por ScratchJr.</h2>"
+
+#: .\web\views.py:166
+msgid "Message sent!"
+msgstr "¡Mensaje enviado!"
+
+#: .\web\views.py:400 .\web\views.py:404 .\web\views.py:408 .\web\views.py:477
+#: .\web\views.py:481 .\web\views.py:485 .\web\views.py:551 .\web\views.py:559
+#: .\web\views.py:596
+msgid "Project name"
+msgstr "Nombre del proyecto"
+
+#: .\web\views.py:416 .\web\views.py:493
 msgid "Bad_habits"
 msgstr "Malos_hábitos"
 
-#: .\web\views.py:409 .\web\views.py:484
+#: .\web\views.py:417 .\web\views.py:494
 msgid "Other_data"
 msgstr "Otros_datos"
 
-#: .\web\views.py:539 .\web\views.py:720 .\web\views.py:1466
+#: .\web\views.py:551 .\web\views.py:746 .\web\views.py:1493
 msgid "Triggerings"
 msgstr "Eventos"
 
-#: .\web\views.py:539 .\web\views.py:721 .\web\views.py:1467
+#: .\web\views.py:551 .\web\views.py:747 .\web\views.py:1494
 msgid "Motion"
 msgstr "Movimiento"
 
-#: .\web\views.py:540 .\web\views.py:722 .\web\views.py:1468
+#: .\web\views.py:552 .\web\views.py:748 .\web\views.py:1495
 msgid "Looks"
 msgstr "Apariencia"
 
-#: .\web\views.py:540 .\web\views.py:723 .\web\views.py:1469
+#: .\web\views.py:552 .\web\views.py:749 .\web\views.py:1496
 msgid "Control"
 msgstr "Control"
 
-#: .\web\views.py:540 .\web\views.py:724 .\web\views.py:1470
+#: .\web\views.py:552 .\web\views.py:750 .\web\views.py:1497
 msgid "Sound"
 msgstr "Sonido"
 
-#: .\web\views.py:540 .\web\views.py:725 .\web\views.py:1471
+#: .\web\views.py:552 .\web\views.py:751 .\web\views.py:1498
 msgid "Ends"
 msgstr "Finalización"
 
-#: .\web\views.py:547 .\web\views.py:553 .\web\views.py:560
-msgid "Existence bad habit"
-msgstr "Existen malos hábitos"
-
-#: .\web\views.py:548 .\web\views.py:551
+#: .\web\views.py:559 .\web\views.py:565
 msgid "Type of bad habit"
 msgstr "Tipo de mal hábito"
 
-#: .\web\views.py:549 .\web\views.py:556 .\web\views.py:563
+#: .\web\views.py:560 .\web\views.py:567 .\web\views.py:575 .\web\views.py:585
+msgid "Existence bad habit"
+msgstr "Existen malos hábitos"
+
+#: .\web\views.py:561 .\web\views.py:570 .\web\views.py:578 .\web\views.py:588
 msgid "Sequence name"
 msgstr "Nombre de la secuencia"
 
-#: .\web\views.py:553
+#: .\web\views.py:567
 msgid "NONE"
 msgstr "NO"
 
-#: .\web\views.py:560
+#: .\web\views.py:575 .\web\views.py:585
 msgid "YES"
 msgstr "SI"
 
-#: .\web\views.py:570 .\web\views.py:578 .\web\views.py:579 .\web\views.py:734
+#: .\web\views.py:596 .\web\views.py:604 .\web\views.py:605 .\web\views.py:762
 msgid "Total pages"
 msgstr "Total de páginas"
 
-#: .\web\views.py:570 .\web\views.py:578
+#: .\web\views.py:596 .\web\views.py:604
 msgid "Pages"
 msgstr "Páginas"
 
-#: .\web\views.py:571 .\web\views.py:580 .\web\views.py:581 .\web\views.py:735
-msgid "Total sprites"
+#: .\web\views.py:597 .\web\views.py:606 .\web\views.py:607 .\web\views.py:763
+msgid "Total characters"
 msgstr "Total de personajes"
 
-#: .\web\views.py:571 .\web\views.py:580
-msgid "Sprites"
-msgstr "Personajes"
+#: .\web\views.py:597 .\web\views.py:606
+msgid "Characters"
+msgstr "Persoanjes"
 
-#: .\web\views.py:571 .\web\views.py:582 .\web\views.py:583 .\web\views.py:736
+#: .\web\views.py:597 .\web\views.py:608 .\web\views.py:609 .\web\views.py:764
 msgid "Total texts"
 msgstr "Total de textos"
 
-#: .\web\views.py:572 .\web\views.py:582
+#: .\web\views.py:598 .\web\views.py:608
 msgid "Texts in pages"
 msgstr "Textos en páginas"
 
-#: .\web\views.py:573 .\web\views.py:584
+#: .\web\views.py:599 .\web\views.py:610
 msgid "Total pages with unedited background"
 msgstr "Total de páginas con fondo sin editar"
 
-#: .\web\views.py:574 .\web\views.py:585 .\web\views.py:737
+#: .\web\views.py:600 .\web\views.py:611 .\web\views.py:765
 msgid "Pages with unedited background"
 msgstr "Páginas con fondo sin editar"
 
-#: .\web\views.py:575 .\web\views.py:586
-msgid "Total unedited sprites"
+#: .\web\views.py:601 .\web\views.py:612
+msgid "Total unedited characters"
 msgstr "Total de personajes sin editar"
 
-#: .\web\views.py:575 .\web\views.py:587 .\web\views.py:739
-msgid "Unedited sprites"
+#: .\web\views.py:601 .\web\views.py:613 .\web\views.py:767
+msgid "Unedited characters"
 msgstr "Personajes sin editar"
 
-#: .\web\views.py:576 .\web\views.py:740
-msgid "Sprites in pages"
+#: .\web\views.py:602 .\web\views.py:768
+msgid "Characters in pages"
 msgstr "Personajes en páginas"
 
-#: .\web\views.py:576 .\web\views.py:741
-msgid "Sprites same name"
-msgstr "Personajes con mismo nombre"
-
-#: .\web\views.py:729
-msgid "Dead code"
-msgstr "Código muerto"
-
-#: .\web\views.py:730
-msgid "Unfinished code"
-msgstr "Código inacabado"
-
-#: .\web\views.py:731
-msgid "Sequences with adjacent blocks"
-msgstr "Secuencias con bloques adyacentes"
-
-#: .\web\views.py:744
+#: .\web\views.py:770
 msgid "Edited pages"
 msgstr "Páginas editadas"
 
-#: .\web\views.py:745
-msgid "Edited sprites"
+#: .\web\views.py:771
+msgid "Edited characters"
 msgstr "Personajes editados"
 
-#: .\web\views.py:828 .\web\views.py:883
+#: .\web\views.py:855 .\web\views.py:911
 msgid "File uploaded succesfully!"
 msgstr "¡Fichero cargado con éxito!"
 
-#: .\web\views.py:840
+#: .\web\views.py:868
 msgid "The file must have the extension .sjr!"
 msgstr "¡El archivo debe tener la extensión .sjr!"
 
-#: .\web\views.py:843 .\web\views.py:983
+#: .\web\views.py:871 .\web\views.py:1008
 msgid "Fill the required fields"
 msgstr "Rellene los campos obligatorios"
 
-#: .\web\views.py:937
+#: .\web\views.py:963
 msgid "The file must have the extension .zip!"
 msgstr "¡El archivo debe tener la extensión .zip!"
 
-#: .\web\views.py:1194
+#: .\web\views.py:1220
 msgid "Updated data!"
 msgstr "¡Datos actualizados!"
 
-#: .\web\views.py:1196
+#: .\web\views.py:1222
 msgid "Fill all data!"
 msgstr "¡Rellene todos los datos!"
 
-#: .\web\views.py:1281
+#: .\web\views.py:1307
 msgid "File delete succesfully!"
 msgstr "¡Fichero eliminado con éxito!"
 
-#: .\web\views.py:1311
+#: .\web\views.py:1337
 msgid "Error: Student's name is already used!"
 msgstr "Error: ¡El nombre del estudiante ya está en uso!"
 
-#: .\web\views.py:1317
+#: .\web\views.py:1343
 msgid "Student edit succesfully!"
 msgstr "¡Estudiante editado con éxito!"
 
-#: .\web\views.py:1333
+#: .\web\views.py:1359
 msgid "Error: The file name is already in use!"
 msgstr "Error: ¡El nombre del archivo ya está en uso!"
 
-#: .\web\views.py:1339
+#: .\web\views.py:1365
 msgid "File edit succesfully!"
 msgstr "¡Fichero editado con éxito!"
+
+#: .\web\views.py:1450
+msgid " occasions"
+msgstr " ocasiones"
 
 msgid "Projects must be named as indicated in the form description"
 msgstr ""
 "Proyectos deben estar nombrados como indica la descripción del formulario"
-
