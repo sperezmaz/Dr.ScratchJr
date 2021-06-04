@@ -144,12 +144,34 @@
 							<p class="text-center bg-info">{{elem}}</p>
 						{% endfor %}
 					{% elif creativity %}
-						<h2>{% trans "This has been edited in name or appearance from the default" %}:</h2>
-						<br>
-						<br>
 						{% for elem, imagenes in creativity.items %}
-							{{elem}}:
-							<a href="/web/static/characters/{{imagenes}}" target="_blank"><img src="/web/static/plugins/characters/{{imagenes}}" alt="expired" width="150" height="150" /></a>
+							{% if 'svg' in imagenes %}
+								{% ifequal  forloop.counter 1%}
+									<h2>{% trans "This has been edited in name or appearance from the default" %}:</h2>
+									<br>
+									<br>
+								{% endifequal %}
+								{{elem}}:
+								<a href="/web/static/plugins/creativity/{{imagenes}}" target="_blank"><img src="/web/static/plugins/creativity/{{imagenes}}" alt="expired" width="150" height="150" /></a>
+							{% else %}
+								{% ifequal  forloop.counter 1%}
+									<h2>{% trans "Sounds of the character recorded by the student" %}:</h2>
+									<br>
+									<br>
+								{% endifequal %}
+								{{elem}}:
+								{% for imagen in imagenes %}
+									{% if imagen|length > 1 %}
+										<audio controls>
+											<source src="/web/static/plugins/creativity/{{imagen}}" type="audio/wav">
+											Your browser does not support the audio element.
+										</audio>
+									{% endif %}
+								{% endfor %}
+								<br>
+								<br>
+								<br>
+							{% endif %}
 							<br>
 							<br>
 						{% endfor %}

@@ -99,8 +99,9 @@ class Bad_habits(models.Model):
     unedited_pages = models.CharField(max_length=200)
     sprites_in_pages = models.CharField(max_length=200)
     sprites_same_name = models.CharField(max_length=200)
-    edited_pages = models.CharField(max_length=200)
-    edited_sprites = models.CharField(max_length=200)
+    edited_pages = models.CharField(max_length=600)
+    edited_sprites = models.CharField(max_length=600)
+    sprites_sound_created = models.CharField(max_length=600)
 
 
 class Analysis_types(models.Model):

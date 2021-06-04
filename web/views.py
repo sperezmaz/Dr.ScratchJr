@@ -191,6 +191,20 @@ def bad_habits_view(request):
     return render(request, "bad_habits.html", {})
 
 
+def copy_files_creativity(folder_creativ, folder_proj):
+    """Function copies edited files to a creativity folder."""
+    if not os.path.exists('web/static/plugins/creativity/'):
+        os.mkdir('web/static/plugins/creativity/')
+
+    try:
+        contenidos = os.listdir(folder_proj + '/project/' + folder_creativ)
+        for elemento in contenidos:
+            shutil.copy2(folder_proj + '/project/' + folder_creativ + '/' +
+                         elemento, 'web/static/plugins/creativity/')
+    except:
+        pass
+
+
 def extract_data(files_obj, student_obj):
     """Function extracts zip, opens json.
 
@@ -212,16 +226,9 @@ def extract_data(files_obj, student_obj):
     if os.path.exists(str(files_obj.file_up)):
         remove(str(files_obj.file_up))
 
-    # copy edited files to characters folder
-    if not os.path.exists("web/static/plugins/characters/"):
-        os.mkdir('web/static/plugins/characters/')
-    try:
-        contenidos = os.listdir(folder_proj + '/project/characters')
-        for elemento in contenidos:
-            shutil.copy2(folder_proj + '/project/characters/' + elemento,
-                         'web/static/plugins/characters/')
-    except:
-        pass
+    copy_files_creativity("characters", folder_proj)
+    copy_files_creativity("backgrounds", folder_proj)
+    copy_files_creativity("sounds", folder_proj)
 
     # extract data from json
     with open(folder_proj + '/project/data.json', encoding="utf8") as file:
@@ -253,7 +260,8 @@ def extract_data(files_obj, student_obj):
         # extracts analyzed data
         (variability_dict, badhabits_dict, otherdat_dict, creativ_dict) = \
             extract_analysis(mtime, student_obj, file_name)
-
+        print("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkcreativ_dict")
+        print(creativ_dict)
     # delete uploaded folder
     if os.path.exists(folder_file_up):
         shutil.rmtree(folder_file_up)
@@ -268,17 +276,9 @@ def open_projects_in_zip(request, files_obj, path_folder):
     Stores the analyzed data if no data exists.
 
     """
-    # copy edited files to characters folder
-    if not os.path.exists("web/static/plugins/characters/"):
-        os.mkdir('web/static/plugins/characters/')
-    try:
-        path_characters = path_folder + '/project/characters'
-        contenidos = os.listdir(path_characters)
-        for elemento in contenidos:
-            shutil.copy2(path_characters + '/' + elemento,
-                         'web/static/plugins/characters/')
-    except:
-        pass
+    copy_files_creativity("characters", path_folder)
+    copy_files_creativity("backgrounds", path_folder)
+    copy_files_creativity("sounds", path_folder)
 
     with open(path_folder + '/project/data.json',
               encoding="utf8") as file:
@@ -580,7 +580,7 @@ def bad_habits_csv(badhabits_dict, bad_habits_dict, bad_habits_path):
             bad_habits_dict[_("Characters same name in page")] = \
                 badhabits_dict[clave]
             write_csv(bad_habits_path, fieldnames, bad_habits_dict)
-        else:   
+        else:
             for elem in badhabits_dict[clave]:
                 bad_habits_dict[_("Existence bad habit")] = _("YES")
                 bad_habits_dict[_("Page")] = elem[0]
@@ -604,7 +604,8 @@ def other_data_csv(otherdat_dict, other_data_path):
     otherdat_dict[_("Pages")] = str(otherdat_dict[_("Total pages")])
     otherdat_dict[_("Total pages")] = len(otherdat_dict[_("Total pages")])
     otherdat_dict[_("Characters")] = str(otherdat_dict[_("Total characters")])
-    otherdat_dict[_("Total characters")] = len(otherdat_dict[_("Total characters")])
+    otherdat_dict[_("Total characters")] = \
+        len(otherdat_dict[_("Total characters")])
     otherdat_dict[_("Texts in pages")] = str(otherdat_dict[_("Total texts")])
     otherdat_dict[_("Total texts")] = len(otherdat_dict[_("Total texts")])
     otherdat_dict[_("Total pages with unedited background")] = \
@@ -764,11 +765,15 @@ def extract_analysis(mtime, student_obj, name_file):
     otherdat_dict[_("Total texts")] = eval(badhabits_obj.text_sequences)
     otherdat_dict[_("Pages with unedited background")] = \
         eval(badhabits_obj.unedited_pages)
-    otherdat_dict[_("Unedited characters")] = eval(badhabits_obj.unedited_sprites)
-    otherdat_dict[_("Characters in pages")] = eval(badhabits_obj.sprites_in_pages)
+    otherdat_dict[_("Unedited characters")] = \
+        eval(badhabits_obj.unedited_sprites)
+    otherdat_dict[_("Characters in pages")] = \
+        eval(badhabits_obj.sprites_in_pages)
 
     creativ_dict[_("Edited pages")] = eval(badhabits_obj.edited_pages)
     creativ_dict[_("Edited characters")] = eval(badhabits_obj.edited_sprites)
+    creativ_dict[_("Sounds created")] = \
+        eval(badhabits_obj.sprites_sound_created)
 
     if student_obj == "Guest":
         block_analy_obj.delete()
@@ -861,8 +866,15 @@ def upload_files_view(request):
                 save_analys(str(name), mtime, variability_d, badhabits_d,
                             otherdat_d, creativ_d)
 
+                character_sounds = creativ_d[_('Sounds created')]
+                list_sounds = []
+                for sounds in character_sounds.values():
+                    for sound_elem in sounds:
+                        list_sounds.append(sound_elem)
+                creativ_d[_('Sounds created')] = list_sounds
+
                 # delete edited images after 1 year
-                delete_filesbytime('web/static/plugins/characters/', 365)
+                delete_filesbytime('web/static/plugins/creativity/', 365)
 
             elif str(request.FILES['file']).find(".sjr") == -1:
                 message = _("The file must have the extension .sjr!")
@@ -1102,6 +1114,13 @@ def analysis_view(request, name, name_file):
     save_analys(str(file_objs.file_up), file_objs.mtime, variab_dict,
                 badhabit_dict, otherdat_dict, creativ_dict)
 
+    character_sounds = creativ_dict[_('Sounds created')]
+    list_sounds = []
+    for sounds in character_sounds.values():
+        for sound_elem in sounds:
+            list_sounds.append(sound_elem)
+    creativ_dict[_('Sounds created')] = list_sounds
+
     for typess in blocksDict:
         _blocksDict[_(typess)] = blocksDict[typess]
 
@@ -1140,6 +1159,13 @@ def analysis2_view(request, name, project, file_name, rand_folder):
 
     save_analys(files_obj.file_name, files_obj.mtime, variab_dict,
                 badhabit_dict, otherdat_dict, creativ_dict)
+
+    character_sounds = creativ_dict[_('Sounds created')]
+    list_sounds = []
+    for sounds in character_sounds.values():
+        for sound_elem in sounds:
+            list_sounds.append(sound_elem)
+    creativ_dict[_('Sounds created')] = list_sounds
 
     for typess in blocksDict:
         _blocksDict[_(typess)] = blocksDict[typess]
@@ -1378,6 +1404,7 @@ def analysis(id_file, student_obj, name_file):
     unedited_pages = []
     edited_pages = {}
     edited_sprites = {}
+    sprites_sound_created = {}
     unedited_sprites = []
     sprites_in_pages = {}
     sprites_same_name = {}
@@ -1415,6 +1442,13 @@ def analysis(id_file, student_obj, name_file):
                 if names_sprites not in edited_sprites:
                     edited_sprites[names_sprites] = {}
                 edited_sprites[names_sprites] = sprite.looks
+            sounds = eval(sprite.sounds)
+
+            for sound_elem in sounds:
+                if len(sound_elem) >= 30:
+                    if names_sprites not in sprites_sound_created:
+                        sprites_sound_created[names_sprites] = []
+                    sprites_sound_created[names_sprites].append(sound_elem)
 
             if sprite.page not in sprites_in_pages:
                 sprites_in_pages[sprite.page] = []
@@ -1443,11 +1477,11 @@ def analysis(id_file, student_obj, name_file):
 
     for page in sprites_in_pages:
         for name in sprites_in_pages[page]:
-            if sprites_in_pages[page].count(name) > 1:
+            count_ = sprites_in_pages[page].count(name)
+            if count_ > 1:
                 if page not in sprites_same_name:
                     sprites_same_name[page] = {}
-                sprites_same_name[page][name] = str(sprites_in_pages[page].
-                                                count(name)) + _(" occasions")
+                sprites_same_name[page][name] = str(count_) + _(" occasions")
 
     total = analys_variability(adapted_dict)
 
@@ -1471,7 +1505,8 @@ def analysis(id_file, student_obj, name_file):
                                 sprites_in_pages=sprites_in_pages,
                                 sprites_same_name=sprites_same_name,
                                 edited_pages=edited_pages,
-                                edited_sprites=edited_sprites)
+                                edited_sprites=edited_sprites,
+                                sprites_sound_created=sprites_sound_created)
     bad_habits_obj.save()
 
     # delete json data
