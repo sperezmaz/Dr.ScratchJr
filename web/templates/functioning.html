@@ -2,13 +2,72 @@
 {% load i18n %}
 
 {% block content %}
-	<div class="row justify-content-md-center">
+    <h1 style="color: white;" class="text-center" ><i>{% trans "Functioning" %}</i></h1>
+    <br>
+	<div class="row">
         <div class="col-md-12">
-            <h1 style="color: white;" class="text-center" ><i>{% trans "Functioning" %}</i></h1>
+            <div class="left-image-post">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="left-image">
+                            <div class="embed-responsive embed-responsive-16by9">
+                                <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/wAnI3-UCVCs" frameborder="0" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-center mt-5">
+                            <h2>{% trans "No registration required" %}</h2>
+                            {% if not user.is_authenticated %}
+                                <p>{% trans "Analyze a project without the need to register." %}</p>
+                                <div class="white-button">
+                                    <a href="/albums/upload/" class="btn btn-danger waves-effect waves-light">{% trans "Analyze" %}</a>
+                                </div>
+							{% else %}
+                                <p>
+                                    {% blocktrans trimmed %}
+                                        If you want to analyze projects without storing the results, you must log out.
+                                    {% endblocktrans %}
+                                </p>
+                                <div class="white-button text-center">
+                                    <a href="{% url 'logout' %}" class="btn btn-danger waves-effect waves-light">{% trans "Logout" %}</a>
+                                </div>
+                            {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="right-image-post">
+                <div class="row">
+                    <div class="col-md-6 text-center mt-5">
+                            <h2 class="text-center">{% trans "Control of students" %}</h2>
+                            {% if not user.is_authenticated %}
+                                <p>
+                                    {% blocktrans trimmed %}
+                                        If you want to keep track of your students and the results of all their projects, just log in.
+                                    {% endblocktrans %}
+                                </p>
+                                <div class="white-button text-center">
+                                    <a href="{% url 'login' %}" class="btn btn-danger waves-effect waves-light">{% trans "Login" %}</a>
+                                </div>
+							{% else %}
+                                <p>
+                                    {% blocktrans trimmed %}
+                                        If you have previously uploaded a project, you can view it again in the <a href="/review/"><i>Students</i></a> section.
+										If not, upload a project now directly here
+									{% endblocktrans %}
+                                </p>
+                                <div class="white-button text-center">
+								    <a href="/albums/upload/" class="btn btn-danger waves-effect waves-light">{% trans "Upload" %}</a>
+							    </div>
+                            {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/ZXXOl7qqiMw" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-            <img src="/web/static/plugins/images/construccion.jpg" alt="" width="800px" height="400px">
-        </div>
-	</div>
+	</div>	 
     
 {% endblock %}

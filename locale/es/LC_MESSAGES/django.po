@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-04 17:21+0200\n"
+"POT-Creation-Date: 2021-06-09 12:49+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -111,8 +111,8 @@ msgstr "Código inacabado"
 msgid "Sequences of blocks that don't end with a \"End \" block."
 msgstr "Secuencias de bloques que no terminan con un bloque de 'Finalización'."
 
-#: .\web\templates\bad_habits.html:57 .\web\views.py:563 .\web\views.py:573
-#: .\web\views.py:581 .\web\views.py:591 .\web\views.py:760
+#: .\web\templates\bad_habits.html:57 .\web\views.py:562 .\web\views.py:572
+#: .\web\views.py:580 .\web\views.py:590 .\web\views.py:760
 msgid "Characters same name in page"
 msgstr "Personajes con mismo nombre en una página"
 
@@ -168,7 +168,7 @@ msgstr "Perfil"
 msgid "Settings"
 msgstr "Ajustes"
 
-#: .\web\templates\base.html:161 .\web\templates\functioning.html:7
+#: .\web\templates\base.html:161 .\web\templates\functioning.html:5
 msgid "Functioning"
 msgstr "Funcionalidad"
 
@@ -176,13 +176,13 @@ msgstr "Funcionalidad"
 msgid "Contact us"
 msgstr "Contactanos"
 
-#: .\web\templates\base.html:180
+#: .\web\templates\base.html:180 .\web\templates\functioning.html:59
 msgid "Upload"
 msgstr "Subir"
 
 #: .\web\templates\base.html:213 .\web\templates\base.html:291
-#: .\web\templates\base.html:304 .\web\templates\up_zip.html:42
-#: .\web\templates\upload.html:194
+#: .\web\templates\base.html:304 .\web\templates\functioning.html:23
+#: .\web\templates\up_zip.html:42 .\web\templates\upload.html:194
 msgid "Analyze"
 msgstr "Analizar"
 
@@ -310,6 +310,53 @@ msgstr "Ya estás registrado. Se envió el correo electrónico de activación."
 msgid "Submit"
 msgstr "Submit"
 
+#: .\web\templates\functioning.html:19
+msgid "No registration required"
+msgstr "Sin necesidad de registro"
+
+#: .\web\templates\functioning.html:21
+msgid "Analyze a project without the need to register."
+msgstr "Analiza un proyecto sin tener que registrarse."
+
+#: .\web\templates\functioning.html:27
+msgid ""
+"If you want to analyze projects without storing the results, you must log "
+"out."
+msgstr ""
+"Si quieres analizar proyectos sin almacenar los resultados, debes cerrar "
+"sesión."
+
+#: .\web\templates\functioning.html:32
+msgid "Logout"
+msgstr "Cerrar sesión"
+
+#: .\web\templates\functioning.html:41
+msgid "Control of students"
+msgstr "Control de los estudiantes"
+
+#: .\web\templates\functioning.html:44
+msgid ""
+"If you want to keep track of your students and the results of all their "
+"projects, just log in."
+msgstr ""
+"Si quires llevar un seguimiento de tus alumnos y de los resultados de todos "
+"sus proyectos, tan solo tienes que iniciar sesión."
+
+#: .\web\templates\functioning.html:49
+#: .\web\templates\registration_web\login.html:9
+msgid "Login"
+msgstr "Iniciar sesion"
+
+#: .\web\templates\functioning.html:53
+msgid ""
+"If you have previously uploaded a project, you can view it again in the <a "
+"href=\"/review/\"><i>Students</i></a> section. If not, upload a project now "
+"directly here"
+msgstr ""
+"Si has subido un proyecto anteriormente, puedes volver a verlo en la sección "
+"<a href=\"/review/\"><i>Estudiantes</i></a>. Si no, sube un proyecto ahora "
+"directamente aquí"
+
 #: .\web\templates\profile.html:26
 #, python-format
 msgid "<h2>Students: %(students)s</h2>"
@@ -330,10 +377,6 @@ msgstr "Nombre de usuario"
 #: .\web\templates\profile.html:65
 msgid "Update Profile"
 msgstr "Actualizar Perfil"
-
-#: .\web\templates\registration_web\login.html:9
-msgid "Login"
-msgstr "Iniciar sesion"
 
 #: .\web\templates\registration_web\login.html:20
 msgid "Forgot password"
@@ -539,13 +582,13 @@ msgstr "Ejecuta la secuencia de comandos una y otra vez."
 msgid "Changes to the specified page of the project."
 msgstr "Cambia a la página del proyecto indicada."
 
-#: .\web\templates\results.html:93 .\web\views.py:561 .\web\views.py:569
-#: .\web\views.py:577 .\web\views.py:587
+#: .\web\templates\results.html:93 .\web\views.py:560 .\web\views.py:568
+#: .\web\views.py:576 .\web\views.py:586
 msgid "Page"
 msgstr "Página"
 
-#: .\web\templates\results.html:94 .\web\views.py:561 .\web\views.py:570
-#: .\web\views.py:578 .\web\views.py:588
+#: .\web\templates\results.html:94 .\web\views.py:560 .\web\views.py:569
+#: .\web\views.py:577 .\web\views.py:587
 msgid "Character"
 msgstr "Persoanje"
 
@@ -553,8 +596,8 @@ msgstr "Persoanje"
 msgid "Seq. Name"
 msgstr "Nombre Secuencia"
 
-#: .\web\templates\results.html:96 .\web\views.py:562 .\web\views.py:572
-#: .\web\views.py:580 .\web\views.py:590
+#: .\web\templates\results.html:96 .\web\views.py:561 .\web\views.py:571
+#: .\web\views.py:579 .\web\views.py:589
 msgid "Sequence"
 msgstr "Secuencia"
 
@@ -578,9 +621,9 @@ msgstr ""
 "%(types)s\n"
 "        "
 
-#: .\web\templates\review.html:21 .\web\views.py:400 .\web\views.py:404
-#: .\web\views.py:408 .\web\views.py:477 .\web\views.py:481 .\web\views.py:485
-#: .\web\views.py:552 .\web\views.py:560 .\web\views.py:597
+#: .\web\templates\review.html:21 .\web\views.py:399 .\web\views.py:403
+#: .\web\views.py:407 .\web\views.py:476 .\web\views.py:480 .\web\views.py:484
+#: .\web\views.py:551 .\web\views.py:559 .\web\views.py:596
 msgid "Name"
 msgstr "Nombre"
 
@@ -642,7 +685,7 @@ msgstr "Cantidad"
 msgid "Upload proyect: "
 msgstr "Subir proyecto: "
 
-#: .\web\templates\variability.html:14 .\web\views.py:416 .\web\views.py:493
+#: .\web\templates\variability.html:14 .\web\views.py:415 .\web\views.py:492
 msgid "Variability"
 msgstr "Variabilidad"
 
@@ -658,165 +701,167 @@ msgstr ""
 msgid "Message sent!"
 msgstr "¡Mensaje enviado!"
 
-#: .\web\views.py:401 .\web\views.py:405 .\web\views.py:409 .\web\views.py:478
-#: .\web\views.py:482 .\web\views.py:486 .\web\views.py:552 .\web\views.py:560
-#: .\web\views.py:597
+#: .\web\views.py:400 .\web\views.py:404 .\web\views.py:408 .\web\views.py:477
+#: .\web\views.py:481 .\web\views.py:485 .\web\views.py:551 .\web\views.py:559
+#: .\web\views.py:596
 msgid "Project name"
 msgstr "Nombre del proyecto"
 
-#: .\web\views.py:417 .\web\views.py:494
+#: .\web\views.py:416 .\web\views.py:493
 msgid "Bad_habits"
 msgstr "Malos_hábitos"
 
-#: .\web\views.py:418 .\web\views.py:495
+#: .\web\views.py:417 .\web\views.py:494
 msgid "Other_data"
 msgstr "Otros_datos"
 
-#: .\web\views.py:552 .\web\views.py:747 .\web\views.py:1511
+#: .\web\views.py:551 .\web\views.py:747 .\web\views.py:1528
 msgid "Triggerings"
 msgstr "Eventos"
 
-#: .\web\views.py:552 .\web\views.py:748 .\web\views.py:1512
+#: .\web\views.py:551 .\web\views.py:748 .\web\views.py:1529
 msgid "Motion"
 msgstr "Movimiento"
 
-#: .\web\views.py:553 .\web\views.py:749 .\web\views.py:1513
+#: .\web\views.py:552 .\web\views.py:749 .\web\views.py:1530
 msgid "Looks"
 msgstr "Apariencia"
 
-#: .\web\views.py:553 .\web\views.py:750 .\web\views.py:1514
+#: .\web\views.py:552 .\web\views.py:750 .\web\views.py:1531
 msgid "Control"
 msgstr "Control"
 
-#: .\web\views.py:553 .\web\views.py:751 .\web\views.py:1515
+#: .\web\views.py:552 .\web\views.py:751 .\web\views.py:1532
 msgid "Sound"
 msgstr "Sonido"
 
-#: .\web\views.py:553 .\web\views.py:752 .\web\views.py:1516
+#: .\web\views.py:552 .\web\views.py:752 .\web\views.py:1533
 msgid "Ends"
 msgstr "Finalización"
 
-#: .\web\views.py:560 .\web\views.py:566
+#: .\web\views.py:559 .\web\views.py:565
 msgid "Type of bad habit"
 msgstr "Tipo de mal hábito"
 
-#: .\web\views.py:561 .\web\views.py:568 .\web\views.py:576 .\web\views.py:586
+#: .\web\views.py:560 .\web\views.py:567 .\web\views.py:575 .\web\views.py:585
 msgid "Existence bad habit"
 msgstr "Existen malos hábitos"
 
-#: .\web\views.py:562 .\web\views.py:571 .\web\views.py:579 .\web\views.py:589
+#: .\web\views.py:561 .\web\views.py:570 .\web\views.py:578 .\web\views.py:588
 msgid "Sequence name"
 msgstr "Nombre de la secuencia"
 
-#: .\web\views.py:568
+#: .\web\views.py:567
 msgid "NONE"
 msgstr "NO"
 
-#: .\web\views.py:576 .\web\views.py:586
+#: .\web\views.py:575 .\web\views.py:585
 msgid "YES"
 msgstr "SI"
 
-#: .\web\views.py:597 .\web\views.py:605 .\web\views.py:606 .\web\views.py:763
+#: .\web\views.py:596 .\web\views.py:604 .\web\views.py:605 .\web\views.py:763
 msgid "Total pages"
 msgstr "Total de páginas"
 
-#: .\web\views.py:597 .\web\views.py:605
+#: .\web\views.py:596 .\web\views.py:604
 msgid "Pages"
 msgstr "Páginas"
 
-#: .\web\views.py:598 .\web\views.py:607 .\web\views.py:608 .\web\views.py:764
+#: .\web\views.py:597 .\web\views.py:606 .\web\views.py:607 .\web\views.py:608
+#: .\web\views.py:764
 msgid "Total characters"
 msgstr "Total de personajes"
 
-#: .\web\views.py:598 .\web\views.py:607
+#: .\web\views.py:597 .\web\views.py:606
 msgid "Characters"
 msgstr "Persoanjes"
 
-#: .\web\views.py:598 .\web\views.py:609 .\web\views.py:610 .\web\views.py:765
+#: .\web\views.py:597 .\web\views.py:609 .\web\views.py:610 .\web\views.py:765
 msgid "Total texts"
 msgstr "Total de textos"
 
-#: .\web\views.py:599 .\web\views.py:609
+#: .\web\views.py:598 .\web\views.py:609
 msgid "Texts in pages"
 msgstr "Textos en páginas"
 
-#: .\web\views.py:600 .\web\views.py:611
+#: .\web\views.py:599 .\web\views.py:611
 msgid "Total pages with unedited background"
 msgstr "Total de páginas con fondo sin editar"
 
-#: .\web\views.py:601 .\web\views.py:612 .\web\views.py:766
+#: .\web\views.py:600 .\web\views.py:612 .\web\views.py:766
 msgid "Pages with unedited background"
 msgstr "Páginas con fondo sin editar"
 
-#: .\web\views.py:602 .\web\views.py:613
+#: .\web\views.py:601 .\web\views.py:613
 msgid "Total unedited characters"
 msgstr "Total de personajes sin editar"
 
-#: .\web\views.py:602 .\web\views.py:614 .\web\views.py:768
+#: .\web\views.py:601 .\web\views.py:614 .\web\views.py:768
 msgid "Unedited characters"
 msgstr "Personajes sin editar"
 
-#: .\web\views.py:603 .\web\views.py:769
+#: .\web\views.py:602 .\web\views.py:770
 msgid "Characters in pages"
 msgstr "Personajes en páginas"
 
-#: .\web\views.py:771
+#: .\web\views.py:773
 msgid "Edited pages"
 msgstr "Páginas editadas"
 
-#: .\web\views.py:772
+#: .\web\views.py:774
 msgid "Edited characters"
 msgstr "Personajes editados"
 
-#: .\web\views.py:773 .\web\views.py:867 .\web\views.py:872
+#: .\web\views.py:775 .\web\views.py:869 .\web\views.py:874 .\web\views.py:1117
+#: .\web\views.py:1122 .\web\views.py:1163 .\web\views.py:1168
 msgid "Sounds created"
 msgstr "Sonidos creados"
 
-#: .\web\views.py:858 .\web\views.py:920
+#: .\web\views.py:860 .\web\views.py:923
 msgid "File uploaded succesfully!"
 msgstr "¡Fichero cargado con éxito!"
 
-#: .\web\views.py:877
+#: .\web\views.py:880
 msgid "The file must have the extension .sjr!"
 msgstr "¡El archivo debe tener la extensión .sjr!"
 
-#: .\web\views.py:880 .\web\views.py:1017
+#: .\web\views.py:883 .\web\views.py:1020
 msgid "Fill the required fields"
 msgstr "Rellene los campos obligatorios"
 
-#: .\web\views.py:972
+#: .\web\views.py:975
 msgid "The file must have the extension .zip!"
 msgstr "¡El archivo debe tener la extensión .zip!"
 
-#: .\web\views.py:1229
+#: .\web\views.py:1246
 msgid "Updated data!"
 msgstr "¡Datos actualizados!"
 
-#: .\web\views.py:1231
+#: .\web\views.py:1248
 msgid "Fill all data!"
 msgstr "¡Rellene todos los datos!"
 
-#: .\web\views.py:1316
+#: .\web\views.py:1333
 msgid "File delete succesfully!"
 msgstr "¡Fichero eliminado con éxito!"
 
-#: .\web\views.py:1346
+#: .\web\views.py:1363
 msgid "Error: Student's name is already used!"
 msgstr "Error: ¡El nombre del estudiante ya está en uso!"
 
-#: .\web\views.py:1352
+#: .\web\views.py:1369
 msgid "Student edit succesfully!"
 msgstr "¡Estudiante editado con éxito!"
 
-#: .\web\views.py:1368
+#: .\web\views.py:1385
 msgid "Error: The file name is already in use!"
 msgstr "Error: ¡El nombre del archivo ya está en uso!"
 
-#: .\web\views.py:1374
+#: .\web\views.py:1391
 msgid "File edit succesfully!"
 msgstr "¡Fichero editado con éxito!"
 
-#: .\web\views.py:1467
+#: .\web\views.py:1484
 msgid " occasions"
 msgstr " ocasiones"
 
