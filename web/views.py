@@ -563,7 +563,7 @@ def bad_habits_csv(badhabits_dict, bad_habits_dict, bad_habits_path):
 
     for clave in badhabits_dict:
         bad_habits_dict[_("Type of bad habit")] = clave
-        if badhabits_dict[clave] == []:
+        if badhabits_dict[clave] == [] or badhabits_dict[clave] == {}:
             bad_habits_dict[_("Existence bad habit")] = _("NONE")
             bad_habits_dict[_("Page")] = "----"
             bad_habits_dict[_("Character")] = "----"
@@ -572,14 +572,14 @@ def bad_habits_csv(badhabits_dict, bad_habits_dict, bad_habits_path):
             bad_habits_dict[_("Characters same name in page")] = "----"
             write_csv(bad_habits_path, fieldnames, bad_habits_dict)
         elif type(badhabits_dict[clave]) is dict:
-            bad_habits_dict[_("Existence bad habit")] = _("YES")
-            bad_habits_dict[_("Page")] = "----"
-            bad_habits_dict[_("Character")] = "----"
-            bad_habits_dict[_("Sequence name")] = "----"
-            bad_habits_dict[_("Sequence")] = "----"
-            bad_habits_dict[_("Characters same name in page")] = \
-                badhabits_dict[clave]
-            write_csv(bad_habits_path, fieldnames, bad_habits_dict)
+                bad_habits_dict[_("Existence bad habit")] = _("YES")
+                bad_habits_dict[_("Page")] = "----"
+                bad_habits_dict[_("Character")] = "----"
+                bad_habits_dict[_("Sequence name")] = "----"
+                bad_habits_dict[_("Sequence")] = "----"
+                bad_habits_dict[_("Characters same name in page")] = \
+                    badhabits_dict[clave]
+                write_csv(bad_habits_path, fieldnames, bad_habits_dict)
         else:
             for elem in badhabits_dict[clave]:
                 bad_habits_dict[_("Existence bad habit")] = _("YES")
