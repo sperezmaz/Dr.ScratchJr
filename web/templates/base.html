@@ -102,7 +102,7 @@
 							</li>
 						{% else %}
 							<li class="nav-item">
-								<a class="nav-link" href="{% url 'login' %}">{% trans "Log in" %}</a>
+								<a style="display:inline" class="nav-link" href="{% url 'login' %}">{% trans "Log in" %}</a>
 							</li>
 						{% endif %}
 					</ul>
@@ -277,7 +277,7 @@
 										{% blocktrans trimmed %}
 											<p>Select an existing student or write a new student:</p>
 										{% endblocktrans %}
-										<p> {% trans "Student: " %}<input type="text" list="items" name="name_student" autocomplete="off" required>
+										<p> {% trans "Student: " %}<input id="student_input" type="text" list="items" name="name_student" autocomplete="off" required>
 										<datalist id="items" name="name_student">
 										{% for student in students %}
 											<option>{{student}}</option>
@@ -287,8 +287,9 @@
 									{% else %}
 										<br>
 									{% endif %}
-									<p><i>{% trans "Upload proyect" %} SJR: </i><input type="file" name="file" required></p>
-									<input type="submit" class="btn btn-primary" value="{% trans 'Analyze' %}">
+									<p><i>{% trans "Upload proyect" %} SJR: </i><input id="file1_input" type="file" name="file" required></p>
+									<input type="submit" class="btn btn-primary" value="{% trans 'Analyze' %}" id="btn_1" onclick="show_load('btn_1', 'btn_load1', 'file1_input', 'student_input')">
+									<button id="btn_load1" type="button" class="spinner-border" style="display: none;"></button>
 								</form>
 							</div>
 						</div>
@@ -300,8 +301,9 @@
 								{% endblocktrans %}
 								<form enctype="multipart/form-data" action="albums/upload_zip/" method="POST"> 
 									{% csrf_token %}
-									<p><i>{% trans "Upload proyect" %} ZIP: </i><input type="file" name="file" required></p>
-									<input type="submit" name="form" class="btn btn-primary" value="{% trans 'Analyze' %}">
+									<p><i>{% trans "Upload proyect" %} ZIP: </i><input id="file2_input" type="file" name="file" required></p>
+									<input type="submit" name="form" class="btn btn-primary" value="{% trans 'Analyze' %}" id="btn_2" onclick="show_load('btn_2', 'btn_load2', 'file2_input')">
+									<button id="btn_load2" type="button" class="spinner-border" style="display: none;"></button>
 								</form>
 							</div>
 						</div>
@@ -363,6 +365,34 @@
 				window.location.assign(path + "/" + edited_name)
 			}
 		}
+		function show_load(btn_click, btn_load, file_input = true, student_input = true){
+			var btn_click = document.getElementById(btn_click);
+			var btn_load = document.getElementById(btn_load);
+			const file_inp = document.getElementById(file_input);
+			const student_inp = document.getElementById(student_input);
+
+			if ((file_input === true) && (student_input === true)){
+				btn_load.style.display = 'inline';
+				if (btn_click != null){
+					btn_click.style.display = 'none';
+				}
+			}else if(student_input === true){
+				if (file_inp.checkValidity()) { 
+					btn_load.style.display = 'inline';
+					if (btn_click != null){
+						btn_click.style.display = 'none';
+					}
+				}
+			}else{
+				if (file_inp.checkValidity() && student_inp.checkValidity()) { 
+					btn_load.style.display = 'inline';
+					if (btn_click != null){
+						btn_click.style.display = 'none';
+					}
+				}
+			}
+  			
+        }
 	</script>
 </body>
 

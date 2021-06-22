@@ -70,7 +70,7 @@ class Text (models.Model):
     fontsize = models.FloatField()
 
 
-class Block_analysis(models.Model):
+class Variability(models.Model):
     student = models.CharField(max_length=200)
     name_file = models.CharField(max_length=200)
     mtime = models.CharField(max_length=200)
@@ -92,16 +92,28 @@ class Bad_habits(models.Model):
     deadcode = models.CharField(max_length=200)
     unfinishedcode = models.CharField(max_length=200)
     adjacentcode = models.CharField(max_length=200)
-    sprites_tot = models.CharField(max_length=200)
-    text_sequences = models.CharField(max_length=200)
-    num_pages = models.CharField(max_length=200)
-    unedited_sprites = models.CharField(max_length=200)
-    unedited_pages = models.CharField(max_length=200)
-    sprites_in_pages = models.CharField(max_length=200)
     sprites_same_name = models.CharField(max_length=200)
+
+
+class Creativity(models.Model):
+    student = models.CharField(max_length=200)
+    name_file = models.CharField(max_length=200)
+    mtime = models.CharField(max_length=200)
     edited_pages = models.CharField(max_length=600)
     edited_sprites = models.CharField(max_length=600)
     sprites_sound_created = models.CharField(max_length=600)
+
+
+class Other_data(models.Model):
+    student = models.CharField(max_length=200)
+    name_file = models.CharField(max_length=200)
+    mtime = models.CharField(max_length=200)
+    sprites_tot = models.CharField(max_length=200)
+    text_sequences = models.CharField(max_length=200)
+    pages_tot = models.CharField(max_length=200)
+    unedited_sprites = models.CharField(max_length=200)
+    unedited_pages = models.CharField(max_length=200)
+    sprites_in_pages = models.CharField(max_length=200)
 
 
 class Analysis_types(models.Model):
@@ -112,6 +124,7 @@ class Analysis_types(models.Model):
     otherdata = models.CharField(max_length=200)
     creativity = models.CharField(max_length=200)
     timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
+
 
 class Student(models.Model):
     owner = models.ForeignKey('auth.User', on_delete=models.PROTECT)
@@ -149,6 +162,7 @@ def user_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/web/<rand_folder>/<filename>
     return 'web/file_up_zip/{0}/{1}'.format(instance.rand_folder, filename)
 
+
 class Files_zip(models.Model):
     zip_up = models.FileField(upload_to=user_directory_path)
     rand_folder = models.CharField(max_length=200)
@@ -157,7 +171,7 @@ class Files_zip(models.Model):
 class Files_zips(models.Model):
     zip_name = models.CharField(max_length=200)
     student_name = models.CharField(max_length=200)
-    student_obj_zip = models.ForeignKey(Student, on_delete=models.PROTECT, 
+    student_obj_zip = models.ForeignKey(Student, on_delete=models.CASCADE,
                                         default='', null=True)
     file_name = models.CharField(max_length=200)
     project = models.CharField(max_length=200)

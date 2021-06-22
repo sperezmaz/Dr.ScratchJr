@@ -21,7 +21,7 @@ from django.http import HttpResponse
 from .models import Data
 from .models import Page
 from .models import Sprite, Text
-from .models import Block_analysis, Bad_habits
+from .models import Variability, Bad_habits, Creativity, Other_data
 from .models import Analysis_types
 from .models import Student, StudentFiles
 from .models import Files
@@ -101,9 +101,9 @@ def basedatos(request):
         html += '<p>' + str(obj.timestamp) + '<p>'
         html += '<p> aaaaaaaaaaaaaamtime: ' + str(obj.mtime) + '<p>'
 
-    block_evalua_obj = Block_analysis.objects.all()
-    html += "<p>-----Listado de Block_analysis (student, mtime y name): </p>"
-    for obj in block_evalua_obj:
+    variability_obj = Variability.objects.all()
+    html += "<p>-----Listado de Variability (student, mtime y name): </p>"
+    for obj in variability_obj:
         html += '<p> student: ' + obj.student + '<p>'
         html += '<p> name_file: ' + obj.name_file + '<p>'
         html += '<p> mtime: ' + obj.mtime + '<p>'
@@ -248,10 +248,10 @@ def extract_data(files_obj, student_obj):
         if student_obj == "Guest":
             files_obj.delete()
         try:
-            block_analysis = Block_analysis.objects.get(student=student_obj,
-                                                        name_file=name_file,
-                                                        mtime=mtime)
-            block_analysis.save()
+            variability_obj = Variability.objects.get(student=student_obj,
+                                                      name_file=name_file,
+                                                      mtime=mtime)
+            variability_obj.save()
         except ObjectDoesNotExist:
             # save data if there isn´t data is stored
             save_data(data)
@@ -260,8 +260,7 @@ def extract_data(files_obj, student_obj):
         # extracts analyzed data
         (variability_dict, badhabits_dict, otherdat_dict, creativ_dict) = \
             extract_analysis(mtime, student_obj, file_name)
-        print("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkcreativ_dict")
-        print(creativ_dict)
+
     # delete uploaded folder
     if os.path.exists(folder_file_up):
         shutil.rmtree(folder_file_up)
@@ -311,11 +310,11 @@ def open_projects_in_zip(request, files_obj, path_folder):
             student_obj = files_obj.student_name
 
         try:
-            block_analysis = Block_analysis.objects.get(
-                                            student=student_obj,
-                                            name_file=files_obj.project,
-                                            mtime=mtime)
-            block_analysis.save()
+            variability_obj = Variability.objects.get(
+                                                student=student_obj,
+                                                name_file=files_obj.project,
+                                                mtime=mtime)
+            variability_obj.save()
         except ObjectDoesNotExist:
             # save data if there isn´t data is stored
             save_data(data)
@@ -734,24 +733,28 @@ def extract_analysis(mtime, student_obj, name_file):
     """
     name_file = str(name_file).split(".sjr")[0]
 
-    block_analy_obj = Block_analysis.objects.get(student=student_obj,
-                                                 name_file=name_file,
-                                                 mtime=mtime)
+    variability_obj = Variability.objects.get(student=student_obj,
+                                              name_file=name_file,
+                                              mtime=mtime)
     badhabits_obj = Bad_habits.objects.get(student=student_obj, mtime=mtime,
                                            name_file=name_file)
+    creativity_obj = Creativity.objects.get(student=student_obj, mtime=mtime,
+                                            name_file=name_file)
+    other_data_obj = Other_data.objects.get(student=student_obj, mtime=mtime,
+                                            name_file=name_file)
     variability_dict = {}
     badhabits_dict = {}
-    otherdat_dict = {}
+    otherdata_dict = {}
     creativ_dict = {}
 
-    variability_dict[_("Triggerings")] = eval(block_analy_obj.triggerings)
-    variability_dict[_("Motion")] = eval(block_analy_obj.motion)
-    variability_dict[_("Looks")] = eval(block_analy_obj.looks)
-    variability_dict[_("Control")] = eval(block_analy_obj.control)
-    variability_dict[_("Sound")] = eval(block_analy_obj.sound)
-    variability_dict[_("Ends")] = eval(block_analy_obj.ends)
+    variability_dict[_("Triggerings")] = eval(variability_obj.triggerings)
+    variability_dict[_("Motion")] = eval(variability_obj.motion)
+    variability_dict[_("Looks")] = eval(variability_obj.looks)
+    variability_dict[_("Control")] = eval(variability_obj.control)
+    variability_dict[_("Sound")] = eval(variability_obj.sound)
+    variability_dict[_("Ends")] = eval(variability_obj.ends)
 
-    variability_dict["Total"] = block_analy_obj.total
+    variability_dict["Total"] = variability_obj.total
 
     badhabits_dict[_("Dead code")] = eval(badhabits_obj.deadcode)
     badhabits_dict[_("Unfinished code")] = eval(badhabits_obj.unfinishedcode)
@@ -760,26 +763,28 @@ def extract_analysis(mtime, student_obj, name_file):
     badhabits_dict[_("Characters same name in page")] = \
         eval(badhabits_obj.sprites_same_name)
 
-    otherdat_dict[_("Total pages")] = eval(badhabits_obj.num_pages)
-    otherdat_dict[_("Total characters")] = eval(badhabits_obj.sprites_tot)
-    otherdat_dict[_("Total texts")] = eval(badhabits_obj.text_sequences)
-    otherdat_dict[_("Pages with unedited background")] = \
-        eval(badhabits_obj.unedited_pages)
-    otherdat_dict[_("Unedited characters")] = \
-        eval(badhabits_obj.unedited_sprites)
-    otherdat_dict[_("Characters in pages")] = \
-        eval(badhabits_obj.sprites_in_pages)
+    otherdata_dict[_("Total pages")] = eval(other_data_obj.pages_tot)
+    otherdata_dict[_("Total characters")] = eval(other_data_obj.sprites_tot)
+    otherdata_dict[_("Total texts")] = eval(other_data_obj.text_sequences)
+    otherdata_dict[_("Pages with unedited background")] = \
+        eval(other_data_obj.unedited_pages)
+    otherdata_dict[_("Unedited characters")] = \
+        eval(other_data_obj.unedited_sprites)
+    otherdata_dict[_("Characters in pages")] = \
+        eval(other_data_obj.sprites_in_pages)
 
-    creativ_dict[_("Edited pages")] = eval(badhabits_obj.edited_pages)
-    creativ_dict[_("Edited characters")] = eval(badhabits_obj.edited_sprites)
+    creativ_dict[_("Edited pages")] = eval(creativity_obj.edited_pages)
+    creativ_dict[_("Edited characters")] = eval(creativity_obj.edited_sprites)
     creativ_dict[_("Sounds created")] = \
-        eval(badhabits_obj.sprites_sound_created)
+        eval(creativity_obj.sprites_sound_created)
 
     if student_obj == "Guest":
-        block_analy_obj.delete()
+        variability_obj.delete()
         badhabits_obj.delete()
+        creativity_obj.delete()
+        other_data_obj.delete()
 
-    return variability_dict, badhabits_dict, otherdat_dict, creativ_dict
+    return variability_dict, badhabits_dict, otherdata_dict, creativ_dict
 
 
 def upload_files_view(request):
@@ -1048,7 +1053,7 @@ def remove_old():
         if seconds >= time_file:
             if fileszip_objs.student_obj_zip is None:
                 try:
-                    block_analy_obj = Block_analysis.objects.get(
+                    variability_obj = Variability.objects.get(
                                             student=fileszip_objs.student_name,
                                             mtime=fileszip_objs.mtime,
                                             name_file=fileszip_objs.project)
@@ -1056,11 +1061,21 @@ def remove_old():
                                             student=fileszip_objs.student_name,
                                             mtime=fileszip_objs.mtime,
                                             name_file=fileszip_objs.project)
+                    creativity_obj = Creativity.objects.get(
+                                            student=fileszip_objs.student_name,
+                                            mtime=fileszip_objs.mtime,
+                                            name_file=fileszip_objs.project)
+                    other_data_obj = Other_data.objects.get(
+                                            student=fileszip_objs.student_name,
+                                            mtime=fileszip_objs.mtime,
+                                            name_file=fileszip_objs.project)
 
-                    time_obj = get_time(block_analy_obj.updated)
+                    time_obj = get_time(variability_obj.updated)
                     if seconds >= time_obj:
-                        block_analy_obj.delete()
+                        variability_obj.delete()
                         badhabits_obj.delete()
+                        creativity_obj.delete()
+                        other_data_obj.delete()
                         fileszip_objs.delete()
                 except:
                     fileszip_objs.delete()
@@ -1302,13 +1317,13 @@ def student_dict(request, name):
         name_file = str(file_up).split(".sjr")[0]
         mtime = str(file_obj.mtime)
 
-        block_analy_obj = Block_analysis.objects.get(student=student_obj,
-                                                     name_file=name_file,
-                                                     mtime=mtime)
+        variability_obj = Variability.objects.get(student=student_obj,
+                                                  name_file=name_file,
+                                                  mtime=mtime)
         bad_habits_obj = Bad_habits.objects.get(student=student_obj,
                                                 name_file=name_file,
                                                 mtime=mtime)
-        total = str(block_analy_obj.total) + '/' + str(blocksDict['Total'])
+        total = str(variability_obj.total) + '/' + str(blocksDict['Total'])
         num_bad_habits = 0
         num_bad_habits = len(eval(bad_habits_obj.deadcode))
         num_bad_habits += len(eval(bad_habits_obj.unfinishedcode))
@@ -1442,8 +1457,8 @@ def analysis(id_file, student_obj, name_file):
                 if names_sprites not in edited_sprites:
                     edited_sprites[names_sprites] = {}
                 edited_sprites[names_sprites] = sprite.looks
-            sounds = eval(sprite.sounds)
 
+            sounds = eval(sprite.sounds)
             for sound_elem in sounds:
                 if len(sound_elem) >= 30:
                     if names_sprites not in sprites_sound_created:
@@ -1485,29 +1500,34 @@ def analysis(id_file, student_obj, name_file):
 
     total = analys_variability(adapted_dict)
 
-    block_analy_obj = Block_analysis(student=student_obj,
-                                     name_file=name_file, mtime=id_file,
-                                     triggerings=triggerings(adapted_dict),
-                                     motion=motion(adapted_dict),
-                                     looks=looks(adapted_dict),
-                                     control=control(adapted_dict),
-                                     sound=sound(adapted_dict),
-                                     ends=ends(adapted_dict), total=total)
-    block_analy_obj.save()
+    variability_obj = Variability(student=student_obj, name_file=name_file,
+                                  mtime=id_file,
+                                  triggerings=triggerings(adapted_dict),
+                                  motion=motion(adapted_dict),
+                                  looks=looks(adapted_dict),
+                                  control=control(adapted_dict),
+                                  sound=sound(adapted_dict),
+                                  ends=ends(adapted_dict), total=total)
+    variability_obj.save()
     bad_habits_obj = Bad_habits(student=student_obj, name_file=name_file,
-                                mtime=id_file, text_sequences=text_sequences,
+                                mtime=id_file,
                                 deadcode=dead_code(adapted_dict),
                                 unfinishedcode=unfinished_code(adapted_dict),
                                 adjacentcode=equal_adjac_blocks(adapted_dict),
-                                sprites_tot=sprites_tot, num_pages=num_pages,
-                                unedited_sprites=unedited_sprites,
-                                unedited_pages=unedited_pages,
-                                sprites_in_pages=sprites_in_pages,
-                                sprites_same_name=sprites_same_name,
-                                edited_pages=edited_pages,
+                                sprites_same_name=sprites_same_name)
+    bad_habits_obj.save()
+    creativity_obj = Creativity(student=student_obj, name_file=name_file,
+                                mtime=id_file, edited_pages=edited_pages,
                                 edited_sprites=edited_sprites,
                                 sprites_sound_created=sprites_sound_created)
-    bad_habits_obj.save()
+    creativity_obj.save()
+    other_data_obj = Other_data(student=student_obj, name_file=name_file,
+                                mtime=id_file, text_sequences=text_sequences,
+                                sprites_tot=sprites_tot, pages_tot=num_pages,
+                                unedited_sprites=unedited_sprites,
+                                unedited_pages=unedited_pages,
+                                sprites_in_pages=sprites_in_pages)
+    other_data_obj.save()
 
     # delete json data
     data_objs = Data.objects.all()
@@ -1826,10 +1846,15 @@ def delete_account(request):
     profile_user = User.objects.get(username=request.user)
     student_objs = Student.objects.filter(owner=request.user)
     for student_obj in student_objs:
-        block_analy_obj = Block_analysis.objects.filter(student=student_obj)
-        block_analy_obj.delete()
+        variability_obj = Variability.objects.filter(student=student_obj)
+        variability_obj.delete()
         bad_habits_obj = Bad_habits.objects.filter(student=student_obj)
         bad_habits_obj.delete()
+        creativity_obj = Creativity.objects.filter(student=student_obj)
+        creativity_obj.delete()
+        other_data_obj = Other_data.objects.filter(student=student_obj)
+        other_data_obj.delete()
+
         delete_files_student = StudentFiles.objects.filter(student=student_obj)
         delete_files_student.delete()
         student_obj.delete()
