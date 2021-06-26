@@ -176,12 +176,12 @@
 	  <div class="col-12">
 		<div class="white-box">
 		  <h1>{% trans "Upload proyect" %}</h1>
-		  {% blocktrans trimmed %}
-			<p>Select an existing student or write a new student:</p>
-		  {% endblocktrans %}
 		  <form enctype="multipart/form-data" action="" method="POST" id="upload-files-form"> 
 			  {% csrf_token %}
 			  {% if user.is_authenticated %}
+			  	{% blocktrans trimmed %}
+					<p>Select an existing student or write a new student:</p>
+				{% endblocktrans %}
 				<p> {% trans "Student: " %}<input id="student_input" type="text" list="items" name="name_student" autocomplete="off" required>
 				<datalist id="items" name="name_student">
 				  {% for student in students %}
@@ -189,10 +189,10 @@
 				  {% endfor %}
 				</datalist>
 				</p>
-				<p> {% trans "Upload proyect: " %}<input id="file1_input" type="file" name="file" required></p>
+				<p><i>{% trans "Upload proyect" %} SJR: </i><input id="file1_input" type="file" name="file" required></p>
 			  	<input type="submit" class="btn btn-primary" value="{% trans 'Analyze' %}" id="btn_1" onclick="show_load('btn_1', 'btn_load', 'file1_input', 'student_input')">
 			  {% else %}
-				<p> {% trans "Upload proyect: " %}<input id="file1_input" type="file" name="file" required></p>
+				<p><i>{% trans "Upload proyect" %} SJR: </i><input id="file1_input" type="file" name="file" required></p>
 			  	<input type="submit" class="btn btn-primary" value="{% trans 'Analyze' %}" id="btn_1" onclick="show_load('btn_1', 'btn_load', 'file1_input')">
 			  {% endif %}
 			  <button id="btn_load" type="button" class="spinner-border" style="display: none;"></button>

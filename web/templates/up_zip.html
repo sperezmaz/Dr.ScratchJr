@@ -37,9 +37,13 @@
         {% else %}
             <form enctype="multipart/form-data" action="" method="POST"> 
                 {% csrf_token %}
-				{% blocktrans trimmed %}
-                	<p>Upload multiple zipped projects with files name <i>"ProjectName-StudentName.sjr"</i> in a single .zip file: </p>
-				{% endblocktrans %}
+				{% if user.is_authenticated %}
+					{% blocktrans trimmed %}
+						<p>Upload multiple zipped projects with files name <i>"ProjectName-StudentName.sjr"</i> in a single .zip file: </p>
+					{% endblocktrans %}
+				{% else %}
+					<p>{% trans "Upload multiple zipped projects in a single .zip file:" %}</p>
+				{% endif %}
 				<p><input id="file2_input" type="file" name="file" required></p>
 				<input type="submit" name="form" class="btn btn-primary" value="{% trans 'Analyze' %}" id="btn_2" required onClick="show_load('btn_2', 'btn_load2', 'file2_input')">
 				<button id="btn_load2" type="button" class="spinner-border" style="display: none;"></button>
