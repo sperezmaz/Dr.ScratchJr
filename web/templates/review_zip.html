@@ -24,7 +24,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								{% for stud_proj_dict in inicial_form %}
+								{% for stud_proj_dict in list_projects %}
 									<tr>
 										<td>{{forloop.counter}}</td>
 									{% for student, project in stud_proj_dict.items %}
@@ -40,7 +40,7 @@
 							<a href="/" class="btn btn-secondary">{% trans "Finalize" %}</a>
 							&nbsp;
 						{% endif %}
-						<a href="/create_csv_zip/{{zip_name}}" download class="btn btn-warning">{% trans "Export" %}</a>
+						<a href="/create_csv_zip/{{zip_name}}/{{rand_folder}}" download class="btn btn-warning">{% trans "Export" %}</a>
 					</div>
 				</div>
 			</div>

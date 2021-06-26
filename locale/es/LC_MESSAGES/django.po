@@ -590,7 +590,7 @@ msgstr "Página"
 #: .\web\templates\results.html:94 .\web\views.py:560 .\web\views.py:569
 #: .\web\views.py:577 .\web\views.py:587
 msgid "Character"
-msgstr "Persoanje"
+msgstr "Personaje"
 
 #: .\web\templates\results.html:95
 msgid "Seq. Name"

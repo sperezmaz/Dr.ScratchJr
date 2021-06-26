@@ -21,7 +21,12 @@ class ProfileForm(forms.Form):
     # message = forms.CharField(widget=forms.Textarea)
 
 
-class FilesForm(forms.Form):
+class FilesForm1(forms.Form):
+    project = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    unzip_folder = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'type': 'hidden'}))
+
+
+class FilesForm2(forms.Form):
     student = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
     project = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
     unzip_folder = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'type': 'hidden'}))

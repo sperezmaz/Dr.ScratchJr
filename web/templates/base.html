@@ -284,11 +284,13 @@
 										{% endfor %}
 										</datalist>
 										</p>
+										<p><i>{% trans "Upload proyect" %} SJR: </i><input id="file1_input" type="file" name="file" required></p>
+										<input type="submit" class="btn btn-primary" value="{% trans 'Analyze' %}" id="btn_1" onclick="show_load('btn_1', 'btn_load1', 'file1_input', 'student_input')">
 									{% else %}
 										<br>
+										<p><i>{% trans "Upload proyect" %} SJR: </i><input id="file1_input" type="file" name="file" required></p>
+										<input type="submit" class="btn btn-primary" value="{% trans 'Analyze' %}" id="btn_1" onclick="show_load('btn_1', 'btn_load1', 'file1_input')">
 									{% endif %}
-									<p><i>{% trans "Upload proyect" %} SJR: </i><input id="file1_input" type="file" name="file" required></p>
-									<input type="submit" class="btn btn-primary" value="{% trans 'Analyze' %}" id="btn_1" onclick="show_load('btn_1', 'btn_load1', 'file1_input', 'student_input')">
 									<button id="btn_load1" type="button" class="spinner-border" style="display: none;"></button>
 								</form>
 							</div>

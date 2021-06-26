@@ -23,13 +23,12 @@ from .models import Page
 from .models import Sprite, Text
 from .models import Variability, Bad_habits, Creativity, Other_data
 from .models import Analysis_types
-from .models import Student, StudentFiles
-from .models import Files
-from .models import Files_zip, Files_zips
+from .models import Student, Project
+from .models import Files_zip, Zip
 from django.contrib.auth.models import User
 from django.forms import formset_factory
 from .forms import UploadFilesForm, UploadFilesGuestForm, ProfileForm
-from .forms import UploadZipForm, FilesForm
+from .forms import UploadZipForm, FilesForm1, FilesForm2
 from .forms import ContactForm
 from django.contrib.auth.decorators import login_required
 from django.utils.translation import ugettext as _
@@ -92,61 +91,34 @@ def basedatos(request):
         html += '<p>' + str(obj0.timestamp) + '<p>'
         html += '<p>' + str(obj0.updated) + '<p>'
 
-    name_studentfiles = StudentFiles.objects.all()
-    html += "<p>--------------------------------Listado de StudentFiles: </p>"
+    name_studentfiles = Project.objects.all()
+    html += "<p>--------------------------------Listado de Project: </p>"
     for obj in name_studentfiles:
-        html += '<p>' + str(obj.student.title) + '<p>'
+        html += '<p>' + str(obj) + '<p>'
         html += '<p>' + str(obj.student) + '<p>'
         html += '<p>' + str(obj.file_up) + '<p>'
         html += '<p>' + str(obj.timestamp) + '<p>'
-        html += '<p> aaaaaaaaaaaaaamtime: ' + str(obj.mtime) + '<p>'
+        html += '<p> mtime: ' + str(obj.mtime) + '<p>'
 
     variability_obj = Variability.objects.all()
     html += "<p>-----Listado de Variability (student, mtime y name): </p>"
     for obj in variability_obj:
-        html += '<p> student: ' + obj.student + '<p>'
-        html += '<p> name_file: ' + obj.name_file + '<p>'
-        html += '<p> mtime: ' + obj.mtime + '<p>'
-        html += '<p> mtime: ' + str(obj.updated) + '<p>'
-
-    # bad_habits_obj = Bad_habits.objects.all()
-    # html += "<p>Listado de Bad_habits (student, mtime y name): </p>"
-    # for obj3 in bad_habits_obj:
-    #     html += '<p> sprites_tot: ' + obj3.sprites_tot + '<p>'
-    #     html += '<p> num_pages: ' + obj3.num_pages + '<p>'
-    #     html += '<p> unedited_sprites: ' + obj3.unedited_sprites + '<p>'
-    #     html += '<p> unedited_pages: ' + obj3.unedited_pages + '<p>'
+        html += '<p> project: ' + str(obj.project) + '<p>'
+        html += '<p> triggerings: ' + str(obj.triggerings) + '<p>'
+        html += '<p> updated: ' + str(obj.updated) + '<p>'
+    
+    zip_obj = Zip.objects.all()
+    html += "<p>-----Listado de Zip (zip_name): </p>"
+    for obj in zip_obj:
+        html += '<p> zip_name: ' + str(obj.zip_name) + '<p>'
+        html += '<p> project: ' + str(obj.project) + '<p>'
+        html += '<p> project_name: ' + str(obj.project_name) + '<p>'
 
     name_files = Files_zip.objects.all()
     html += "<p>------------------------------------Listado de Files_zip: </p>"
     for obj2 in name_files:
         html += '<p>' + str(obj2.zip_up) + '<p>'
 
-    name_files = Files_zips.objects.all()
-    html += "<p>-----------------------------------Listado de Files_zips: </p>"
-    for obj2 in name_files:
-        html += '<p>' + str(obj2.zip_name) + '<p>'
-        html += '<p>' + str(obj2.student_name) + '<p>'
-        html += '<p>student_obj_zip:' + str(obj2.student_obj_zip) + '<p>'
-        html += '<p>' + str(obj2.file_name) + '<p>'
-        html += '<p>' + str(obj2.project) + '<p>'
-        html += '<p>' + str(obj2.timestamp) + '<p>'
-        html += '<p>' + str(obj2.rand_folder) + '<p>'
-    # name_data = Data.objects.all()
-    # html += "<p>-----------------------Listado de Data ( mtime y name): </p>"
-    # for obj in name_data:
-    #     html += '<p> mtime: ' + obj.mtime + '<p>'
-
-    # name_data = Page.objects.all()
-    # html += "<p>-----------------------Listado de Page ( mtime y name): </p>"
-    # for obj in name_data:
-    #     html += '<p> mtime: ' + obj.mtime + '<p>'
-
-    # name_sprite = Sprite.objects.all()
-    # html += "<p>-------------------------------------Listado de Sprite: </p>"
-    # for obj in name_sprite:
-    #     html += '<p>' + str(obj.mtime) + '<p>'
-    #     html += '<p>' + str(obj.scripts) + '<p>'
     return HttpResponse(html)
 
 
@@ -205,7 +177,7 @@ def copy_files_creativity(folder_creativ, folder_proj):
         pass
 
 
-def extract_data(files_obj, student_obj):
+def extract_data(project_obj):
     """Function extracts zip, opens json.
 
     Stores the analyzed data if no data exists.
@@ -213,18 +185,18 @@ def extract_data(files_obj, student_obj):
     Then returns the analyzed data.
 
     """
-    name_file = str(files_obj.file_up).split("/")[3]
-    folder_file_up = str(files_obj.file_up).split(name_file)[0]
+    name_file = str(project_obj.file_up).split("/")[3]
+    folder_file_up = str(project_obj.file_up).split(name_file)[0]
     folder_proj = folder_file_up + 'uncompress_folder'
     # unzip file
-    zf = zipfile.ZipFile(str(files_obj.file_up), "r")
+    zf = zipfile.ZipFile(str(project_obj.file_up), "r")
     for i in zf.namelist():
         zf.extract(i, folder_proj)
     zf.close()
 
     # delete uploaded file_up
-    if os.path.exists(str(files_obj.file_up)):
-        remove(str(files_obj.file_up))
+    if os.path.exists(str(project_obj.file_up)):
+        remove(str(project_obj.file_up))
 
     copy_files_creativity("characters", folder_proj)
     copy_files_creativity("backgrounds", folder_proj)
@@ -234,32 +206,32 @@ def extract_data(files_obj, student_obj):
     with open(folder_proj + '/project/data.json', encoding="utf8") as file:
         data = json.load(file)
         mtime = data['mtime']
+        project_obj.mtime = mtime
+        project_obj.file_up = name_file
+        project_obj.save(update_fields=['file_up', 'mtime'])
 
-        files_obj.file_up = name_file
-        files_obj.save(update_fields=['file_up'])
-
-        if student_obj != "Guest":
+        if project_obj.student is not None:
             # save json data
-            files_obj = save_file(data, files_obj)
+            project_obj = save_file(project_obj)
 
-        file_name = files_obj.file_up
+        file_name = project_obj.file_up
         name_file = str(file_name).split(".sjr")[0]
 
-        if student_obj == "Guest":
-            files_obj.delete()
         try:
-            variability_obj = Variability.objects.get(student=student_obj,
-                                                      name_file=name_file,
-                                                      mtime=mtime)
+            variability_obj = Variability.objects.get(project=project_obj)
             variability_obj.save()
         except ObjectDoesNotExist:
             # save data if there isn´t data is stored
             save_data(data)
-            analysis(mtime, student_obj, name_file)
+            analysis(project_obj)
 
         # extracts analyzed data
         (variability_dict, badhabits_dict, otherdat_dict, creativ_dict) = \
-            extract_analysis(mtime, student_obj, file_name)
+            extract_analysis(project_obj)
+
+        # delete projects without student
+        if project_obj.student is None:
+            project_obj.delete()
 
     # delete uploaded folder
     if os.path.exists(folder_file_up):
@@ -269,7 +241,7 @@ def extract_data(files_obj, student_obj):
             creativ_dict)
 
 
-def open_projects_in_zip(request, files_obj, path_folder):
+def open_projects_in_zip(request, f, zip_proj, path_folder):
     """Function opens json.
 
     Stores the analyzed data if no data exists.
@@ -283,45 +255,42 @@ def open_projects_in_zip(request, files_obj, path_folder):
               encoding="utf8") as file:
         data = json.load(file)
         mtime = data['mtime']
-        files_obj.mtime = mtime
-        files_obj.save(update_fields=['mtime'])
-        file_name = files_obj.project + ".sjr"
+        file_name = f.cleaned_data['project'] + ".sjr"
         # save if user is authenticated
-        if request.user.is_authenticated:
+        if not request.user.is_authenticated:
+            project_obj = Project(file_up=file_name, mtime=mtime)
+            project_obj.save()
+        elif request.user.is_authenticated:
+            student_name = f.cleaned_data['student']
             if Student.objects.filter(owner=request.user,
-                                      title=files_obj.student_name).exists():
+                                      title=student_name).exists():
                 # authenticated and student name exists
                 student_obj = Student.objects.get(owner=request.user,
-                                                  title=files_obj.student_name)
-                files_obj1 = StudentFiles(student=student_obj,
-                                          file_up=file_name)
+                                                  title=student_name)
+                project_obj = Project(student=student_obj, file_up=file_name,
+                                      mtime=mtime)
             else:
                 # authenticated and new student name
                 student_obj = Student(owner=request.user,
-                                      title=files_obj.student_name)
+                                      title=student_name)
                 student_obj.save()
-                files_obj1 = StudentFiles(student=student_obj,
-                                          file_up=file_name)
-            files_obj1.save()
-            save_file(data, files_obj1)
-            files_obj.student_obj_zip = student_obj
-            files_obj.save(update_fields=['student_obj_zip'])
-        else:
-            student_obj = files_obj.student_name
+                project_obj = Project(student=student_obj, file_up=file_name,
+                                      mtime=mtime)
+            project_obj.save()
+            save_file(project_obj)
+        zip_proj.project = project_obj
+        zip_proj.save(update_fields=['project'])
 
         try:
-            variability_obj = Variability.objects.get(
-                                                student=student_obj,
-                                                name_file=files_obj.project,
-                                                mtime=mtime)
+            variability_obj = Variability.objects.get(project=project_obj)
             variability_obj.save()
         except ObjectDoesNotExist:
             # save data if there isn´t data is stored
             save_data(data)
-            analysis(mtime, student_obj, files_obj.project)
+            analysis(project_obj)
 
 
-def create_csv_zip(request, zip_name):
+def create_csv_zip(request, zip_name, rand_folder):
     """Function gets object from the stored zip.
 
     Creates csv and xlsx files with all the analyzed data of all the projects
@@ -330,13 +299,14 @@ def create_csv_zip(request, zip_name):
     Returns the csv and xlsx files compressed in a zip file.
 
     """
-    files_obj = Files_zips.objects.filter(zip_name=zip_name)
+    project_objs = Zip.objects.filter(zip_name=zip_name,
+                                      rand_folder=rand_folder)
     letters = string.ascii_letters
     rand_folder = ''.join(random.choice(letters) for _ in range(6))
     folder_upload = "web/csv/" + rand_folder + '/'
     zip = zip_name.split(".zip")[0]
     project_folder = folder_upload + zip
-    create_csv(files_obj, zip, folder_upload, project_folder, True)
+    create_csv(project_objs, zip, folder_upload, project_folder, True)
     response = FileResponse(open(folder_upload + zip + ".zip", 'rb'))
     return response
 
@@ -351,12 +321,12 @@ def create_csv_student(request, student):
 
     """
     student_obj = Student.objects.get(owner=request.user, title=student)
-    files_obj = StudentFiles.objects.filter(student=student_obj)
+    project_obj = Project.objects.filter(student=student_obj)
     letters = string.ascii_letters
     rand_folder = ''.join(random.choice(letters) for _ in range(6))
     folder_upload = "web/csv/" + rand_folder + '/'
     project_folder = folder_upload + student
-    create_csv(files_obj, student, folder_upload, project_folder, False)
+    create_csv(project_obj, student, folder_upload, project_folder, False)
     response = FileResponse(open(folder_upload + student + ".zip", 'rb'))
     return response
 
@@ -370,7 +340,7 @@ def create_csv_user(request):
     Returns the csv and xlsx files compressed in a zip file.
 
     """
-    files_obj = []
+    project_obj = []
     students_obj = Student.objects.filter(owner=request.user)
     user = str(request.user)
     letters = string.ascii_letters
@@ -386,14 +356,13 @@ def create_csv_user(request):
     other_data_path = project_folder + "/otherdata-%s.csv"
     other_data_path = next_path(other_data_path)
     for student_obj in students_obj:
-        files_obj = StudentFiles.objects.filter(student=student_obj)
-        for file_obj in files_obj:
-            student = file_obj.student
+        project_obj = Project.objects.filter(student=student_obj)
+        for file_obj in project_obj:
             stud_name = file_obj.student.title
             file_name = file_obj.file_up
 
             (variability_dict, badhabits_dict, otherdat_dict, creativ_dict) = \
-                extract_analysis(file_obj.mtime, student, file_name)
+                extract_analysis(file_obj)
 
             variability_dict[_('Name')] = stud_name
             variability_dict[_('Project name')] = file_name
@@ -439,12 +408,11 @@ def create_csv_user(request):
     return response
 
 
-def create_csv(files_obj, name_zip, folder_upload, project_folder, is_zip):
+def create_csv(project_objs, name_zip_csv, folder_upload, project_folder, is_zip):
     """Function.
 
     Creates csv and xlsx files with all the analyzed data (variability,
-     badhabits and otherdata) of all the projects that had the
-     object (files_obj).
+     badhabits and otherdata) of all the projects (project_objs).
 
     """
     bad_habits_dict = {}
@@ -455,22 +423,19 @@ def create_csv(files_obj, name_zip, folder_upload, project_folder, is_zip):
     bad_habits_path = next_path(bad_habits_path)
     other_data_path = project_folder + "/otherdata-%s.csv"
     other_data_path = next_path(other_data_path)
-    for file_obj in files_obj:
+    for project_obj in project_objs:
         if is_zip:
-            if file_obj.student_obj_zip is not None:
-                stud_name = file_obj.student_obj_zip.title
-                student = file_obj.student_obj_zip
+            project_obj = project_obj.project
+            if project_obj.student is None:
+                stud_name = "-"
             else:
-                stud_name = file_obj.student_name
-                student = stud_name
-            file_name = file_obj.project
+                stud_name = project_obj.student.title
         else:
-            student = file_obj.student
-            stud_name = file_obj.student.title
-            file_name = file_obj.file_up
+            stud_name = project_obj.student.title
+        file_name = project_obj.file_up
 
         (variability_dict, badhabits_dict, otherdat_dict, creativ_dict) = \
-            extract_analysis(file_obj.mtime, student, file_name)
+            extract_analysis(project_obj)
 
         variability_dict[_('Name')] = stud_name
         variability_dict[_('Project name')] = file_name
@@ -493,12 +458,12 @@ def create_csv(files_obj, name_zip, folder_upload, project_folder, is_zip):
     other_data.to_excel(writer, sheet_name=_("Other_data"), index=False)
     writer.save()
 
-    shutil.copy2("web/csv/README.txt", folder_upload + name_zip)
+    shutil.copy2("web/csv/README.txt", folder_upload + name_zip_csv)
 
     # delete zips old (30 min)
     delete_filesbytime("web/csv", 1/48)
 
-    fantasy_zip = zipfile.ZipFile(folder_upload + name_zip + ".zip", 'w')
+    fantasy_zip = zipfile.ZipFile(folder_upload + name_zip_csv + ".zip", 'w')
 
     for folder, subfolders, files in os.walk(project_folder):
         for file in files:
@@ -508,8 +473,8 @@ def create_csv(files_obj, name_zip, folder_upload, project_folder, is_zip):
                               compress_type=zipfile.ZIP_DEFLATED)
     writer.close()
     # delete folder
-    if os.path.exists(folder_upload + name_zip):
-        shutil.rmtree(folder_upload + name_zip)
+    if os.path.exists(folder_upload + name_zip_csv):
+        shutil.rmtree(folder_upload + name_zip_csv)
 
 
 def write_csv(path, fieldnames, row_dict):
@@ -634,11 +599,10 @@ def next_path(path_pattern):
     return path_pattern % b
 
 
-def save_file(data, stdnt_files_obj):
+def save_file(stdnt_files_obj):
     """Function renames repeated files and saves file data with the student."""
     studentDict = []
-    mtime = data['mtime']
-    name_studentfiles = StudentFiles.objects.all()
+    name_studentfiles = Project.objects.all()
     for obj in name_studentfiles:
         named = False
         if obj.student == stdnt_files_obj.student:
@@ -656,8 +620,7 @@ def save_file(data, stdnt_files_obj):
             if (obj.timestamp == stdnt_files_obj.timestamp and
                     str(obj.file_up) == str(stdnt_files_obj.file_up)):
                 stdnt_files_obj.file_up = student_files
-                stdnt_files_obj.mtime = mtime
-                stdnt_files_obj.save(update_fields=['file_up', 'mtime'])
+                stdnt_files_obj.save(update_fields=['file_up'])
     return stdnt_files_obj
 
 
@@ -665,13 +628,13 @@ def save_data(data):
     """Function saves json data in DB (Data, Page, Sprite and Text)."""
     ctime = data['ctime']
     mtime = data['mtime']
-    name_proyect = data['name']
+    name_project = data['name']
     pages = data['json']['pages']
     pagecount = data['thumbnail']['pagecount']
     version = data['version']
     currentpage = data['json']['currentPage']
 
-    archivo = Data(ctime=ctime, mtime=mtime, name_proyect=name_proyect,
+    archivo = Data(ctime=ctime, mtime=mtime, name_project=name_project,
                    pagecount=pagecount, currentpage=currentpage,
                    version=version)
     archivo.save()
@@ -724,28 +687,21 @@ def save_data(data):
                 p.save()
 
 
-def extract_analysis(mtime, student_obj, name_file):
+def extract_analysis(project_obj):
     """Function extracts the analysis data from the DB.
 
     Returns the dictionaries (variability_dict, badhabits_dict, otherdat_dict,
      creativ_dict) of the analysis.
 
     """
-    name_file = str(name_file).split(".sjr")[0]
-
-    variability_obj = Variability.objects.get(student=student_obj,
-                                              name_file=name_file,
-                                              mtime=mtime)
-    badhabits_obj = Bad_habits.objects.get(student=student_obj, mtime=mtime,
-                                           name_file=name_file)
-    creativity_obj = Creativity.objects.get(student=student_obj, mtime=mtime,
-                                            name_file=name_file)
-    other_data_obj = Other_data.objects.get(student=student_obj, mtime=mtime,
-                                            name_file=name_file)
     variability_dict = {}
     badhabits_dict = {}
     otherdata_dict = {}
     creativ_dict = {}
+    variability_obj = Variability.objects.get(project=project_obj)
+    badhabits_obj = Bad_habits.objects.get(project=project_obj)
+    creativity_obj = Creativity.objects.get(project=project_obj)
+    other_data_obj = Other_data.objects.get(project=project_obj)
 
     variability_dict[_("Triggerings")] = eval(variability_obj.triggerings)
     variability_dict[_("Motion")] = eval(variability_obj.motion)
@@ -777,12 +733,6 @@ def extract_analysis(mtime, student_obj, name_file):
     creativ_dict[_("Edited characters")] = eval(creativity_obj.edited_sprites)
     creativ_dict[_("Sounds created")] = \
         eval(creativity_obj.sprites_sound_created)
-
-    if student_obj == "Guest":
-        variability_obj.delete()
-        badhabits_obj.delete()
-        creativity_obj.delete()
-        other_data_obj.delete()
 
     return variability_dict, badhabits_dict, otherdata_dict, creativ_dict
 
@@ -832,12 +782,9 @@ def upload_files_view(request):
         if form.is_valid():
             remove_old()
             try:
-                name_student = form.cleaned_data['name_student'].title()
-                if name_student == "Guest":
-                    message = 'The name "Guest" is reserved for guests!'
-                    choose_forms()
+                name_student = form.cleaned_data['name_student']
             except:
-                name_student = "Guest"
+                pass
 
             if (str(request.FILES['file']).find(".sjr") != -1 and
                     message != 'The name "Guest" is reserved for guests!'):
@@ -845,28 +792,27 @@ def upload_files_view(request):
 
                 if not request.user.is_authenticated:
                     # if not authenticated only save file
-                    files_obj = Files(file_up=file_up)
-                    student_obj = name_student
+                    project_obj = Project(file_up=file_up)
                 elif Student.objects.filter(owner=request.user,
                                             title=name_student).exists():
                     # authenticated and student name exists
                     student_obj = Student.objects.get(owner=request.user,
                                                       title=name_student)
-                    files_obj = StudentFiles(student=student_obj,
+                    project_obj = Project(student=student_obj,
                                              file_up=file_up)
                 else:
                     # authenticated and new student name
                     student_obj = Student(owner=request.user,
                                           title=name_student)
                     student_obj.save()
-                    files_obj = StudentFiles(student=student_obj,
+                    project_obj = Project(student=student_obj,
                                              file_up=file_up)
-                files_obj.save()
+                project_obj.save()
                 message = _("File uploaded succesfully!")
 
                 # extract data from uploaded file
                 (name, mtime, variability_d, badhabits_d, otherdat_d,
-                 creativ_d) = extract_data(files_obj, student_obj)
+                 creativ_d) = extract_data(project_obj)
 
                 save_analys(str(name), mtime, variability_d, badhabits_d,
                             otherdat_d, creativ_d)
@@ -915,12 +861,15 @@ def upload_file_zip_view(request):
     form = UploadZipForm()
     message = ""
     inicial_form = []
+    list_projects = []
     elementos = []
-    FileFormSet = formset_factory(FilesForm, extra=0)
+    FileFormSet1 = formset_factory(FilesForm1, extra=0)
+    FileFormSet2 = formset_factory(FilesForm2, extra=0)
 
     if request.method == 'POST':
         form = UploadZipForm(request.POST, request.FILES)
-        formset = FileFormSet(request.POST)
+        formset1 = FileFormSet1(request.POST)
+        formset2 = FileFormSet2(request.POST)
         if form.is_valid():
             remove_old()
             if str(request.FILES['file']).find(".zip") != -1:
@@ -949,21 +898,27 @@ def upload_file_zip_view(request):
                     contenidos = os.listdir(unzip_folder + 'proj')
                     for elemento in contenidos:
                         elemento = str(elemento)
-                        project = elemento.split("-")[0]
-                        student = elemento.split("-")[1]
-                        student = student.split(".sjr")[0]
-                        proyects = {}
-                        proyects['student'] = str(student)
-                        proyects['project'] = str(project)
-                        proyects['unzip_folder'] = unzip_folder
-                        inicial_form.append(proyects)
+                        if request.user.is_authenticated:
+                            project = elemento.split("-")[0]
+                            student = elemento.split("-")[1]
+                            student = student.split(".sjr")[0]
+                            projects_dict = {}
+                            projects_dict['student'] = str(student)
+                            projects_dict['project'] = str(project)
+                            projects_dict['unzip_folder'] = unzip_folder
+                            inicial_form.append(projects_dict)
+                        else:
+                            student = ""
+                            project = elemento.split(".sjr")[0]
+                            projects_dict = {}
+                            projects_dict['project'] = str(project)
+                            projects_dict['unzip_folder'] = unzip_folder
+                            inicial_form.append(projects_dict)
                         elementos.append(elemento)
-                        files_obj = Files_zips(zip_name=file_up,
-                                               student_name=str(student),
-                                               file_name=elemento,
-                                               project=str(project),
-                                               rand_folder=rand_folder)
-                        files_obj.save()
+                        project_obj = Zip(zip_name=file_up,
+                                          project_name=elemento,
+                                          rand_folder=rand_folder)
+                        project_obj.save()
                 except:
                     message = "Projects must be named as indicated in the form"
                     message += " description"
@@ -971,7 +926,10 @@ def upload_file_zip_view(request):
                     form = UploadZipForm()
                     return render(request, 'up_zip.html', {'form': form,
                                                            'message': message})
-                formset = FileFormSet(initial=inicial_form)
+                if request.user.is_authenticated:
+                    formset = FileFormSet2(initial=inicial_form)
+                else:
+                    formset = FileFormSet1(initial=inicial_form)
                 return render(request, 'up_zip.html', {'formset': formset,
                                                        'message': message,
                                                        'elementos': elementos})
@@ -979,7 +937,11 @@ def upload_file_zip_view(request):
             elif str(request.FILES['file']).find(".zip") == -1:
                 message = _("The file must have the extension .zip!")
         elif not form.is_valid():
-            # try:
+            if request.user.is_authenticated:
+                formset = formset2
+            else:
+                formset = formset1
+            
             if formset.is_valid():
                 n = 0
                 for f in formset:
@@ -988,17 +950,13 @@ def upload_file_zip_view(request):
                     rand_folder = unzip_folder.split('/')[-2]
                     contenidos = os.listdir(unzip_folder + 'proj')
                     name = str(contenidos[n])
-                    files_obj = Files_zips.objects.get(file_name=name,
-                                                       rand_folder=rand_folder)
-                    stud_name = f.cleaned_data['student'].title()
-                    files_obj.student_name = stud_name
-                    files_obj.project = f.cleaned_data['project']
-                    files_obj.save(update_fields=['student_name', 'project'])
+                    zip_obj = Zip.objects.get(project_name=name,
+                                              rand_folder=rand_folder)
+                    # stud_name = f.cleaned_data['student']
+                    # zip_obj.student_name = stud_name
+                    # zip_obj.project = f.cleaned_data['project']
+                    # zip_obj.save(update_fields=['student_name', 'project'])
 
-                    proyects = {}
-                    proyects[str(files_obj.student_name)] = \
-                        [str(files_obj.project), str(files_obj.file_name)]
-                    inicial_form.append(proyects)
 
                     # extract projects
                     path_files = unzip_folder + 'proj/' + contenidos[n]
@@ -1008,20 +966,26 @@ def upload_file_zip_view(request):
                     for i in zf.namelist():
                         zf.extract(i, path_folder)
                     n += 1
-                    open_projects_in_zip(request, files_obj, path_folder)
-
+                    open_projects_in_zip(request, f, zip_obj, path_folder)
+                    projects_dict = {}
+                    if request.user.is_authenticated:
+                        student = f.cleaned_data['student']
+                    else:
+                        student = "-"
+                    projects_dict[student] = \
+                        [str(f.cleaned_data['project']), 
+                         str(zip_obj.project_name)]
+                    list_projects.append(projects_dict)
                 zf.close()
                 # delete uploaded folder
                 if os.path.exists(unzip_folder):
                     shutil.rmtree(unzip_folder)
 
                 return render(request, 'review_zip.html',
-                              {'zip_name': files_obj.zip_name,
-                               'inicial_form': inicial_form,
+                              {'zip_name': zip_obj.zip_name,
+                               'list_projects': list_projects,
                                'rand_folder': rand_folder,
                                'message': message})
-            # except:
-            #     pass
             message = _("Fill the required fields")
             form = UploadZipForm()
     else:
@@ -1047,40 +1011,12 @@ def remove_old():
         ts = time.mktime(dt.timetuple())
         return ts
 
-    fileszip_objs_all = Files_zips.objects.all()
+    fileszip_objs_all = Zip.objects.all()
     for fileszip_objs in fileszip_objs_all:
         time_file = get_time(fileszip_objs.timestamp)
         if seconds >= time_file:
-            if fileszip_objs.student_obj_zip is None:
-                try:
-                    variability_obj = Variability.objects.get(
-                                            student=fileszip_objs.student_name,
-                                            mtime=fileszip_objs.mtime,
-                                            name_file=fileszip_objs.project)
-                    badhabits_obj = Bad_habits.objects.get(
-                                            student=fileszip_objs.student_name,
-                                            mtime=fileszip_objs.mtime,
-                                            name_file=fileszip_objs.project)
-                    creativity_obj = Creativity.objects.get(
-                                            student=fileszip_objs.student_name,
-                                            mtime=fileszip_objs.mtime,
-                                            name_file=fileszip_objs.project)
-                    other_data_obj = Other_data.objects.get(
-                                            student=fileszip_objs.student_name,
-                                            mtime=fileszip_objs.mtime,
-                                            name_file=fileszip_objs.project)
-
-                    time_obj = get_time(variability_obj.updated)
-                    if seconds >= time_obj:
-                        variability_obj.delete()
-                        badhabits_obj.delete()
-                        creativity_obj.delete()
-                        other_data_obj.delete()
-                        fileszip_objs.delete()
-                except:
-                    fileszip_objs.delete()
-            else:
-                fileszip_objs.delete()
+            if fileszip_objs.project.student is None:
+                fileszip_objs.project.delete()
 
     analysis_types_objs = Analysis_types.objects.all()
     for analysis_types in analysis_types_objs:
@@ -1112,21 +1048,20 @@ def save_analys(file_name, mtime, varia_d, badhabits_d, otherdat_d, creativ_d):
     analys_obj.save()
 
 
-def analysis_view(request, name, name_file):
+def analysis_view(request, student, name_file):
     """View that builds the template analysis.html.
 
     Extracts analysis and saves it in the DB.
 
     """
     _blocksDict = {}
-    student_obj = Student.objects.get(owner=request.user, title=name)
-    file_objs = StudentFiles.objects.get(student=student_obj,
-                                         file_up=name_file)
+    student_obj = Student.objects.get(owner=request.user, title=student)
+    project_obj = Project.objects.get(student=student_obj, file_up=name_file)
 
     (variab_dict, badhabit_dict, otherdat_dict, creativ_dict) = \
-        extract_analysis(file_objs.mtime, student_obj, name_file)
+        extract_analysis(project_obj)
 
-    save_analys(str(file_objs.file_up), file_objs.mtime, variab_dict,
+    save_analys(str(project_obj.file_up), project_obj.mtime, variab_dict,
                 badhabit_dict, otherdat_dict, creativ_dict)
 
     character_sounds = creativ_dict[_('Sounds created')]
@@ -1139,8 +1074,8 @@ def analysis_view(request, name, name_file):
     for typess in blocksDict:
         _blocksDict[_(typess)] = blocksDict[typess]
 
-    return render(request, "analysis.html", {'file_up': file_objs.file_up,
-                                             'mtime': file_objs.mtime,
+    return render(request, "analysis.html", {'file_up': project_obj.file_up,
+                                             'mtime': project_obj.mtime,
                                              'variability_dict': variab_dict,
                                              'badhabits_dict': badhabit_dict,
                                              'otherdat_dict': otherdat_dict,
@@ -1148,7 +1083,7 @@ def analysis_view(request, name, name_file):
                                              'blocksDict': _blocksDict})
 
 
-def analysis2_view(request, name, project, file_name, rand_folder):
+def analysis2_view(request, student, project, file_name, rand_folder):
     """View that builds the template analysis.html.
 
     Extracts analysis and saves it in the DB.
@@ -1156,23 +1091,18 @@ def analysis2_view(request, name, project, file_name, rand_folder):
     """
     _blocksDict = {}
     if request.user.is_authenticated:
-        student_obj = Student.objects.get(owner=request.user, title=name)
-        files_obj = Files_zips.objects.get(rand_folder=rand_folder,
-                                           file_name=file_name,
-                                           student_obj_zip=student_obj,
-                                           student_name=name, project=project)
-        student = files_obj.student_obj_zip
+        student_obj = Student.objects.get(owner=request.user, title=student)
+        project = project + ".sjr"
+        project_obj = Project.objects.get(student=student_obj, file_up=project)
     else:
-        files_obj = Files_zips.objects.get(rand_folder=rand_folder,
-                                           file_name=file_name,
-                                           student_name=name, project=project,
-                                           student_obj_zip__isnull=True)
-        student = files_obj.student_name
+        zip_proj_obj = Zip.objects.get(rand_folder=rand_folder,
+                                       project_name=file_name)
+        project_obj = zip_proj_obj.project
 
     (variab_dict, badhabit_dict, otherdat_dict, creativ_dict) = \
-        extract_analysis(files_obj.mtime, student, files_obj.project)
+        extract_analysis(project_obj)
 
-    save_analys(files_obj.file_name, files_obj.mtime, variab_dict,
+    save_analys(project_obj.file_up, project_obj.mtime, variab_dict,
                 badhabit_dict, otherdat_dict, creativ_dict)
 
     character_sounds = creativ_dict[_('Sounds created')]
@@ -1185,8 +1115,8 @@ def analysis2_view(request, name, project, file_name, rand_folder):
     for typess in blocksDict:
         _blocksDict[_(typess)] = blocksDict[typess]
 
-    return render(request, "analysis.html", {'file_up': files_obj.file_name,
-                                             'mtime': files_obj.mtime,
+    return render(request, "analysis.html", {'file_up': project_obj.file_up,
+                                             'mtime': project_obj.mtime,
                                              'variability_dict': variab_dict,
                                              'badhabits_dict': badhabit_dict,
                                              'otherdat_dict': otherdat_dict,
@@ -1286,7 +1216,7 @@ def students_review_dict(request):
     student_objs = Student.objects.filter(owner=request.user)
     for student_obj in student_objs:
         students[str(student_obj.title)] = []
-        file_objects = StudentFiles.objects.filter(student=student_obj)
+        file_objects = Project.objects.filter(student=student_obj)
         for file_obj in file_objects:
             if file_obj.student.title == student_obj.title:
                 students[str(student_obj.title)].append(str(file_obj.file_up))
@@ -1309,7 +1239,7 @@ def student_dict(request, name):
     """
     studentDict = {}
     student_obj = Student.objects.get(owner=request.user, title=name)
-    file_objects = StudentFiles.objects.filter(student=student_obj)
+    file_objects = Project.objects.filter(student=student_obj)
     for file_obj in file_objects:
         timestamp1 = str(file_obj.timestamp)
         timestamp1 = str(timestamp1.split(".")[0])
@@ -1317,12 +1247,8 @@ def student_dict(request, name):
         name_file = str(file_up).split(".sjr")[0]
         mtime = str(file_obj.mtime)
 
-        variability_obj = Variability.objects.get(student=student_obj,
-                                                  name_file=name_file,
-                                                  mtime=mtime)
-        bad_habits_obj = Bad_habits.objects.get(student=student_obj,
-                                                name_file=name_file,
-                                                mtime=mtime)
+        variability_obj = Variability.objects.get(project=file_obj)
+        bad_habits_obj = Bad_habits.objects.get(project=file_obj)
         total = str(variability_obj.total) + '/' + str(blocksDict['Total'])
         num_bad_habits = 0
         num_bad_habits = len(eval(bad_habits_obj.deadcode))
@@ -1341,9 +1267,9 @@ def delete_regist(request, student, file_name, times):
 
     """
     student_obj = Student.objects.get(owner=request.user, title=student)
-    delete_file = StudentFiles.objects.get(student=student_obj,
-                                           timestamp__icontains=times,
-                                           file_up=file_name)
+    delete_file = Project.objects.get(student=student_obj,
+                                      timestamp__icontains=times,
+                                      file_up=file_name)
     delete_file.delete()
     message = _("File delete succesfully!")
     studentDict = student_dict(request, student)
@@ -1359,7 +1285,7 @@ def delete_student(request, student):
 
     """
     student_obj = Student.objects.get(owner=request.user, title=student)
-    delete_files_student = StudentFiles.objects.filter(student=student_obj)
+    delete_files_student = Project.objects.filter(student=student_obj)
     delete_files_student.delete()
     student_obj.delete()
     message = "Student delete succesfully!"
@@ -1395,11 +1321,11 @@ def edit_file(request, old_file, student, new_file):
 
     """
     student_obj = Student.objects.get(owner=request.user, title=student)
-    if StudentFiles.objects.filter(student=student_obj,
+    if Project.objects.filter(student=student_obj,
                                    file_up=new_file).exists():
         message = _("Error: The file name is already in use!")
     else:
-        file_obj = StudentFiles.objects.get(student=student_obj,
+        file_obj = Project.objects.get(student=student_obj,
                                             file_up=old_file)
         file_obj.file_up = new_file
         file_obj.save(update_fields=['file_up'])
@@ -1410,7 +1336,7 @@ def edit_file(request, old_file, student, new_file):
                                             'message': message})
 
 
-def analysis(id_file, student_obj, name_file):
+def analysis(project_obj):
     """Evaluate and save the results in DB."""
     adapted_dict = {}
     num_pages = []
@@ -1426,7 +1352,7 @@ def analysis(id_file, student_obj, name_file):
 
     pages_objs = Page.objects.all()
     for page in pages_objs:
-        if page.mtime == id_file:
+        if page.mtime == project_obj.mtime:
             num_pages.append(page.num_page)
             if len(page.background) < 30:
                 unedited_pages.append(page.num_page)
@@ -1437,7 +1363,7 @@ def analysis(id_file, student_obj, name_file):
 
     text_objs = Text.objects.all()
     for text in text_objs:
-        if text.mtime == id_file:
+        if text.mtime == project_obj.mtime:
             text_sequence = []
             text_sequence.append(text.page)
             text_sequence.append(text.id_name)
@@ -1447,7 +1373,7 @@ def analysis(id_file, student_obj, name_file):
 
     sprites_objs = Sprite.objects.all()
     for sprite in sprites_objs:
-        if sprite.mtime == id_file:
+        if sprite.mtime == project_obj.mtime:
             names_sprites = sprite.name_sprite + ' (' + sprite.id_name + ')'
             sprites_tot.append(names_sprites)
 
@@ -1500,8 +1426,7 @@ def analysis(id_file, student_obj, name_file):
 
     total = analys_variability(adapted_dict)
 
-    variability_obj = Variability(student=student_obj, name_file=name_file,
-                                  mtime=id_file,
+    variability_obj = Variability(project=project_obj,
                                   triggerings=triggerings(adapted_dict),
                                   motion=motion(adapted_dict),
                                   looks=looks(adapted_dict),
@@ -1509,33 +1434,29 @@ def analysis(id_file, student_obj, name_file):
                                   sound=sound(adapted_dict),
                                   ends=ends(adapted_dict), total=total)
     variability_obj.save()
-    bad_habits_obj = Bad_habits(student=student_obj, name_file=name_file,
-                                mtime=id_file,
+    bad_habits_obj = Bad_habits(project=project_obj,
                                 deadcode=dead_code(adapted_dict),
                                 unfinishedcode=unfinished_code(adapted_dict),
                                 adjacentcode=equal_adjac_blocks(adapted_dict),
                                 sprites_same_name=sprites_same_name)
     bad_habits_obj.save()
-    creativity_obj = Creativity(student=student_obj, name_file=name_file,
-                                mtime=id_file, edited_pages=edited_pages,
+    creativity_obj = Creativity(project=project_obj, edited_pages=edited_pages,
                                 edited_sprites=edited_sprites,
                                 sprites_sound_created=sprites_sound_created)
     creativity_obj.save()
-    other_data_obj = Other_data(student=student_obj, name_file=name_file,
-                                mtime=id_file, text_sequences=text_sequences,
+    other_data_obj = Other_data(project=project_obj,
+                                text_sequences=text_sequences,
                                 sprites_tot=sprites_tot, pages_tot=num_pages,
                                 unedited_sprites=unedited_sprites,
                                 unedited_pages=unedited_pages,
                                 sprites_in_pages=sprites_in_pages)
     other_data_obj.save()
-
     # delete json data
     data_objs = Data.objects.all()
     data_objs.delete()
     pages_objs.delete()
     sprites_objs.delete()
-    texts_objs = Text.objects.all()
-    texts_objs.delete()
+    text_objs.delete()
 
 
 def analys_variability(adapted_dict):
@@ -1846,16 +1767,7 @@ def delete_account(request):
     profile_user = User.objects.get(username=request.user)
     student_objs = Student.objects.filter(owner=request.user)
     for student_obj in student_objs:
-        variability_obj = Variability.objects.filter(student=student_obj)
-        variability_obj.delete()
-        bad_habits_obj = Bad_habits.objects.filter(student=student_obj)
-        bad_habits_obj.delete()
-        creativity_obj = Creativity.objects.filter(student=student_obj)
-        creativity_obj.delete()
-        other_data_obj = Other_data.objects.filter(student=student_obj)
-        other_data_obj.delete()
-
-        delete_files_student = StudentFiles.objects.filter(student=student_obj)
+        delete_files_student = Project.objects.filter(student=student_obj)
         delete_files_student.delete()
         student_obj.delete()
     profile_user.delete()
