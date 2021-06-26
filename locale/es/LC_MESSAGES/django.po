@@ -786,7 +786,7 @@ msgstr "Total de personajes"
 
 #: .\web\views.py:561 .\web\views.py:570
 msgid "Characters"
-msgstr "Persoanjes"
+msgstr "Personajes"
 
 #: .\web\views.py:561 .\web\views.py:573 .\web\views.py:574 .\web\views.py:724
 msgid "Total texts"
