@@ -14,6 +14,7 @@
             <h1>{% trans "Upload multiple projects" %}</h1>
 			<br>
 		{% if elementos|length != 0 %}
+			<p>{% trans 'You can change the names:' %} </p>
 			<form method="POST" enctype="multipart/form-data">
 				{% csrf_token %}
 					{{ formset.management_form }}

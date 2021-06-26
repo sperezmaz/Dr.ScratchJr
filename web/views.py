@@ -824,7 +824,7 @@ def upload_files_view(request):
                         list_sounds.append(sound_elem)
                 creativ_d[_('Sounds created')] = list_sounds
 
-                # delete edited images after 1 year
+                # delete edited images/sounds after 1 year
                 delete_filesbytime('web/static/plugins/creativity/', 365)
 
             elif str(request.FILES['file']).find(".sjr") == -1:
