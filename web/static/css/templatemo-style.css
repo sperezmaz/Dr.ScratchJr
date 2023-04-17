@@ -89,7 +89,7 @@
 }
 
 .tooltip_popup{
-    position: relative;
+    position: absolute;
     display: inline-block;
 }
   
@@ -107,7 +107,7 @@
   z-index: 1;
   top: 100%;
   left: 50%;
-  margin-left: -110px;
+  margin-left: -125px;
 }
   
 .tooltip_popup:hover .tooltiptext {

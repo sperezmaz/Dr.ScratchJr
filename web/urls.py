@@ -36,7 +36,6 @@ urlpatterns = [
          name='edit_student'),
     path('edit_file/<old_file>/<student>/<new_file>/', views.edit_file,
          name='edit_file'),
-    path('settings/', views.settings_view, name='settings_view'),
     path('delete_account/', views.delete_account, name='delete_account'),
     path('accounts/login/', auth_views.LoginView.as_view(
             template_name='registration_web/login.html'), name='login'),

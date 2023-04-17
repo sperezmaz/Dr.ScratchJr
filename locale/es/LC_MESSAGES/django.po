@@ -201,13 +201,13 @@ msgid ""
 "projects based on various aspects. You can do this by saving all the results "
 "of your students by registering in the application."
 msgstr ""
-"En esta pagina web podrá analizar los proyectos ScratchJr de sus alumnos o "
-"de sus hijos en función de varios aspectos. Podrá hacerlo guardando todos "
-"los resultados de sus alumnos registrandose en la aplicación"
+"En esta pagina web podrás analizar los proyectos ScratchJr de tus alumnos o "
+"de tus hijos en función de varios aspectos. Podrás hacerlo guardando todos "
+"los resultados de tus alumnos registrandote en la aplicación"
 
 #: .\web\templates\base.html:247
 msgid "Or analyze a project without the need to register directly here"
-msgstr "O analiza un proyecto sin tener que registrarse directamente aquí"
+msgstr "O analiza un proyecto sin tener que registrarte directamente aquí"
 
 #: .\web\templates\base.html:252
 msgid ""
@@ -215,8 +215,8 @@ msgid ""
 "projects based on various aspects. The results of previous analysis are "
 "available in the <a href=\"/review/\"><i>Students</i></a> section."
 msgstr ""
-"En esta pagina web podrá analizar los proyectos ScratchJr de sus alumnos o "
-"de sus hijos en función de varios aspectos. Los resultados de anteriores "
+"En esta pagina web podrás analizar los proyectos ScratchJr de tus alumnos o "
+"de tus hijos en función de varios aspectos. Los resultados de anteriores "
 "analisis aparecen en la sección <a href=\"/review/\"><i>Estudiantes</i></a>"
 
 #: .\web\templates\base.html:273
@@ -321,7 +321,7 @@ msgstr "Sin necesidad de registro"
 
 #: .\web\templates\functioning.html:21
 msgid "Analyze a project without the need to register."
-msgstr "Analiza un proyecto sin tener que registrarse."
+msgstr "Analiza un proyecto sin tener que registrarte."
 
 #: .\web\templates\functioning.html:27
 msgid ""
@@ -344,7 +344,7 @@ msgid ""
 "If you want to keep track of your students and the results of all their "
 "projects, just log in."
 msgstr ""
-"Si quires llevar un seguimiento de tus alumnos y de los resultados de todos "
+"Si quieres llevar un seguimiento de tus alumnos y de los resultados de todos "
 "sus proyectos, tan solo tienes que iniciar sesión."
 
 #: .\web\templates\functioning.html:49
@@ -416,8 +416,8 @@ msgid ""
 "Please enter your old password, for security’s sake, and then enter your new "
 "password twice so we can verify you typed it in correctly."
 msgstr ""
-"Por favor, por razones de seguridad, ingrese su contraseña anterior, y luego "
-"ingrese la nueva contraseña dos veces para que podamos verificar que la ha "
+"Por favor, por razones de seguridad, ingresa su contraseña anterior, y luego "
+"ingresa la nueva contraseña dos veces para que podamos verificar que la has "
 "escrito correctamente."
 
 #: .\web\templates\registration_web\password_reset_complete.html:9
@@ -453,8 +453,8 @@ msgid ""
 "Forgotten your password? Enter your email address below, and we’ll email "
 "instructions for setting a new one."
 msgstr ""
-" ¿Ha olvidado su contraseña? Introduzca su dirección de correo electrónico y "
-"le enviaremos por correo electrónico las instrucciones para establecer una "
+" ¿Has olvidado tu contraseña? Introduce tu dirección de correo electrónico y "
+"te enviaremos por correo electrónico las instrucciones para establecer una "
 "nueva."
 
 #: .\web\templates\registration_web\password_reset_subject.txt:3
@@ -501,8 +501,8 @@ msgstr "Envía un mensaje del color indicado."
 #: .\web\templates\results.html:45 .\web\templates\variability.html:49
 msgid "Rotates the character a specified amount. Turn 12 for a full rotation."
 msgstr ""
-"Gira el personaje la cantidad específicada. Se especifica ire 12 para una "
-"rotación completa."
+"Gira el personaje la cantidad específicada. Para una vuelta completa, "
+"especificar 12 en la cantidad."
 
 #: .\web\templates\results.html:47 .\web\templates\variability.html:51
 msgid "Moves the character a specified number of grid squares up/down."
@@ -839,7 +839,7 @@ msgstr "¡El archivo debe tener la extensión .sjr!"
 
 #: .\web\views.py:834 .\web\views.py:989
 msgid "Fill the required fields"
-msgstr "Rellene los campos obligatorios"
+msgstr "Rellena los campos obligatorios"
 
 #: .\web\views.py:938
 msgid "The file must have the extension .zip!"
@@ -851,7 +851,7 @@ msgstr "¡Datos actualizados!"
 
 #: .\web\views.py:1193
 msgid "Fill all data!"
-msgstr "¡Rellene todos los datos!"
+msgstr "¡Rellena todos los datos!"
 
 #: .\web\views.py:1274
 msgid "File delete succesfully!"

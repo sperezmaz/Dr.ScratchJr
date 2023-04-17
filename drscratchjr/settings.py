@@ -137,6 +137,6 @@ ACCOUNT_ACTIVATION_DAYS = 2
 # Email related stuff
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'drscratchjr@gmail.com'
-EMAIL_HOST_PASSWORD = 'cktfydkkpgzoxwaz'
+EMAIL_HOST_PASSWORD = 'kopgekkfnrjuykbe'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587

@@ -164,7 +164,7 @@ def bad_habits_view(request):
 
 
 def copy_files_creativity(folder_creativ, folder_proj):
-    """Function copies edited files to a creativity folder."""
+    """Function copies edited files to a Creativity folder."""
     if not os.path.exists('web/static/plugins/creativity/'):
         os.mkdir('web/static/plugins/creativity/')
 
@@ -215,7 +215,6 @@ def extract_data(project_obj):
             project_obj = save_file(project_obj)
 
         file_name = project_obj.file_up
-        name_file = str(file_name).split(".sjr")[0]
 
         try:
             variability_obj = Variability.objects.get(project=project_obj)
@@ -786,8 +785,7 @@ def upload_files_view(request):
             except:
                 pass
 
-            if (str(request.FILES['file']).find(".sjr") != -1 and
-                    message != 'The name "Guest" is reserved for guests!'):
+            if (str(request.FILES['file']).find(".sjr") != -1):
                 file_up = request.FILES['file']
 
                 if not request.user.is_authenticated:
@@ -952,11 +950,6 @@ def upload_file_zip_view(request):
                     name = str(contenidos[n])
                     zip_obj = Zip.objects.get(project_name=name,
                                               rand_folder=rand_folder)
-                    # stud_name = f.cleaned_data['student']
-                    # zip_obj.student_name = stud_name
-                    # zip_obj.project = f.cleaned_data['project']
-                    # zip_obj.save(update_fields=['student_name', 'project'])
-
 
                     # extract projects
                     path_files = unzip_folder + 'proj/' + contenidos[n]
@@ -1015,8 +1008,9 @@ def remove_old():
     for fileszip_objs in fileszip_objs_all:
         time_file = get_time(fileszip_objs.timestamp)
         if seconds >= time_file:
-            if fileszip_objs.project.student is None:
-                fileszip_objs.project.delete()
+            if fileszip_objs.project != None:
+                if fileszip_objs.project.student is None:
+                    fileszip_objs.project.delete()
 
     analysis_types_objs = Analysis_types.objects.all()
     for analysis_types in analysis_types_objs:
@@ -1198,12 +1192,12 @@ def profile_view(request):
                                             'message': message,
                                             'students': students})
 
-
+@login_required
 def settings_view(request):
     """View that builds the template settings.html."""
     return render(request, "settings.html", {})
 
-
+@login_required
 def review_view(request):
     """View that builds the template review.html."""
     students = students_review_dict(request)
@@ -1244,8 +1238,6 @@ def student_dict(request, name):
         timestamp1 = str(file_obj.timestamp)
         timestamp1 = str(timestamp1.split(".")[0])
         file_up = str(file_obj.file_up)
-        name_file = str(file_up).split(".sjr")[0]
-        mtime = str(file_obj.mtime)
 
         variability_obj = Variability.objects.get(project=file_obj)
         bad_habits_obj = Bad_habits.objects.get(project=file_obj)
@@ -1424,15 +1416,14 @@ def analysis(project_obj):
                     sprites_same_name[page] = {}
                 sprites_same_name[page][name] = str(count_) + _(" occasions")
 
-    total = analys_variability(adapted_dict)
-
     variability_obj = Variability(project=project_obj,
                                   triggerings=triggerings(adapted_dict),
                                   motion=motion(adapted_dict),
                                   looks=looks(adapted_dict),
                                   control=control(adapted_dict),
                                   sound=sound(adapted_dict),
-                                  ends=ends(adapted_dict), total=total)
+                                  ends=ends(adapted_dict), 
+                                  total=analys_variability(adapted_dict))
     variability_obj.save()
     bad_habits_obj = Bad_habits(project=project_obj,
                                 deadcode=dead_code(adapted_dict),
@@ -1502,12 +1493,8 @@ def triggerings(adapted_dict):
         # Buscar un programa que tenga un bloque "onclick"
         blocks.append("message")
     if (find_block(adapted_dict, "onmessage")):
-        # Buscar un programa que tenga un bloque "ontouch"
+        # Buscar un programa que tenga un bloque "onmessage"
         blocks.append("onmessage")
-    # if (find_block_messages(adapted_dict, 1)):
-    #     # Buscar un programa con "enviar mensaje" y otro porgrama con
-    #     #  "comenzar con mensaje", ambos del mismo color)
-    #     blocks.append("messages")
     return blocks
 
 
