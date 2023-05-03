@@ -22,7 +22,7 @@
 					<thead>
 						<tr>
 							<th class="border-top-0"><a href="/variability/">{% trans "# Variability (Use of blocks)" %}</a></th>
-							<th class="border-top-0">{% trans "Level" %}</th>
+							<th class="border-top-0"><h3>{% trans "Level" %}</h3></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -31,12 +31,12 @@
 								{% if types == types_ %}
 									{% if types == 'Total' %}
 										<tr>
-										<td><b>{{types}}</b></td>
+										<td><h2><b>{{types}}</b></h2></td>
 										<td>
 											<div class="progress">
 												<div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: {% widthratio blocks blocks_ 100 %}%"></div>
 											</div>
-											<b>{{blocks}}/{{blocks_}}</b>
+											<h2><b>{{blocks}}/{{blocks_}}</b></h2>
 										</td>
 										</tr>
 									{% else %}
@@ -75,9 +75,13 @@
 							<tbody>
 								{% for types, blocks in badhabits_dict.items %}
 								<tr>
-									<td>{{types}}</td>
+									<td>{{types}}&emsp;&emsp;&emsp;&emsp;</td>
 									{% if blocks.items %}
-										<td>{{blocks}}</td>
+										<td>
+											{% for c, v in blocks.items %}
+												<li type="disc"><em>{{c}}: <b>{{v}}</b></em></li>
+											{% endfor %}
+										</td>
 									{% else %}  
 										{% ifequal blocks|length 0 %}
 											<td>{{blocks|length}}</td>
@@ -141,7 +145,11 @@
 							  {% ifequal blocks|length 0 %}
 								<td>{{blocks|length}}</td>
 							  {% else %}
-							  	<td><b>{{blocks}}</b></td>
+							  	<td>
+									{% for c, v in blocks.items %}
+										<li type="disc"><em>{{c}}: <b>{{v}}</b></em></li>
+									{% endfor %}
+								</td>
 							  {% endifequal %}
 							{% else %}  
 							  {% ifequal blocks|length 0 %}

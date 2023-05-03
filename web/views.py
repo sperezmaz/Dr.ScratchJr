@@ -1341,6 +1341,7 @@ def analysis(project_obj):
     unedited_sprites = []
     sprites_in_pages = {}
     sprites_same_name = {}
+    variability_dict = {}
 
     pages_objs = Page.objects.all()
     for page in pages_objs:
@@ -1416,14 +1417,22 @@ def analysis(project_obj):
                     sprites_same_name[page] = {}
                 sprites_same_name[page][name] = str(count_) + _(" occasions")
 
+
+    variability_dict[_("Triggerings")] = triggerings(adapted_dict)
+    variability_dict[_("Motion")] = motion(adapted_dict)
+    variability_dict[_("Looks")] = looks(adapted_dict)
+    variability_dict[_("Control")] = control(adapted_dict)
+    variability_dict[_("Sound")] = sound(adapted_dict)
+    variability_dict[_("Ends")] = ends(adapted_dict)
+
     variability_obj = Variability(project=project_obj,
-                                  triggerings=triggerings(adapted_dict),
-                                  motion=motion(adapted_dict),
-                                  looks=looks(adapted_dict),
-                                  control=control(adapted_dict),
-                                  sound=sound(adapted_dict),
-                                  ends=ends(adapted_dict), 
-                                  total=analys_variability(adapted_dict))
+                                  triggerings=variability_dict[_("Triggerings")],
+                                  motion=variability_dict[_("Motion")],
+                                  looks=variability_dict[_("Looks")],
+                                  control=variability_dict[_("Control")],
+                                  sound=variability_dict[_("Sound")],
+                                  ends=variability_dict[_("Ends")], 
+                                  total=analys_variability(variability_dict))
     variability_obj.save()
     bad_habits_obj = Bad_habits(project=project_obj,
                                 deadcode=dead_code(adapted_dict),
@@ -1450,19 +1459,13 @@ def analysis(project_obj):
     text_objs.delete()
 
 
-def analys_variability(adapted_dict):
+def analys_variability(variability_dict):
     """Function.
 
     Returns the length of the total length of the Variability block types
 
     """
-    variability_dict = {}
-    variability_dict[_("Triggerings")] = triggerings(adapted_dict)
-    variability_dict[_("Motion")] = motion(adapted_dict)
-    variability_dict[_("Looks")] = looks(adapted_dict)
-    variability_dict[_("Control")] = control(adapted_dict)
-    variability_dict[_("Sound")] = sound(adapted_dict)
-    variability_dict[_("Ends")] = ends(adapted_dict)
+
 
     # suma = 0.0
     total = 0
@@ -1613,7 +1616,8 @@ def find_block(adapted_dict, block):
                 for sequence in adapted_dict[pages][sprites][sequences]:
                     if sequence.count(block) == 1:
                         return True
-                    go_over_repeat(sequence, block)
+                    if go_over_repeat(sequence, block):
+                        return True
     return False
 
 
@@ -1625,7 +1629,8 @@ def go_over_repeat(sequence, block):
                 for sequence_repeat in sequences_repeat:
                     if sequence_repeat.count(block) == 1:
                         return True
-                    go_over_repeat(sequence_repeat, block)
+                    if go_over_repeat(sequence_repeat, block):
+                        return True
 
 
 def dead_code(adapted_dict):
