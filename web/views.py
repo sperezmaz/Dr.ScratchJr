@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+"""Author: Sergio Pérez Mazadiego."""
 from __future__ import unicode_literals
 import os
 import zipfile
@@ -72,54 +73,6 @@ def home_view(request):
 def functioning_view(request):
     """View that builds the template functioning.html."""
     return render(request, "functioning.html", {})
-
-
-def basedatos(request):
-    name_student = Analysis_types.objects.all()
-    html = "<p>------------------------Listado de Analysis_types: </p>"
-    for obj0 in name_student:
-        html += '<p>' + str(obj0.file_name) + '<p>'
-        html += '<p>' + str(obj0.variability) + '<p>'
-        html += '<p>' + str(obj0.badhabits) + '<p>'
-        html += '<p>' + str(obj0.otherdata) + '<p>'
-
-    name_student = Student.objects.all()
-    html += "<p>------------------------------------Listado de Students: </p>"
-    for obj0 in name_student:
-        html += '<p>' + str(obj0.owner) + '<p>'
-        html += '<p>' + str(obj0.title) + '<p>'
-        html += '<p>' + str(obj0.timestamp) + '<p>'
-        html += '<p>' + str(obj0.updated) + '<p>'
-
-    name_studentfiles = Project.objects.all()
-    html += "<p>--------------------------------Listado de Project: </p>"
-    for obj in name_studentfiles:
-        html += '<p>' + str(obj) + '<p>'
-        html += '<p>' + str(obj.student) + '<p>'
-        html += '<p>' + str(obj.file_up) + '<p>'
-        html += '<p>' + str(obj.timestamp) + '<p>'
-        html += '<p> mtime: ' + str(obj.mtime) + '<p>'
-
-    variability_obj = Variability.objects.all()
-    html += "<p>-----Listado de Variability (student, mtime y name): </p>"
-    for obj in variability_obj:
-        html += '<p> project: ' + str(obj.project) + '<p>'
-        html += '<p> triggerings: ' + str(obj.triggerings) + '<p>'
-        html += '<p> updated: ' + str(obj.updated) + '<p>'
-    
-    zip_obj = Zip.objects.all()
-    html += "<p>-----Listado de Zip (zip_name): </p>"
-    for obj in zip_obj:
-        html += '<p> zip_name: ' + str(obj.zip_name) + '<p>'
-        html += '<p> project: ' + str(obj.project) + '<p>'
-        html += '<p> project_name: ' + str(obj.project_name) + '<p>'
-
-    name_files = Files_zip.objects.all()
-    html += "<p>------------------------------------Listado de Files_zip: </p>"
-    for obj2 in name_files:
-        html += '<p>' + str(obj2.zip_up) + '<p>'
-
-    return HttpResponse(html)
 
 
 def contactus_view(request):
@@ -407,7 +360,8 @@ def create_csv_user(request):
     return response
 
 
-def create_csv(project_objs, name_zip_csv, folder_upload, project_folder, is_zip):
+def create_csv(project_objs, name_zip_csv, folder_upload, project_folder,
+               is_zip):
     """Function.
 
     Creates csv and xlsx files with all the analyzed data (variability,
@@ -535,14 +489,14 @@ def bad_habits_csv(badhabits_dict, bad_habits_dict, bad_habits_path):
             bad_habits_dict[_("Characters same name in page")] = "----"
             write_csv(bad_habits_path, fieldnames, bad_habits_dict)
         elif type(badhabits_dict[clave]) is dict:
-                bad_habits_dict[_("Existence bad habit")] = _("YES")
-                bad_habits_dict[_("Page")] = "----"
-                bad_habits_dict[_("Character")] = "----"
-                bad_habits_dict[_("Sequence name")] = "----"
-                bad_habits_dict[_("Sequence")] = "----"
-                bad_habits_dict[_("Characters same name in page")] = \
-                    badhabits_dict[clave]
-                write_csv(bad_habits_path, fieldnames, bad_habits_dict)
+            bad_habits_dict[_("Existence bad habit")] = _("YES")
+            bad_habits_dict[_("Page")] = "----"
+            bad_habits_dict[_("Character")] = "----"
+            bad_habits_dict[_("Sequence name")] = "----"
+            bad_habits_dict[_("Sequence")] = "----"
+            bad_habits_dict[_("Characters same name in page")] = \
+                badhabits_dict[clave]
+            write_csv(bad_habits_path, fieldnames, bad_habits_dict)
         else:
             for elem in badhabits_dict[clave]:
                 bad_habits_dict[_("Existence bad habit")] = _("YES")
@@ -796,15 +750,13 @@ def upload_files_view(request):
                     # authenticated and student name exists
                     student_obj = Student.objects.get(owner=request.user,
                                                       title=name_student)
-                    project_obj = Project(student=student_obj,
-                                             file_up=file_up)
+                    project_obj = Project(student=student_obj, file_up=file_up)
                 else:
                     # authenticated and new student name
                     student_obj = Student(owner=request.user,
                                           title=name_student)
                     student_obj.save()
-                    project_obj = Project(student=student_obj,
-                                             file_up=file_up)
+                    project_obj = Project(student=student_obj, file_up=file_up)
                 project_obj.save()
                 message = _("File uploaded succesfully!")
 
@@ -939,7 +891,7 @@ def upload_file_zip_view(request):
                 formset = formset2
             else:
                 formset = formset1
-            
+
             if formset.is_valid():
                 n = 0
                 for f in formset:
@@ -966,7 +918,7 @@ def upload_file_zip_view(request):
                     else:
                         student = "-"
                     projects_dict[student] = \
-                        [str(f.cleaned_data['project']), 
+                        [str(f.cleaned_data['project']),
                          str(zip_obj.project_name)]
                     list_projects.append(projects_dict)
                 zf.close()
@@ -1192,10 +1144,12 @@ def profile_view(request):
                                             'message': message,
                                             'students': students})
 
+
 @login_required
 def settings_view(request):
     """View that builds the template settings.html."""
     return render(request, "settings.html", {})
+
 
 @login_required
 def review_view(request):
@@ -1313,12 +1267,10 @@ def edit_file(request, old_file, student, new_file):
 
     """
     student_obj = Student.objects.get(owner=request.user, title=student)
-    if Project.objects.filter(student=student_obj,
-                                   file_up=new_file).exists():
+    if Project.objects.filter(student=student_obj, file_up=new_file).exists():
         message = _("Error: The file name is already in use!")
     else:
-        file_obj = Project.objects.get(student=student_obj,
-                                            file_up=old_file)
+        file_obj = Project.objects.get(student=student_obj, file_up=old_file)
         file_obj.file_up = new_file
         file_obj.save(update_fields=['file_up'])
         message = _("File edit succesfully!")
@@ -1417,7 +1369,6 @@ def analysis(project_obj):
                     sprites_same_name[page] = {}
                 sprites_same_name[page][name] = str(count_) + _(" occasions")
 
-
     variability_dict[_("Triggerings")] = triggerings(adapted_dict)
     variability_dict[_("Motion")] = motion(adapted_dict)
     variability_dict[_("Looks")] = looks(adapted_dict)
@@ -1426,13 +1377,15 @@ def analysis(project_obj):
     variability_dict[_("Ends")] = ends(adapted_dict)
 
     variability_obj = Variability(project=project_obj,
-                                  triggerings=variability_dict[_("Triggerings")],
+                                  triggerings=variability_dict[
+                                              _("Triggerings")],
                                   motion=variability_dict[_("Motion")],
                                   looks=variability_dict[_("Looks")],
                                   control=variability_dict[_("Control")],
                                   sound=variability_dict[_("Sound")],
-                                  ends=variability_dict[_("Ends")], 
+                                  ends=variability_dict[_("Ends")],
                                   total=analys_variability(variability_dict))
+
     variability_obj.save()
     bad_habits_obj = Bad_habits(project=project_obj,
                                 deadcode=dead_code(adapted_dict),
@@ -1465,8 +1418,6 @@ def analys_variability(variability_dict):
     Returns the length of the total length of the Variability block types
 
     """
-
-
     # suma = 0.0
     total = 0
     for elem in variability_dict:
@@ -1658,9 +1609,9 @@ def dead_code(adapted_dict):
                                                    [sprites1]):
                                     for sequence1 in (adapted_dict[pages]
                                                       [sprites1][sequences1]):
-                                            if sequence1.count("message") == 1:
-                                                if sequence[1] == sequence1[1]:
-                                                    found = True
+                                        if sequence1.count("message") == 1:
+                                            if sequence[1] == sequence1[1]:
+                                                found = True
                             if not found:
                                 triggering_found = False
                 if not triggering_found:

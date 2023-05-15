@@ -25,7 +25,6 @@ urlpatterns = [
          views.analysis2_view, name='analysis2_view'),
     path('results/<file_name>/<mtime>/<type1>/<type2>/', views.results_view,
          name='results_view'),
-    path('basedatos/', views.basedatos, name='basedatos'),
     path('review/', views.review_view, name='review_view'),
     path('students/<str:student>/', views.student_view, name='student_view'),
     path('delete/<str:student>/<str:file_name>/<str:times>/',
